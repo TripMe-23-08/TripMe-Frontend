@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import EnjoyHeader from "@/components/EnjoyHeader.vue";
-import EnjoyFooter from "@/components/EnjoyFooter.vue";
-import TripFeedBack from "@/components/home/TripFeedBack.vue";
+import EnjoyHeader from "@/components/commons/EnjoyHeader.vue";
+import EnjoyFooter from "@/components/commons/EnjoyFooter.vue";
+import TripFeedBack from "@/components/feedback/TripFeedBack.vue";
 export default {
   components: { EnjoyHeader, EnjoyFooter, TripFeedBack },
   data: () => ({
