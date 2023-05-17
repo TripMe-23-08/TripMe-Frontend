@@ -14,7 +14,7 @@ const routes = [
   {
     path: "/feed",
     name: "feed",
-    component: () => import(/* webpackChunkName: "about" */ "@/views/feed/FeedView.vue"),
+    component: () => import(/* webpackChunkName: "about" */ "@/components/feed/FeedView.vue"),
   },
   {
     path: "/feed/edit",
