@@ -11,11 +11,11 @@ const routes = [
   //   name: "plan",
   //   component: () => import(/* webpackChunkName: "about" */ "@/views/plan/PlanView.vue"),
   // },
-  // {
-  //   path: "/feed",
-  //   name: "feed",
-  //   component: () => import(/* webpackChunkName: "about" */ "@/views/feed/FeedView.vue"),
-  // },
+  {
+    path: "/feed",
+    name: "feed",
+    component: () => import(/* webpackChunkName: "about" */ "@/views/feed/FeedView.vue"),
+  },
   {
     path: "/place",
     name: "place",
