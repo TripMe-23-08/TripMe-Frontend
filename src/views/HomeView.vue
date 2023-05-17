@@ -1,0 +1,29 @@
+<template>
+  <!--Trip with Enjoy-->
+  <v-window v-model="onboarding" show-arrows="hover" flat>
+    <v-window-item v-for="n in cardItems" :key="`card-${n}`">
+      <v-card elevation="1" height="450" class="d-flex align-center justify-center ma-1">
+        <h1 class="text-h2">Slide {{ n }}</h1>
+      </v-card>
+    </v-window-item>
+  </v-window>
+  <!--떠나세요-->
+  <v-sheet class="bg-grey-lighten-3" min-height="70vh" rounded="lg"> </v-sheet>
+  <!--여행 후기-->
+  <trip-feed-back />
+  <!--추천 여행지-->
+</template>
+
+<script>
+import TripFeedBack from "@/components/feedback/TripFeedBack.vue";
+
+// component test
+
+export default {
+  components: { TripFeedBack },
+  data: () => ({
+    cardItems: 3,
+    onboarding: 0,
+  }),
+};
+</script>
