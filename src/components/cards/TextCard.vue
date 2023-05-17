@@ -1,11 +1,11 @@
 <template>
-  <v-card class="mx-auto" width="200" height="110">
-    <v-card-title>
+  <v-card class="mx-auto" width="160" height="100">
+    <p class="title">
       {{ name }}
       <v-btn variant="text" icon="fa:fas fa-x" @click="removePlace"></v-btn>
-    </v-card-title>
+    </p>
 
-    <v-card-subtitle> {{ location }} </v-card-subtitle>
+    <p class="location"> {{ location }} </p>
   </v-card>
 </template>
 
@@ -30,4 +30,27 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.title {
+  padding-top: 8px;
+  font-size: 16px;
+  color: #000000;
+  font-weight: 600;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.location {
+  font-size: 12px;
+  color: #878787;
+  font-weight: 600;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+
+</style>
