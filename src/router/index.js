@@ -23,8 +23,15 @@ const routes = [
   },
   {
     path: "/mypage",
-    name: "mypage",
+    name: "mypageView",
     component: () => import(/* webpackChunkName: "about" */ "@/views/mypage/MyPageView.vue"),
+    children: [
+      {
+        path: "edit",
+        name: "mypageEdit",
+        component: ()=> import("@/views/mypage/MyPageEditView.vue"),
+      },
+    ]
   },
 ];
 
