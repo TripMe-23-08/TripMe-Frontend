@@ -40,8 +40,6 @@ export default {
       { title: "피드", link: "/feed" },
       { title: "장소", link: "/place" },
       { title: "마이페이지", link: "/mypage" },
-      { title: "로그인", link: "/login" },
-      { title: "회원가입", link: "/join" },
     ],
   }),
 };
