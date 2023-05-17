@@ -17,6 +17,22 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ "@/views/feed/FeedView.vue"),
   },
   {
+    path: "/feed/edit",
+    name: "feedEdit",
+    component: () => import("@/views/feed/FeedEditView.vue"),
+  },
+  {
+    path: "/feed/:feedId(\\d+)",
+    name: "feedDetail",
+    component: () => import("@/views/feed/FeedDetailView.vue"),
+  },
+  {
+    path: "/feed/:feedId(\\d+)/edit",
+    name: "feedDetailEdit",
+    component: () => import("@/views/feed/FeedEditView.vue"),
+  },
+
+  {
     path: "/place",
     name: "place",
     component: () => import(/* webpackChunkName: "about" */ "@/views/place/SearchPlaceView.vue"),
@@ -29,15 +45,16 @@ const routes = [
       {
         path: "edit",
         name: "mypageEdit",
-        component: ()=> import("@/views/mypage/MyPageEditView.vue"),
+        component: () => import("@/views/mypage/MyPageEditView.vue"),
       },
-    ]
+    ],
   },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+  strict: true,
 });
 
 export default router;
