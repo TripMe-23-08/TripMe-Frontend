@@ -4,7 +4,7 @@
     <v-main>
       <v-container>
         <!-- component test -->
-        <image-card></image-card>
+        <simple-card></simple-card>
 
         <!--Trip with Enjoy-->
         <v-window v-model="onboarding" show-arrows="hover" flat>
@@ -33,10 +33,10 @@ import EnjoyFooter from "@/components/commons/EnjoyFooter.vue";
 import TripFeedBack from "@/components/feedback/TripFeedBack.vue";
 
 // component test
-import ImageCard from "@/components/cards/ImageCard.vue";
+import SimpleCard from "@/components/cards/SimpleCard.vue";
 
 export default {
-  components: { EnjoyHeader, EnjoyFooter, TripFeedBack, ImageCard },
+  components: { EnjoyHeader, EnjoyFooter, TripFeedBack, SimpleCard },
   data: () => ({
     cardItems: 3,
     onboarding: 0,
