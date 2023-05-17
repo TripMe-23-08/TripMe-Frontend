@@ -1,6 +1,22 @@
 <template>
-  <router-view />
+  <v-app id="inspire">
+    <enjoy-header />
+    <v-main>
+      <v-container>
+        <router-view />
+      </v-container>
+    </v-main>
+    <enjoy-footer />
+  </v-app>
 </template>
+<!-- -->
+<script>
+import EnjoyHeader from "@/components/commons/EnjoyHeader.vue";
+import EnjoyFooter from "@/components/commons/EnjoyFooter.vue";
+export default {
+  components: { EnjoyHeader, EnjoyFooter },
+};
+</script>
 
 <style>
 #app {

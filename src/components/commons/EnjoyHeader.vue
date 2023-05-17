@@ -28,9 +28,10 @@ export default {
   data: () => ({
     pages: [
       { title: "홈", link: "/" },
-      { title: "여행계획", link: "/route" },
-      { title: "소통", link: "/posts" },
-      { title: "마이페이지", link: "/my-page" },
+      { title: "여행계획", link: "/plan" },
+      { title: "피드", link: "/feed" },
+      { title: "장소", link: "/place" },
+      { title: "마이페이지", link: "/mypage" },
     ],
   }),
 };
