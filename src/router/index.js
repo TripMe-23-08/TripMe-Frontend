@@ -6,26 +6,26 @@ const routes = [
     name: "home",
     component: () => import(/* webpackChunkName: "about" */ "@/views/HomeView.vue"),
   },
-  // {
-  //   path: "/plan",
-  //   name: "plan",
-  //   component: () => import(/* webpackChunkName: "about" */ "@/views/plan/PlanView.vue"),
-  // },
-  // {
-  //   path: "/feed",
-  //   name: "feed",
-  //   component: () => import(/* webpackChunkName: "about" */ "@/views/feed/FeedView.vue"),
-  // },
+  {
+    path: "/plan",
+    name: "plan",
+    component: () => import(/* webpackChunkName: "about" */ "@/views/plan/PlanView.vue"),
+  },
+  {
+    path: "/feed",
+    name: "feed",
+    component: () => import(/* webpackChunkName: "about" */ "@/views/feed/FeedView.vue"),
+  },
   {
     path: "/place",
     name: "place",
     component: () => import(/* webpackChunkName: "about" */ "@/views/place/SearchPlaceView.vue"),
   },
-  // {
-  //   path: "/mypage",
-  //   name: "mypage",
-  //   component: () => import(/* webpackChunkName: "about" */ "@/views/mypage/MyPageView.vue"),
-  // },
+  {
+    path: "/mypage",
+    name: "mypage",
+    component: () => import(/* webpackChunkName: "about" */ "@/views/mypage/MyPageView.vue"),
+  },
 ];
 
 const router = createRouter({
