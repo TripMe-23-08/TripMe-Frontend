@@ -1,12 +1,13 @@
 <template>
     <div>
-        <h2> this is Simple Card Vue </h2>
+        <h2> this is Simple Image Card Vue </h2>
+
     </div>
 </template>
 
 <script>
 export default {
-    name: 'SimpleCard',
+    name: 'SimpleImageCard',
     components: {},
     data() {
         return {

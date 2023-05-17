@@ -3,6 +3,9 @@
     <enjoy-header />
     <v-main>
       <v-container>
+        <!-- component test -->
+        <image-card></image-card>
+
         <!--Trip with Enjoy-->
         <v-window v-model="onboarding" show-arrows="hover" flat>
           <v-window-item v-for="n in cardItems" :key="`card-${n}`">
@@ -11,8 +14,10 @@
             </v-card>
           </v-window-item>
         </v-window>
+
         <!--떠나세요-->
         <v-sheet class="bg-grey-lighten-3" min-height="70vh" rounded="lg"> </v-sheet>
+
         <!--여행 후기-->
         <trip-feed-back />
         <!--추천 여행지-->
@@ -26,8 +31,12 @@
 import EnjoyHeader from "@/components/commons/EnjoyHeader.vue";
 import EnjoyFooter from "@/components/commons/EnjoyFooter.vue";
 import TripFeedBack from "@/components/feedback/TripFeedBack.vue";
+
+// component test
+import ImageCard from "@/components/cards/ImageCard.vue";
+
 export default {
-  components: { EnjoyHeader, EnjoyFooter, TripFeedBack },
+  components: { EnjoyHeader, EnjoyFooter, TripFeedBack, ImageCard },
   data: () => ({
     cardItems: 3,
     onboarding: 0,
