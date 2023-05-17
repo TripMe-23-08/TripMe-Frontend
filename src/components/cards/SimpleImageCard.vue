@@ -1,6 +1,10 @@
 <template>
   <v-hover v-slot="{ isHovering, props }">
-    <v-card :elevation="isHovering ? 12 : 2" :class="{ 'on-hover': isHovering }" v-bind="props">
+    <v-card
+      :elevation="isHovering ? 12 : 2"
+      :class="{ 'on-hover': isHovering }"
+      v-bind="props"
+    >
       <v-responsive :aspect-ratio="1 / 1" class="border px-0">
         <!-- <div v-show="isHovering" class="text">Hello World</div> -->
         <v-card-title class="text" v-if="isHovering">

@@ -14,24 +14,8 @@ const routes = [
   {
     path: "/feed",
     name: "feed",
-    component: () => import(/* webpackChunkName: "about" */ "@/components/feed/FeedView.vue"),
+    component: () => import(/* webpackChunkName: "about" */ "@/views/feed/FeedView.vue"),
   },
-  {
-    path: "/feed/edit",
-    name: "feedEdit",
-    component: () => import("@/views/feed/FeedEditView.vue"),
-  },
-  {
-    path: "/feed/:feedId(\\d+)",
-    name: "feedDetail",
-    component: () => import("@/views/feed/FeedDetailView.vue"),
-  },
-  {
-    path: "/feed/:feedId(\\d+)/edit",
-    name: "feedDetailEdit",
-    component: () => import("@/views/feed/FeedEditView.vue"),
-  },
-
   {
     path: "/place",
     name: "place",
@@ -41,20 +25,27 @@ const routes = [
     path: "/mypage",
     name: "mypageView",
     component: () => import(/* webpackChunkName: "about" */ "@/views/mypage/MyPageView.vue"),
-    children: [
-      {
-        path: "edit",
-        name: "mypageEdit",
-        component: () => import("@/views/mypage/MyPageEditView.vue"),
-      },
-    ],
+  },
+  {
+    path: "/edit",
+    name: "mypageEdit",
+    component: () => import("@/views/mypage/MyPageEditView.vue"),
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("@/views/account/LoginView.vue"),
+  },
+  {
+    path: "/join",
+    name: "join",
+    component: () => import("@/views/account/JoinView.vue"),
   },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-  strict: true,
 });
 
 export default router;

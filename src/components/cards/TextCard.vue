@@ -5,7 +5,7 @@
       <v-btn variant="text" icon="fa:fas fa-x" @click="removePlace"></v-btn>
     </p>
 
-    <p class="location"> {{ location }} </p>
+    <p class="location">{{ location }}</p>
   </v-card>
 </template>
 
@@ -51,6 +51,4 @@ export default {
   align-items: center;
   justify-content: center;
 }
-
-
 </style>

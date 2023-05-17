@@ -9,12 +9,20 @@
   <v-toolbar color="indigo">
     <v-toolbar-title class="white--text">
       <div>
-        <img class="logo" src="https://vuetifyjs.com/apple-touch-icon-180x180.png" />
+        <img
+          class="logo"
+          src="https://vuetifyjs.com/apple-touch-icon-180x180.png"
+        />
       </div>
     </v-toolbar-title>
     <v-container class="fill-height d-flex align-center">
       <v-toolbar-items>
-        <v-btn v-for="page in pages" :key="page.title" :href="page.link" variant="text">
+        <v-btn
+          v-for="page in pages"
+          :key="page.title"
+          :href="page.link"
+          variant="text"
+        >
           {{ page.title }}
         </v-btn>
       </v-toolbar-items>
@@ -32,6 +40,8 @@ export default {
       { title: "피드", link: "/feed" },
       { title: "장소", link: "/place" },
       { title: "마이페이지", link: "/mypage" },
+      { title: "로그인", link: "/login" },
+      { title: "회원가입", link: "/join" },
     ],
   }),
 };

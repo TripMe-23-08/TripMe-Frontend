@@ -9,7 +9,7 @@
               aspect-ratio="1"
               cover
               class="ma-10"
-              src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+              :src="require('@/assets/day.jpg')"
             ></v-img
           ></v-col>
           <v-col align="center" align-items="center">
@@ -56,7 +56,12 @@
               :counter="10"
               label="전화번호"
             ></v-text-field>
-            <v-text-field variant="outlined" class="ma-3" :counter="10" label="주소"></v-text-field>
+            <v-text-field
+              variant="outlined"
+              class="ma-3"
+              :counter="10"
+              label="주소"
+            ></v-text-field>
           </form>
         </v-card>
       </v-col>
