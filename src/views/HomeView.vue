@@ -16,6 +16,9 @@
 
 <script>
 import TripFeedBack from "@/components/feedback/TripFeedBack.vue";
+
+// component test
+
 export default {
   components: { TripFeedBack },
   data: () => ({
