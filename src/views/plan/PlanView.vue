@@ -66,20 +66,30 @@
       <v-card-text>
         <v-window v-model="tab">
           <v-window-item v-for="n in length" :key="n" :value="n">
-            {{ n }}
+            <!-- d-flex div for horizontal alignment -->
+            <div class="mx-auto d-flex">
+              <text-card v-for="k in 3" :key="k"> </text-card>
+            </div>
           </v-window-item>
         </v-window>
       </v-card-text>
     </v-card>
 
     <!-- temporary space for candidate places -->
-    <v-card class="mt-10 d-flex flex-column align-center justify-start">
-      <draggable v-model="myArray" group="people" @start="drag=true" @end="drag=false" item-key="id"> 
-        <template #item="{element, index}" > 
-          <v-col :key="index" cols="12">
-          <text-card> {{ element }} </text-card>
-        </v-col>
-        </template> 
+    <v-card class="d-flex flex-column mt-10">
+      <draggable
+        class="d-flex flex-row"
+        v-model="myArray"
+        group="people"
+        @start="drag = true"
+        @end="drag = false"
+        item-key="id"
+      >
+        <template #item="{ element, index }">
+          <v-col :key="index">
+            <text-card> {{ element }} </text-card>
+          </v-col>
+        </template>
       </draggable>
     </v-card>
 
