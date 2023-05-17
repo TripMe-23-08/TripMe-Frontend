@@ -15,7 +15,7 @@
               :loading="loading"
               density="compact"
               variant="solo"
-              label="Search templates"
+              label="키워드 검색"
               append-inner-icon="fa:fas fa-magnifying-glass"
               single-line
               hide-details
@@ -57,35 +57,53 @@
       <v-tabs v-model="tab" bg-color="brown-lighten-5">
         <v-tab v-for="n in length" :key="n" :value="n"> Day {{ n }} </v-tab>
         <v-spacer></v-spacer>
-        <v-btn :disabled="!length" variant="text" @click="length--"> 날짜 삭제 </v-btn>
+        <v-btn :disabled="length === 1" variant="text" @click="removeDay"> 날짜 삭제 </v-btn>
         <v-divider class="mx-1" vertical></v-divider>
-        <v-btn variant="text" @click="length++"> 날짜 추가 </v-btn>
+        <v-btn variant="text" @click="addDay"> 날짜 추가 </v-btn>
       </v-tabs>
+
+      <!-- daily places -->
+      <v-card-text>
+        <v-window v-model="tab">
+          <v-window-item v-for="n in length" :key="n" :value="n">
+            {{ n }}
+          </v-window-item>
+        </v-window>
+      </v-card-text>
     </v-card>
 
-    <!-- daily places -->
-    <v-window v-model="tab">
-      <v-window-item v-for="i in length" :key="i" :value="'tab-' + i">
-        <v-card>
-          <v-card-text> this is the text </v-card-text>
-        </v-card>
-      </v-window-item>
-    </v-window>
+    <!-- temporary space for candidate places -->
+    <v-card class="mt-10 d-flex flex-column align-center justify-start">
+      <draggable v-model="myArray" group="people" @start="drag=true" @end="drag=false" item-key="id"> 
+        <template #item="{element, index}" > 
+          <v-col :key="index" cols="12">
+          <text-card> {{ element }} </text-card>
+        </v-col>
+        </template> 
+      </draggable>
+    </v-card>
+
   </v-container>
 </template>
 
 <script>
 import KakaoMap from "@/components/KakaoMap.vue";
+import TextCard from "@/components/cards/TextCard.vue";
 import SimpleImageCard from "@/components/cards/SimpleImageCard.vue";
+import draggable from 'vuedraggable'
 
 export default {
   name: "PlanView",
-  components: { KakaoMap, SimpleImageCard },
+  components: { KakaoMap, TextCard, SimpleImageCard, draggable },
   data: () => ({
     loaded: false,
     loading: false,
     length: 1,
     tab: null,
+    placeArray: [[]],
+    candidateArray: ["aaa", "bbb", "ccc"],
+    myArray: ["alex", "yang", "seo", "lee", "park"],
+    drag: false,
   }),
   methods: {
     onClick() {
@@ -96,6 +114,19 @@ export default {
         this.loaded = true;
       }, 2000);
     },
+
+    addDay(event) {
+      console.log(event)
+      this.placeArray.push([])
+      this.length++
+    },
+    
+    removeDay(event) {
+      console.log(event)
+      this.placeArray.pop()
+      this.length--
+    },
+
   },
 
   watch: {
