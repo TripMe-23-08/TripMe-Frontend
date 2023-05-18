@@ -25,23 +25,34 @@ const routes = [
     path: "/mypage",
     name: "mypageView",
     component: () => import(/* webpackChunkName: "about" */ "@/views/mypage/MyPageView.vue"),
-    
+    children: [
+      {
+        path: "plan",
+        name: "myTripPlan",
+        component: () => import("@/components/myplan/MyTripPlan.vue"),
+      },
+      {
+        path: "post",
+        name: "myPostView",
+        component: () => import("@/components/myplan/MyPost.vue"),
+      },
+    ],
   },
   {
     path: "/edit",
     name: "mypageEdit",
-    component: ()=> import("@/views/mypage/MyPageEditView.vue"),
+    component: () => import("@/views/mypage/MyPageEditView.vue"),
   },
   {
     path: "/login",
-    name: "login",
+    name: "loginView",
     component: () => import("@/views/account/LoginView.vue"),
   },
   {
     path: "/join",
-    name: "join",
+    name: "joinView",
     component: () => import("@/views/account/JoinView.vue"),
-  }
+  },
 ];
 
 const router = createRouter({
