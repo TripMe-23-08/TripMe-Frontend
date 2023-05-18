@@ -1,5 +1,5 @@
 <template>
-  <div id="map" style="width: 100%"></div>
+  <div id="map"></div>
 </template>
 
 <script>
@@ -64,8 +64,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #map {
-  width: 400px;
-  height: 400px;
+  width: 100%;
+  height: 100%;
 }
 
 .button-group {

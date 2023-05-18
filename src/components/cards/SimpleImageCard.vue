@@ -4,6 +4,7 @@
       :elevation="isHovering ? 12 : 2"
       :class="{ 'on-hover': isHovering }"
       v-bind="props"
+      @click="onClick"
     >
       <v-responsive :aspect-ratio="1 / 1" class="border px-0">
         <!-- <div v-show="isHovering" class="text">Hello World</div> -->
@@ -26,13 +27,20 @@ export default {
   components: {},
   data() {
     return {
-      message: "",
       name: "서울숲",
       location: "서울 어딘가 그곳",
     };
   },
   created() {},
-  methods: {},
+  methods: {
+    onClick() {
+      // alert("clicked");
+      this.$emit('clickPlace', {
+        name: this.name,
+        location: this.location,
+      });
+    },
+  },
 };
 </script>
 
