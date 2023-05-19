@@ -1,10 +1,14 @@
 <template>
   <div id="map"></div>
+
 </template>
 
 <script>
 export default {
   name: "KakaoMap",
+  props: {
+    position: Object,
+  },
   data() {
     return {
       markers: [],
