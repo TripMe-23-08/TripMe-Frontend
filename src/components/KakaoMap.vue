@@ -7,10 +7,11 @@
 export default {
   name: "KakaoMap",
   props: {
-    position: Object,
+    markerPositions: Array,
   },
   data() {
     return {
+      map: null,
       markers: [],
       infowindow: null,
     };
@@ -37,6 +38,7 @@ export default {
       //지도 객체를 등록합니다.
       //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(container, options);
+      // this.displayMarker([[33.450701, 126.570667]])
     },
 
     displayMarker(markerPositions) {
@@ -57,11 +59,36 @@ export default {
           (bounds, latlng) => bounds.extend(latlng),
           new kakao.maps.LatLngBounds()
         );
-
+ 
         this.map.setBounds(bounds);
       }
     },
   },
+  watch: {
+    markerPositions(oldPositions, newPositions) {
+    //   for (let i=0; i<newPositions.length; ++i) {
+    //     var marker = new kakao.maps.Marker( {
+    //       position: new kakao.maps.LatLng(newPositions[i][0], newPositions[i][1])
+    //     })
+    //     marker.setMap(this.map)
+    //     this.markers.push(marker)
+    //   }
+      
+    //   let bounds = newPositions.reduce(
+    //     (bounds, latlng) => bounds.extend(latlng),
+    //     new kakao.maps.LatLngBounds()
+    //   );
+ 
+    //   this.map.setBounds(bounds);
+    //   console.log("markers num : " + this.markers.length)
+    if (newPositions.length > 0) {
+      this.displayMarker(newPositions)
+    } else {
+      alert("검색 결과가 없습니다.")
+    }
+    
+    },
+  }
 };
 </script>
 

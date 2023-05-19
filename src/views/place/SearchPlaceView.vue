@@ -33,7 +33,7 @@
   </div>
   <!--카카오 지도 추가-->
   <!-- map size should be determined by its parent component -->
-  <kakao-map style="width: 100%; height:400px" v-bind:position="areaInfo"/>
+  <kakao-map style="width: 100%; height:400px" :markerPositions="markerPositions"/>
 </template>
 
 <script>
@@ -44,6 +44,7 @@ export default {
   components: { KakaoMap },
   name: "SearchPlaceView",
   data: () => ({
+    markerPositions: [],
     // category mapping => name: code
     categoryMap: {
       '관광지': 12,
@@ -97,7 +98,7 @@ export default {
           }
         })
         .then(({data}) => {
-          this.areaInfo = data['data']; // TODO: 
+          this.markerPositions = data['data'].map((e) => [e.latitude, e.longitude])
         })
 
     },
@@ -108,7 +109,6 @@ export default {
         .get('/area-codes')
         .then(({data}) => {
           this.areaInfo = data['data']
-          console.log(this.areaInfo)
         })
     },
 
