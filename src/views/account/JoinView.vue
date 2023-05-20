@@ -40,6 +40,7 @@
 
 <script>
 import { useField, useForm } from "vee-validate";
+import http from "@/api/http";
 
 export default {
   name: "joinView",
@@ -75,6 +76,7 @@ export default {
 
     const submit = handleSubmit((values) => {
       alert(JSON.stringify(values, null, 2));
+      http.post("/login");
     });
 
     return { name, phone, email, password, submit };
