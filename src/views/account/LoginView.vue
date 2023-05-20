@@ -6,14 +6,24 @@
 
         <v-text-field class="ma-5" label="Password"></v-text-field>
 
-        <v-btn class="mb-3 mr-5" type="submit"> 로그인 </v-btn>
-        <v-btn class="mb-3" type="submit"> 회원가입 </v-btn>
+        <v-btn class="mb-3 mr-5" @click="moveMain"> 로그인 </v-btn>
+        <v-btn class="mb-3" @click="moveJoin"> 회원가입 </v-btn>
       </form>
     </v-card>
   </v-container>
 </template>
 
 <script>
-export default {};
+export default {
+  name: "loginView",
+  methods: {
+    moveJoin() {
+      this.$router.push({ name: "joinView" });
+    },
+    moveMain() {
+      this.$router.push({ name: "home" });
+    },
+  },
+};
 </script>
 <style></style>
