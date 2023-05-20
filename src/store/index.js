@@ -1,14 +1,13 @@
-import { createStore } from 'vuex'
-
+import { createStore } from "vuex";
+import createPersistedState from "vuex-persistedstate";
+import feedStore from "./feedStore";
 export default createStore({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
   modules: {
-  }
-})
+    feedStore,
+  },
+  plugins: [
+    createPersistedState({
+      storage: sessionStorage,
+    }),
+  ],
+});
