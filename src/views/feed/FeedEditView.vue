@@ -1,9 +1,9 @@
 <template>
   <v-row no-gutters>
-    <v-col cols="4">
+    <v-col md="12">
       <v-sheet class="pa-2 ma-2">
         <v-select
-          :items="['여행루트1', '여행루트2', '여행루트3']"
+          :items="tripRoute.title"
           variant="outlined"
           density="compact"
         ></v-select>
@@ -39,6 +39,7 @@ export default {
   components: { TripTimeLine },
   data: () => ({
     sortby: ["정확도", "조회수", "좋아요"],
+    tripRoute: null,
   }),
 };
 </script>
