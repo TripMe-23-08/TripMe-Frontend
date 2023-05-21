@@ -2,11 +2,7 @@ import http from "@/api/http";
 const state = () => ({
   tripRoutes: [],
 });
-const getters = {
-  tripRouteNames(state) {
-    return state.tripRoutes.map((data) => data["name"]);
-  },
-};
+const getters = {};
 const mutations = {
   SET_TRIPROUTE_LIST(state, tripRoutes) {
     console.log("SET_TRIPROUTE_LIST", tripRoutes);

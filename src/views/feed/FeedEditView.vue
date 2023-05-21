@@ -3,11 +3,23 @@
     <v-col>
       <v-sheet class="pa-2 ma-2">
         <v-select
-          :items="tripRouteNames"
+          hide-no-data="true"
+          v-model="selectedRoute"
+          label="여행 경로 선택"
+          return-object
+          :items="tripRoutes"
+          item-title="name"
+          item-value="id"
           variant="outlined"
           density="compact"
-        ></v-select>
-        <trip-time-line direction="vertical" tripRoutes="tripRoutes" />
+        >
+        </v-select>
+
+        <trip-time-line
+          v-if="selectedRoute != null"
+          direction="vertical"
+          :tripRoute="selectedRoute"
+        />
       </v-sheet>
     </v-col>
     <v-col>
@@ -53,12 +65,13 @@
 
 <script>
 import TripTimeLine from "@/components/feed/TripTimeLine.vue";
-import { mapActions, mapGetters, mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "FeedEdit",
   components: { TripTimeLine },
   data: () => ({
+    selectedRoute: null,
     sortby: ["정확도", "조회수", "좋아요"],
     tripRouteTitle: ["여행지A"],
 
@@ -68,7 +81,6 @@ export default {
   }),
   computed: {
     ...mapState("feedStore", ["tripRoutes"]),
-    ...mapGetters("feedStore", ["tripRouteNames"]),
   },
   created() {
     this.getTripRoutes(); // [2]

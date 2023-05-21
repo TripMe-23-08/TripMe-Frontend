@@ -30,45 +30,15 @@
 <script>
 export default {
   name: "TripTimeLine",
-  props: ["direction", "tripRoutes"],
-  data: () => ({
-    days: [1, 2, 3],
-    tripPlaces: [
-      [
-        {
-          id: 2,
-          placeId: 123,
-          placeName: "광한루",
-          tripRouteId: 18,
-          tripOrder: 1,
-        },
-        {
-          id: 3,
-          placeId: 123,
-          placeName: "서울숲",
-          tripRouteId: 18,
-          tripOrder: 1,
-        },
-      ],
-      [
-        {
-          id: 9,
-          placeId: 123,
-          placeName: "광한루",
-          tripRouteId: 18,
-          tripOrder: 2,
-        },
-      ],
-      [
-        {
-          id: 9,
-          placeId: 123,
-          placeName: "제주도 핫플",
-          tripRouteId: 18,
-          tripOrder: 2,
-        },
-      ],
-    ],
-  }),
+  props: ["direction", "tripRoute"],
+  computed: {
+    tripPlaces() {
+      console.log(this.tripRoute);
+      return this.tripRoute.tripPlaces;
+    },
+    days() {
+      return this.tripRoute;
+    },
+  },
 };
 </script>
