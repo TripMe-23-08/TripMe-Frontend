@@ -1,9 +1,12 @@
 <template>
-  <v-timeline side="end" align="start">
+  <v-timeline side="end" align="start" :direction="direction">
     <template v-for="day in days" :key="day">
       <v-timeline-item dot-color="pink" size="small">
         <template v-slot:opposite>
-          <div class="pt-1 headline font-weight-bold" v-text="`Day ${day}`"></div>
+          <div
+            class="pt-1 headline font-weight-bold"
+            v-text="`Day ${day}`"
+          ></div>
         </template>
       </v-timeline-item>
 
@@ -27,6 +30,7 @@
 <script>
 export default {
   name: "TripTimeLine",
+  props: ["direction"],
   data: () => ({
     days: [1, 2, 3],
     tripPlaces: [
