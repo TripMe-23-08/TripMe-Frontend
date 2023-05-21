@@ -2,10 +2,14 @@ import http from "@/api/http";
 const state = () => ({
   tripRoutes: [],
 });
-const getters = {};
+const getters = {
+  tripRouteNames(state) {
+    return state.tripRoutes.map((data) => data["name"]);
+  },
+};
 const mutations = {
   SET_TRIPROUTE_LIST(state, tripRoutes) {
-    console.log(tripRoutes);
+    console.log("SET_TRIPROUTE_LIST", tripRoutes);
     state.tripRoutes = tripRoutes;
   },
 };
@@ -15,7 +19,7 @@ const actions = {
     http
       .get("/trip-routes")
       .then(({ data }) => {
-        commit("SET_TRIPROUTE_LIST", data);
+        commit("SET_TRIPROUTE_LIST", data.data);
       })
       .catch((error) => {
         console.log(error);

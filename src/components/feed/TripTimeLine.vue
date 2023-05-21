@@ -30,7 +30,7 @@
 <script>
 export default {
   name: "TripTimeLine",
-  props: ["direction"],
+  props: ["direction", "tripRoutes"],
   data: () => ({
     days: [1, 2, 3],
     tripPlaces: [

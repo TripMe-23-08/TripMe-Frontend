@@ -3,11 +3,11 @@
     <v-col>
       <v-sheet class="pa-2 ma-2">
         <v-select
-          :items="tripRouteTitle"
+          :items="tripRouteNames"
           variant="outlined"
           density="compact"
         ></v-select>
-        <trip-time-line direction="vertical" />
+        <trip-time-line direction="vertical" tripRoutes="tripRoutes" />
       </v-sheet>
     </v-col>
     <v-col>
@@ -53,6 +53,7 @@
 
 <script>
 import TripTimeLine from "@/components/feed/TripTimeLine.vue";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: "FeedEdit",
@@ -65,7 +66,15 @@ export default {
     filesPreview: [],
     uploadImageIndex: 0, // 이미지 업로드를 위한 변수
   }),
+  computed: {
+    ...mapState("feedStore", ["tripRoutes"]),
+    ...mapGetters("feedStore", ["tripRouteNames"]),
+  },
+  created() {
+    this.getTripRoutes(); // [2]
+  },
   methods: {
+    ...mapActions("feedStore", ["getTripRoutes"]), // [1]
     imageAddUpload() {
       console.log(this.$refs.files.files);
 
