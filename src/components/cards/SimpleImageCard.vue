@@ -8,7 +8,13 @@
     >
       <v-responsive :aspect-ratio="1 / 1" class="border px-0">
         <!-- <div v-show="isHovering" class="text">Hello World</div> -->
-        <v-card-title class="text" v-if="isHovering" style="white-space: initial;">
+        <v-card-title 
+          class="text" 
+          v-if="isHovering" 
+          style="white-space: initial;"
+          @mouseover="mouseIn"
+          @mouseleave="mouseOut"
+        >  
           {{ getName }}
         </v-card-title>
         <v-img
@@ -31,6 +37,7 @@ export default {
   data() {
     return {
       defaultImgUrl: 'https://images.unsplash.com/photo-1572633424705-d813d2fb5cb4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8OHwzMzMyNTYyfHxlbnwwfHx8fHw%3D&auto=format&fit=crop&w=500&q=60',
+      mouseLocated: false,
     };
   },
   created() {
@@ -53,6 +60,20 @@ export default {
       //   location: this.placeInfo.address,
       //   id: this.placeInfo.id,
       // })
+    },
+
+    mouseIn() {
+      this.mouseLocated = true
+      setTimeout(() => {
+        if (this.mouseLocated) {
+          // console.log("place hovering time passed ... good")
+          this.$emit('hoverWaitPlace', this.placeInfo);
+        }
+      }, 650);
+
+    },
+    mouseOut() {
+      this.mouseLocated = false
     },
   },
   computed: {

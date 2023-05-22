@@ -1,11 +1,10 @@
 <template>
   <v-container>
     <!-- title and submit bar -->
-    <div class="d-flex justify-space-between mb-6">
-      <v-sheet class="flex-fill mr-6">
+    <div class="d-flex justify-space-between">
+      <v-sheet class="flex-fill mr-8">
       <v-text-field
           v-model="tripTitle"
-          class="mb-2 flex"
           label="여행 경로 제목"
         ></v-text-field>
       </v-sheet>
@@ -24,7 +23,7 @@
 
     <v-row>
       <!-- top left map area -->
-      <v-col style="mx-auto max-height: 400px">
+      <v-col style="mx-auto; max-height: 550px;">
         <kakao-map v-model:markerPositions="pinLocation" />
       </v-col>
 
@@ -49,11 +48,15 @@
         </v-card>
 
         <!-- result view-->
-        <v-row @scroll="onScroll" v-model="searchResults" no-gutters style="overflow-y: scroll; max-height:400px;">
+        <v-row class="noscroll" @scroll="onScroll" v-model="searchResults" no-gutters style="overflow-y: scroll; max-height:400px;">
           
           <!-- watch out in starts from 1, while index 0-->
           <v-col v-for="n in searchResults.length" :key="n" cols="4">
-            <simple-image-card :place-info="searchResults[n-1]" @clickPlace="addPlace"></simple-image-card>
+            <simple-image-card 
+            :place-info="searchResults[n-1]" 
+            @clickPlace="addPlace"
+            @hoverWaitPlace="hoverWaitPlace"
+          />
           </v-col>
 
         </v-row>
@@ -74,7 +77,7 @@
       <!-- daily places -->
       <v-card-text>
         <v-window v-model="tab">
-          <v-window-item v-for="n in length" :key="n" :value="n" style="overflow-x: scroll">
+          <v-window-item class="noscroll" v-for="n in length" :key="n" :value="n" style="overflow-x: scroll ">
             <draggable
               class="d-flex flex-row"
               v-model="allPlaces.places[n-1]"
@@ -99,7 +102,7 @@
     </v-card>
 
     <!-- temporary space for candidate places -->
-    <v-card class="d-flex flex-column mt-4" style="overflow-x: scroll">
+    <v-card class="d-flex flex-column mt-4 noscroll" style="overflow-x: scroll">
       <draggable
         class="d-flex flex-row"
         v-model="allPlaces.candidates"
@@ -282,6 +285,10 @@ export default {
       this.allPlaces.candidates = this.allPlaces.candidates.filter(place => place.name !== placeData.name)  
     },
 
+    hoverWaitPlace(placeData) {
+      this.pinLocation = [[placeData.latitude, placeData.longitude]]
+    },
+
   },
 
   watch: {
@@ -292,4 +299,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.noscroll::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+</style>
