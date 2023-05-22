@@ -7,8 +7,17 @@
   >
     <div class="text-cyan-lighten-5"><h1>Enjoy Trip</h1></div>
     <v-btn-group class="ms-3">
-      <v-btn>회원가입</v-btn>
-      <v-btn>로그인</v-btn>
+      <v-btn>
+        <router-link to="/join" style="text-decoration-line: none"
+          >회원가입</router-link
+        ></v-btn
+      >
+
+      <v-btn>
+        <router-link to="/login" style="text-decoration-line: none"
+          >로그인</router-link
+        ></v-btn
+      >
     </v-btn-group>
   </v-img>
   <!--떠나세요-->
