@@ -27,6 +27,10 @@ const mutations = {
     console.log("SET_TRIPROUTE_LIST", tripRoutes);
     state.tripRoutes = tripRoutes;
   },
+  SET_FEED_DETAIL(state, feed) { 
+    console.log("SET_FEED_DETAIL", feed);
+    state.feed = feed;
+  }
 };
 const actions = {
   getTripRoutes({ commit }) {
@@ -40,6 +44,16 @@ const actions = {
         console.log(error);
       });
   },
+  getFeedDetail({ commit}, feedId ) {
+    console.log("getFeedDetail:\t"+"");
+    http.get(`/articles/${feedId}`)
+      .then(({ data }) => {
+        commit("SET_FEED_DETAIL", data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 };
 export default {
   namespaced: true,

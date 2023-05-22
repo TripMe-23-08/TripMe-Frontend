@@ -1,4 +1,5 @@
 <template>
+  <!--<div>{{ tripRoute }}</div>-->
   <v-timeline side="end"  :direction="direction">
     <template v-for="tripPlace in tripPlaces" :key="tripPlace.day">
       <v-timeline-item v-if="tripPlace.places.length>=1" dot-color="pink" size="small">
@@ -23,7 +24,7 @@
             {{ places.place.name }}
           </div>
           <div class="text-caption">
-            {{ places.place. address}}
+            {{ places.place.address}}
           </div>
         </div>
       </v-timeline-item>

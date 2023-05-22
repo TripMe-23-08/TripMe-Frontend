@@ -23,7 +23,9 @@
       </v-sheet>
     </v-col>
     <v-col>
+
       <v-sheet class="pa-2 ma-2">
+        <!--이미지 업로드 뷰-->
         <v-row style="overflow: auto; height: 300px">
           <v-col class="d-flex child-flex" cols="4">
             <div class="v-responsive v-img v-img--booting bg-grey-lighten-2">
@@ -46,8 +48,18 @@
             </v-img>
           </v-col>
         </v-row>
+        <!--제목 내용 뷰-->
         <v-row class="pt-2">
           <v-textarea
+            v-bind="title"
+            variant="outlined"
+            label="제목"
+            rows="1"
+          ></v-textarea>
+        </v-row>
+        <v-row >
+          <v-textarea
+            v-bind="content"
             variant="outlined"
             label="내용"
             rows="4"
@@ -55,7 +67,7 @@
           ></v-textarea>
         </v-row>
         <v-row class="d-flex justify-end">
-          <v-btn variant="outlined"> 등록 </v-btn>
+          <v-btn variant="outlined" @onclick="modifyFeed"> 등록 </v-btn>
         </v-row>
       </v-sheet>
     </v-col>
@@ -72,9 +84,9 @@ export default {
   components: { TripTimeLine },
   data: () => ({
     selectedRoute: null,
-    sortby: ["정확도", "조회수", "좋아요"],
-    tripRouteTitle: ["여행지A"],
-
+    // Post 등록시, 서버에 넘겨야 하는 정보
+    title: "",
+    content: "",
     files: [], //업로드용 파일
     filesPreview: [],
     uploadImageIndex: 0, // 이미지 업로드를 위한 변수
@@ -87,6 +99,9 @@ export default {
   },
   methods: {
     ...mapActions("feedStore", ["getTripRoutes"]), // [1]
+    modifyFeed() { 
+      
+    },
     imageAddUpload() {
       console.log(this.$refs.files.files);
 
