@@ -1,21 +1,14 @@
 <template>
   <v-row no-gutters>
-    <div>{{feed.tripRoute}}</div>
     <v-col>
       <v-sheet class="pa-2 ma-2">
-        <!-- <trip-time-line
-          v-if="selectedRoute != null"
-          direction="vertical"
-          :tripRoute="feed.tripRoute"
-        /> -->
         <trip-time-line
           direction="vertical"
-          :tripRoute="feed.tripRoute"
+          :tripPlaces="feed.tripRoute.tripPlaces"
         />
       </v-sheet>
     </v-col>
     <v-col>
-
       <v-sheet class="pa-2 ma-2">
         <!--이미지 업로드 뷰-->
         <v-row style="overflow: auto; height: 300px">
@@ -49,25 +42,25 @@
             readonly
           ></v-textarea>
         </v-row>
-        <v-row >
+        <v-row>
           <v-textarea
             :value="feed.content"
             variant="outlined"
             rows="4"
             row-height="40"
             readonly
-
           ></v-textarea>
         </v-row>
         <v-row class="d-flex justify-end">
           <v-btn>
-        <router-link :to="{
-                    name: 'feedDetailEdit',
-                    params: { feedId: feed.id },
-                  }"
-          >수정</router-link
-        ></v-btn
-      >
+            <router-link
+              :to="{
+                name: 'feedDetailEdit',
+                params: { feedId: feed.id },
+              }"
+              >수정</router-link
+            ></v-btn
+          >
         </v-row>
       </v-sheet>
     </v-col>
@@ -86,7 +79,6 @@ export default {
     ...mapState("feedStore", ["feed"]),
   },
   created() {
-    console.log('this.$route.path',this.$route.params.feedId);
     this.getFeedDetail(this.$route.params.feedId); // [2]
   },
   methods: {

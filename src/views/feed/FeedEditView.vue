@@ -18,12 +18,11 @@
         <trip-time-line
           v-if="selectedRoute != null"
           direction="vertical"
-          :tripRoute="selectedRoute"
+          :tripPlaces="selectedRoute && selectedRoute.tripPlaces"
         />
       </v-sheet>
     </v-col>
     <v-col>
-
       <v-sheet class="pa-2 ma-2">
         <!--이미지 업로드 뷰-->
         <v-row style="overflow: auto; height: 300px">
@@ -57,7 +56,7 @@
             rows="1"
           ></v-textarea>
         </v-row>
-        <v-row >
+        <v-row>
           <v-textarea
             v-bind="content"
             variant="outlined"
@@ -87,10 +86,8 @@ export default {
     // Post 등록시, 서버에 넘겨야 하는 정보
     title: "",
     content: "",
-    files: [], //업로드용 파일
-    filesPreview: [],
-    uploadImageIndex: 0, // 이미지 업로드를 위한 변수
   }),
+
   computed: {
     ...mapState("feedStore", ["tripRoutes"]),
   },
@@ -99,41 +96,6 @@ export default {
   },
   methods: {
     ...mapActions("feedStore", ["getTripRoutes"]), // [1]
-    modifyFeed() { 
-      
-    },
-    imageAddUpload() {
-      console.log(this.$refs.files.files);
-
-      // this.files = [...this.files, this.$refs.files.files];
-      //하나의 배열로 넣기c
-      let num = -1;
-      for (let i = 0; i < this.$refs.files.files.length; i++) {
-        console.log(this.uploadImageIndex);
-        this.files = [
-          ...this.files,
-          //이미지 업로드
-          {
-            //실제 파일
-            file: this.$refs.files.files[i],
-            //이미지 프리뷰
-            preview: URL.createObjectURL(this.$refs.files.files[i]),
-            //삭제및 관리를 위한 number
-            number: i + this.uploadImageIndex,
-          },
-        ];
-        num = i;
-      }
-      this.uploadImageIndex = this.uploadImageIndex + num + 1;
-
-      console.log(this.files);
-      // console.log(this.filesPreview);
-    },
-    fileDeleteButton(e) {
-      const name = e.target.getAttribute("name");
-      this.files = this.files.filter((data) => data.number !== Number(name));
-      // console.log(this.files);
-    },
   },
 };
 </script>

@@ -1,10 +1,11 @@
 <template>
-  <div> 안녕하십니까 </div>
-  <div> {{ tripRoute }} </div>
-  <!--<div>{{ tripRoute }}</div>-->
-  <v-timeline side="end"  :direction="direction">
+  <v-timeline side="end" :direction="direction">
     <template v-for="tripPlace in tripPlaces" :key="tripPlace.day">
-      <v-timeline-item v-if="tripPlace.places && tripPlace.places.length>=1" dot-color="pink" size="small">
+      <v-timeline-item
+        v-if="tripPlace.places && tripPlace.places.length >= 1"
+        dot-color="pink"
+        size="small"
+      >
         <template v-slot:opposite>
           <div
             class="pt-1 headline font-weight-bold"
@@ -26,7 +27,7 @@
             {{ places.place.name }}
           </div>
           <div class="text-caption">
-            {{ places.place.address}}
+            {{ places.place.address }}
           </div>
         </div>
       </v-timeline-item>
@@ -36,11 +37,6 @@
 <script>
 export default {
   name: "TripTimeLine",
-  props: ["direction", "tripRoute"],
-  computed: {
-    tripPlaces() {
-      return this.tripRoute.tripPlaces;
-    },
-  },
+  props: ["direction", "tripPlaces"],
 };
 </script>
