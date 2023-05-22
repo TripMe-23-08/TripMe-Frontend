@@ -1,13 +1,34 @@
 <template>
   <v-container>
+    <!-- title and submit bar -->
+    <div class="d-flex justify-space-between">
+      <v-sheet class="flex-fill mr-8">
+      <v-text-field
+          v-model="tripTitle"
+          label="여행 경로 제목"
+        ></v-text-field>
+      </v-sheet>
+      <v-sheet style="width:20%; max-width: 100px;">
+        <v-btn
+          block
+          color="success"
+          size="large"
+          type="submit"
+          variant="elevated"
+        >
+          저장하기
+        </v-btn>
+      </v-sheet>
+    </div>
+
     <v-row>
       <!-- top left map area -->
-      <v-col>
-        <kakao-map />
+      <v-col style="mx-auto; max-height: 550px;">
+        <kakao-map v-model:markerPositions="pinLocation" />
       </v-col>
 
       <!-- top right search area-->
-      <v-col>
+      <v-col >
         <!-- text input-->
         <v-card class="mx-auto">
           <v-card-text>
@@ -19,50 +40,24 @@
               append-inner-icon="fa:fas fa-magnifying-glass"
               single-line
               hide-details
-              @click:append-inner="onClick"
+              v-model="searchKeyword"
+              @click:append-inner="searchClick"
+              @keydown.enter="searchClick"
             ></v-text-field>
           </v-card-text>
         </v-card>
 
         <!-- result view-->
-        <v-row no-gutters style="overflow-y: scroll ">
-
-          <v-col v-for="n in 9" :key="n" cols="4">
-            <simple-image-card @clickPlace="addPlace"></simple-image-card>
+        <v-row class="noscroll" @scroll="onScroll" v-model="searchResults" no-gutters style="overflow-y: scroll; max-height:400px;">
+          
+          <!-- watch out in starts from 1, while index 0-->
+          <v-col v-for="n in searchResults.length" :key="n" cols="4">
+            <simple-image-card 
+            :place-info="searchResults[n-1]" 
+            @clickPlace="addPlace"
+            @hoverWaitPlace="hoverWaitPlace"
+          />
           </v-col>
-
-          <!-- <v-col>
-            <simple-image-card @clickPlace="addPlace"></simple-image-card>
-          </v-col>
-          <v-col>
-            <simple-image-card @clickPlace="addPlace"></simple-image-card>
-          </v-col>
-          <v-col>
-            <simple-image-card @clickPlace="addPlace"></simple-image-card>
-          </v-col>
-          <v-responsive width="100%"></v-responsive>
-
-          <v-col>
-            <simple-image-card @clickPlace="addPlace"></simple-image-card>
-          </v-col>
-          <v-col>
-            <simple-image-card @clickPlace="addPlace"></simple-image-card>
-          </v-col>
-          <v-col>
-            <simple-image-card @clickPlace="addPlace"></simple-image-card>
-          </v-col>
-          <v-responsive width="100%"></v-responsive>
-
-          <v-col>
-            <simple-image-card @clickPlace="addPlace"></simple-image-card>
-          </v-col>
-          <v-col>
-            <simple-image-card @clickPlace="addPlace"></simple-image-card>
-          </v-col>
-          <v-col>
-            <simple-image-card @clickPlace="addPlace"></simple-image-card>
-          </v-col>
-          <v-responsive width="100%"></v-responsive> -->
 
         </v-row>
       </v-col>
@@ -82,7 +77,7 @@
       <!-- daily places -->
       <v-card-text>
         <v-window v-model="tab">
-          <v-window-item v-for="n in length" :key="n" :value="n" style="overflow-x: scroll">
+          <v-window-item class="noscroll" v-for="n in length" :key="n" :value="n" style="overflow-x: scroll ">
             <draggable
               class="d-flex flex-row"
               v-model="allPlaces.places[n-1]"
@@ -107,7 +102,7 @@
     </v-card>
 
     <!-- temporary space for candidate places -->
-    <v-card class="d-flex flex-column mt-4" style="overflow-x: scroll">
+    <v-card class="d-flex flex-column mt-4 noscroll" style="overflow-x: scroll">
       <draggable
         class="d-flex flex-row"
         v-model="allPlaces.candidates"
@@ -135,77 +130,103 @@ import KakaoMap from "@/components/KakaoMap.vue";
 import TextCard from "@/components/cards/TextCard.vue";
 import SimpleImageCard from "@/components/cards/SimpleImageCard.vue";
 import draggable from 'vuedraggable'
+import http from "@/api/http";
 
 export default {
   name: "PlanView",
   components: { KakaoMap, TextCard, SimpleImageCard, draggable },
   data: () => ({
+    tripTitle: "",
+    searchKeyword: "",
     loaded: false,
     loading: false,
-    length: 2,
+    length: 1,
     tab: null,
+    searchResults: [],
     allPlaces: {
-      places: [
-        [
-          {
-            name: "경복궁1",
-            location: "서울특별시 종로구 사직로 161",
-          },
-          {
-            name: "창덕궁1",
-            location: "서울특별시 종로구 율곡로 99",
-          },
-          {
-            name: "덕수궁1",
-            location: "서울특별시 중구 세종대로 99",
-          },
-        ],
-        [
-          {
-            name: "경복궁2",
-            location: "서울특별시 종로구 사직로 161",
-          },
-          {
-            name: "창덕궁2",
-            location: "서울특별시 종로구 율곡로 99",
-          },
-          {
-            name: "덕수궁2",
-            location: "서울특별시 중구 세종대로 99",
-          },
-        ],
-      ],
-      candidates: [
-        {
-          name: "나암산",
-          location: "부산광역시 뉴욕주 휴스턴 123"
-        },
-        {
-          name: "경복궁",
-          location: "서울특별시 종로구 사직로 161",
-        },
-        {
-          name: "창덕궁",
-          location: "서울특별시 종로구 율곡로 99",
-        },  
-        {
-          name: "궁궁궁",
-          location: "서울특별시 종로구 율곡로 11",
-        },  
-      ],
+      places: [[]],
+      candidates: [],
     },
     selectedDay: 1,
     drag: false,
+    
+    // lazy loading
+    imageEssential: true,
+    imgPerpage: 30,     // load for each page
+    page: 0,            // current page
+    continueReq: true,  // if false, ignore data request
+
+    // map interaction
+    pinLocation: [[36.13790501, 126.4935202]],
+
   }),
   methods: {
-    onClick() {
-      this.loading = true;
+    searchClick() {
+      // paing
+      this.page = 0
+      this.continueReq = true
 
-      setTimeout(() => {
-        this.loading = false;
-        this.loaded = true;
-      }, 2000);
+      this.loading = true;
+      http
+        .get("/places", {
+          params: {
+            searchKeyword: this.searchKeyword,
+            limit: this.imgPerpage,
+            image: this.imageEssential,
+            // offset: 0
+          }
+        })
+        .then(({data}) => {
+          console.log("response of keyword : " + this.searchKeyword)
+          console.log(data['data'], data['message'])
+          this.searchResults = data['data']
+          if (this.searchResults.length == 0) {
+            alert("검색 결과가 존재하지 않습니다")
+          }
+        })
+        .then(() => {
+          console.log(this.searchResults[this.searchResults.length-1])
+          this.loading = false;
+          this.loaded = true;
+        })
     },
+    onScroll({target: {scrollTop, clientHeight, scrollHeight}}) {
+      if (scrollTop + clientHeight >= scrollHeight) {
+        this.reachBottom()
+      }
+    },
+
+    reachBottom() {
+      if (!this.continueReq) return
+      // paing
+      this.page++
+      this.continueReq = true
+
+      this.loading = true;
+      http
+        .get("/places", {
+          params: {
+            searchKeyword: this.searchKeyword,
+            limit: this.imgPerpage,
+            image: this.imageEssential,
+            offset: this.imgPerpage * this.page,
+          }
+        })
+        .then(({data}) => {
+          if (data['data'].length == 0) {
+            this.continueReq = false
+            // alert("이젠 더 요청할 것도 없다!")
+            return
+          }
+          this.searchResults = [...this.searchResults, ...data['data']]
+        })
+        .then(() => {
+          // console.log(this.searchResults[this.searchResults.length-1])
+          this.loading = false;
+          this.loaded = true;
+        })
+      console.log("reach bottom")
+    },  
 
     addDay(event) {
       console.log(event)
@@ -220,21 +241,38 @@ export default {
     },
 
     addPlace(placeData) {
-      console.log(placeData)
-      // add place text card to the candidate
-      // this.allPlaces.places[this.selectedDay-1].push(placeData)
+      // console.log(placeData)
+
+      // check duplicate existance      
+      // namespace to compare with
+      let nameToCompare = []
+
+      // check selected spaces
+      if (this.allPlaces.places.length > 0) {
+        let selectedNames = this.allPlaces.places[this.selectedDay-1].map(place => place.name)
+        nameToCompare = [...nameToCompare, ...selectedNames]
+      }
+      
+      // check candidate space
+      if (this.allPlaces.candidates.length > 0) {
+        let candidateNames = this.allPlaces.candidates.map(place => place.name) 
+        nameToCompare = [...nameToCompare, ...candidateNames]
+      }
 
       // check duplicate existance
-      let selectedNames = this.allPlaces.places[this.selectedDay-1].map(place => place.name)
-      let candidateNames = this.allPlaces.candidates.map(place => place.name) 
-      if (selectedNames.includes(placeData.name) || candidateNames.includes(placeData.name)) {
+      if (nameToCompare.includes(placeData.name)) {
         alert(placeData.name + "\n이미 추가된 장소입니다.")
         return
       }
-
+      
       // add place to its candidates for flexibility
       this.allPlaces.candidates.push(placeData)
+
+      // map interaction
+      // add pin and move camera to the place
       
+      this.pinLocation = [[placeData.latitude, placeData.longitude]]
+      console.log("pin loc : " + this.pinLocation)
     },
 
     removeSelectedPlace(placeData) {
@@ -247,14 +285,22 @@ export default {
       this.allPlaces.candidates = this.allPlaces.candidates.filter(place => place.name !== placeData.name)  
     },
 
+    hoverWaitPlace(placeData) {
+      this.pinLocation = [[placeData.latitude, placeData.longitude]]
+    },
+
   },
 
   watch: {
     length(val) {
-      this.tab = val - 1;
+      this.selectedDay = this.tab = val;
     },
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.noscroll::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+</style>

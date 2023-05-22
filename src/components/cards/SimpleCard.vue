@@ -8,7 +8,7 @@
 
     <v-card-title> {{ name }} </v-card-title>
 
-    <v-card-subtitle> {{ location }} </v-card-subtitle>
+    <v-card-subtitle> {{ address }} </v-card-subtitle>
 
     <v-card-actions>
       <v-btn color="orange-lighten-2" variant="text" @click="scrapePlace"> 스크랩 </v-btn>
@@ -44,7 +44,7 @@ export default {
     return {
       message: "",
       name: "세상 어딘가에 존재하는 관광지 1",
-      location: "서울 서대문구 신촌로 109 (12345)",
+      address: "서울 서대문구 신촌로 109 (12345)",
       show: false,
     };
   },
