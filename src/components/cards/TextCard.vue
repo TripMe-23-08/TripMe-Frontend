@@ -2,6 +2,7 @@
   <v-card class="mx-auto" width="160" height="100">
     <p class="title">
       {{ name }}
+      <v-spacer></v-spacer>
       <v-btn variant="text" icon="fa:fas fa-x" @click="removePlace"></v-btn>
     </p>
 
@@ -13,18 +14,19 @@
 export default {
   name: "TextCard",
   components: {},
-  data() {
-    return {
-      name: "난지 캠핑장",
-      location: "서울특별시 마포구",
-      order: 1,
-      totalPlaceNum: 4,
-    };
+  props: {
+    name: String,
+    location: String,
   },
+  data() {},
   created() {},
   methods: {
     removePlace() {
-      console.log("remove place called !!");
+      // console.log("remove place called !!");
+      this.$emit("removePlace", {
+        name: this.name,
+        location: this.location,
+      });
     },
   },
 };
@@ -32,6 +34,7 @@ export default {
 
 <style scoped>
 .title {
+  margin-left: 8px;
   padding-top: 8px;
   font-size: 16px;
   color: #000000;

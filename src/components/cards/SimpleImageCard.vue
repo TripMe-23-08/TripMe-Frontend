@@ -4,6 +4,7 @@
       :elevation="isHovering ? 12 : 2"
       :class="{ 'on-hover': isHovering }"
       v-bind="props"
+      @click="onClick"
     >
       <v-responsive :aspect-ratio="1 / 1" class="border px-0">
         <!-- <div v-show="isHovering" class="text">Hello World</div> -->
@@ -12,7 +13,7 @@
         </v-card-title>
         <v-img
           :class="isHovering ? 'blur' : 'normal'"
-          src="https://images.pexels.com/photos/1470589/pexels-photo-1470589.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+          :src="imgUrl"
           cover
         />
       </v-responsive>
@@ -26,13 +27,28 @@ export default {
   components: {},
   data() {
     return {
-      message: "",
       name: "서울숲",
       location: "서울 어딘가 그곳",
+      imgUrl: "https://images.pexels.com/photos/1470589/pexels-photo-1470589.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
     };
   },
-  created() {},
-  methods: {},
+  created() {
+    this.initImgUrl()
+  },
+  methods: {
+    onClick() {
+      // alert("clicked");
+      this.$emit('clickPlace', {
+        name: this.name,
+        location: this.location,
+      });
+    },
+    initImgUrl() {
+      // currently, spread random image
+      // later, replace this using image from backend
+      this.imgUrl = "https://picsum.photos/seed/" + Math.random() + "/300/300"
+    }
+  },
 };
 </script>
 

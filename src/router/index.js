@@ -49,18 +49,18 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ "@/views/mypage/MyPageView.vue"),
     meta: { requiresAuth: true },
 
-    // children: [
-    //   {
-    //     path: "plan",
-    //     name: "myTripPlan",
-    //     component: () => import("@/components/myplan/MyTripPlan.vue"),
-    //   },
-    //   {
-    //     path: "post",
-    //     name: "myPostView",
-    //     component: () => import("@/components/myplan/MyPost.vue"),
-    //   },
-    // ],
+    children: [
+      {
+        path: "plan",
+        name: "myTripPlan",
+        component: () => import("@/components/myplan/MyTripPlan.vue"),
+      },
+      {
+        path: "post",
+        name: "myPostView",
+        component: () => import("@/components/myplan/MyPost.vue"),
+      },
+    ],
   },
   {
     path: "/edit",
