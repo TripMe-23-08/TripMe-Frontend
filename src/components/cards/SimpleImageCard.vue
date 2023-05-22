@@ -45,12 +45,14 @@ export default {
         alert("no place info ... to be fixed here")
         return
       }
+      
+      this.$emit('clickPlace', this.placeInfo);
 
-      this.$emit('clickPlace', {
-        name: this.placeInfo.name,
-        location: this.placeInfo.address,
-        id: this.placeInfo.id,
-      });
+      // this.$emit('clickPlace', {
+      //   name: this.placeInfo.name,
+      //   location: this.placeInfo.address,
+      //   id: this.placeInfo.id,
+      // })
     },
   },
   computed: {

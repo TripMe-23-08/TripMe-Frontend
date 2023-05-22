@@ -25,11 +25,11 @@
     <v-row>
       <!-- top left map area -->
       <v-col style="mx-auto max-height: 400px">
-        <kakao-map />
+        <kakao-map v-model:markerPositions="pinLocation" />
       </v-col>
 
       <!-- top right search area-->
-      <v-col style="overflow-y: scroll" >
+      <v-col >
         <!-- text input-->
         <v-card class="mx-auto">
           <v-card-text>
@@ -152,6 +152,10 @@ export default {
     imgPerpage: 30,     // load for each page
     page: 0,            // current page
     continueReq: true,  // if false, ignore data request
+
+    // map interaction
+    pinLocation: [[36.13790501, 126.4935202]],
+
   }),
   methods: {
     searchClick() {
@@ -258,10 +262,14 @@ export default {
         return
       }
       
-
       // add place to its candidates for flexibility
       this.allPlaces.candidates.push(placeData)
+
+      // map interaction
+      // add pin and move camera to the place
       
+      this.pinLocation = [[placeData.latitude, placeData.longitude]]
+      console.log("pin loc : " + this.pinLocation)
     },
 
     removeSelectedPlace(placeData) {
