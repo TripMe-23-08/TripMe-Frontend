@@ -15,6 +15,7 @@
           size="large"
           type="submit"
           variant="elevated"
+          @click="submit"
         >
           저장하기
         </v-btn>
@@ -161,6 +162,15 @@ export default {
 
   }),
   methods: {
+    submit() {
+      console.log("submit !!! ")
+      console.log("places : " + this.allPlaces.places)
+      console.log("places ===")
+      for (let i = 0; i < this.allPlaces.places.length; ++i) {
+        console.log("day " + (i+1) + " : " + this.allPlaces.places[i])
+      }
+      console.log("title : " + this.tripTitle)
+    },
     searchClick() {
       // paing
       this.page = 0
