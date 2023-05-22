@@ -1,8 +1,30 @@
 <template>
   <v-container>
+    <!-- title and submit bar -->
+    <div class="d-flex justify-space-between mb-6">
+      <v-sheet class="flex-fill mr-6">
+      <v-text-field
+          v-model="tripTitle"
+          class="mb-2 flex"
+          label="여행 경로 제목"
+        ></v-text-field>
+      </v-sheet>
+      <v-sheet style="width:20%; max-width: 100px;">
+        <v-btn
+          block
+          color="success"
+          size="large"
+          type="submit"
+          variant="elevated"
+        >
+          저장하기
+        </v-btn>
+      </v-sheet>
+    </div>
+
     <v-row>
       <!-- top left map area -->
-      <v-col>
+      <v-col style="mx-auto max-height: 400px">
         <kakao-map />
       </v-col>
 
@@ -19,50 +41,20 @@
               append-inner-icon="fa:fas fa-magnifying-glass"
               single-line
               hide-details
-              @click:append-inner="onClick"
+              v-model="searchKeyword"
+              @click:append-inner="searchClick"
+              @keydown.enter="searchClick"
             ></v-text-field>
           </v-card-text>
         </v-card>
 
         <!-- result view-->
-        <v-row no-gutters style="overflow-y: scroll ">
-
-          <v-col v-for="n in 9" :key="n" cols="4">
-            <simple-image-card @clickPlace="addPlace"></simple-image-card>
+        <v-row v-model="searchResults" no-gutters style="overflow-y: scroll; max-height:400px;">
+          
+          <!-- watch out in starts from 1, while index 0-->
+          <v-col v-for="n in searchResults.length" :key="n" cols="4">
+            <simple-image-card :place-info="searchResults[n-1]" @clickPlace="addPlace"></simple-image-card>
           </v-col>
-
-          <!-- <v-col>
-            <simple-image-card @clickPlace="addPlace"></simple-image-card>
-          </v-col>
-          <v-col>
-            <simple-image-card @clickPlace="addPlace"></simple-image-card>
-          </v-col>
-          <v-col>
-            <simple-image-card @clickPlace="addPlace"></simple-image-card>
-          </v-col>
-          <v-responsive width="100%"></v-responsive>
-
-          <v-col>
-            <simple-image-card @clickPlace="addPlace"></simple-image-card>
-          </v-col>
-          <v-col>
-            <simple-image-card @clickPlace="addPlace"></simple-image-card>
-          </v-col>
-          <v-col>
-            <simple-image-card @clickPlace="addPlace"></simple-image-card>
-          </v-col>
-          <v-responsive width="100%"></v-responsive>
-
-          <v-col>
-            <simple-image-card @clickPlace="addPlace"></simple-image-card>
-          </v-col>
-          <v-col>
-            <simple-image-card @clickPlace="addPlace"></simple-image-card>
-          </v-col>
-          <v-col>
-            <simple-image-card @clickPlace="addPlace"></simple-image-card>
-          </v-col>
-          <v-responsive width="100%"></v-responsive> -->
 
         </v-row>
       </v-col>
@@ -135,76 +127,51 @@ import KakaoMap from "@/components/KakaoMap.vue";
 import TextCard from "@/components/cards/TextCard.vue";
 import SimpleImageCard from "@/components/cards/SimpleImageCard.vue";
 import draggable from 'vuedraggable'
+import http from "@/api/http";
 
 export default {
   name: "PlanView",
   components: { KakaoMap, TextCard, SimpleImageCard, draggable },
   data: () => ({
+    tripTitle: "",
+    searchKeyword: "",
     loaded: false,
     loading: false,
-    length: 2,
+    length: 1,
     tab: null,
+    searchResults: [],
     allPlaces: {
-      places: [
-        [
-          {
-            name: "경복궁1",
-            location: "서울특별시 종로구 사직로 161",
-          },
-          {
-            name: "창덕궁1",
-            location: "서울특별시 종로구 율곡로 99",
-          },
-          {
-            name: "덕수궁1",
-            location: "서울특별시 중구 세종대로 99",
-          },
-        ],
-        [
-          {
-            name: "경복궁2",
-            location: "서울특별시 종로구 사직로 161",
-          },
-          {
-            name: "창덕궁2",
-            location: "서울특별시 종로구 율곡로 99",
-          },
-          {
-            name: "덕수궁2",
-            location: "서울특별시 중구 세종대로 99",
-          },
-        ],
-      ],
-      candidates: [
-        {
-          name: "나암산",
-          location: "부산광역시 뉴욕주 휴스턴 123"
-        },
-        {
-          name: "경복궁",
-          location: "서울특별시 종로구 사직로 161",
-        },
-        {
-          name: "창덕궁",
-          location: "서울특별시 종로구 율곡로 99",
-        },  
-        {
-          name: "궁궁궁",
-          location: "서울특별시 종로구 율곡로 11",
-        },  
-      ],
+      places: [[]],
+      candidates: [],
     },
     selectedDay: 1,
     drag: false,
   }),
   methods: {
-    onClick() {
+    searchClick() {
       this.loading = true;
 
-      setTimeout(() => {
-        this.loading = false;
-        this.loaded = true;
-      }, 2000);
+      http
+        .get("/places", {
+          params: {
+            searchKeyword: this.searchKeyword,
+            limit: 30,
+            image: true,
+          }
+        })
+        .then(({data}) => {
+          console.log("response of keyword : " + this.searchKeyword)
+          console.log(data['data'], data['message'])
+          this.searchResults = data['data']
+          if (this.searchResults.length == 0) {
+            alert("검색 결과가 존재하지 않습니다")
+          }
+        })
+        .then(() => {
+          console.log(this.searchResults[this.searchResults.length-1])
+          this.loading = false;
+          this.loaded = true;
+        })
     },
 
     addDay(event) {
@@ -220,17 +187,30 @@ export default {
     },
 
     addPlace(placeData) {
-      console.log(placeData)
-      // add place text card to the candidate
-      // this.allPlaces.places[this.selectedDay-1].push(placeData)
+      // console.log(placeData)
+
+      // check duplicate existance      
+      // namespace to compare with
+      let nameToCompare = []
+
+      // check selected spaces
+      if (this.allPlaces.places.length > 0) {
+        let selectedNames = this.allPlaces.places[this.selectedDay-1].map(place => place.name)
+        nameToCompare = [...nameToCompare, ...selectedNames]
+      }
+      
+      // check candidate space
+      if (this.allPlaces.candidates.length > 0) {
+        let candidateNames = this.allPlaces.candidates.map(place => place.name) 
+        nameToCompare = [...nameToCompare, ...candidateNames]
+      }
 
       // check duplicate existance
-      let selectedNames = this.allPlaces.places[this.selectedDay-1].map(place => place.name)
-      let candidateNames = this.allPlaces.candidates.map(place => place.name) 
-      if (selectedNames.includes(placeData.name) || candidateNames.includes(placeData.name)) {
+      if (nameToCompare.includes(placeData.name)) {
         alert(placeData.name + "\n이미 추가된 장소입니다.")
         return
       }
+      
 
       // add place to its candidates for flexibility
       this.allPlaces.candidates.push(placeData)
@@ -251,7 +231,7 @@ export default {
 
   watch: {
     length(val) {
-      this.tab = val - 1;
+      this.selectedDay = this.tab = val;
     },
   },
 };

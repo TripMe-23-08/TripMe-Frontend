@@ -8,12 +8,12 @@
     >
       <v-responsive :aspect-ratio="1 / 1" class="border px-0">
         <!-- <div v-show="isHovering" class="text">Hello World</div> -->
-        <v-card-title class="text" v-if="isHovering">
-          {{ name }}
+        <v-card-title class="text" v-if="isHovering" style="white-space: initial;">
+          {{ getName }}
         </v-card-title>
         <v-img
           :class="isHovering ? 'blur' : 'normal'"
-          :src="imgUrl"
+          :src="getImgUrl"
           cover
         />
       </v-responsive>
@@ -25,30 +25,46 @@
 export default {
   name: "SimpleImageCard",
   components: {},
+  props: {
+    placeInfo: Object
+  },
   data() {
     return {
-      name: "서울숲",
-      location: "서울 어딘가 그곳",
-      imgUrl: "https://images.pexels.com/photos/1470589/pexels-photo-1470589.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      defaultImgUrl: 'https://images.unsplash.com/photo-1572633424705-d813d2fb5cb4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8OHwzMzMyNTYyfHxlbnwwfHx8fHw%3D&auto=format&fit=crop&w=500&q=60',
     };
   },
   created() {
-    this.initImgUrl()
   },
   methods: {
     onClick() {
       // alert("clicked");
+      console.log("place image clicked !!!")
+      console.log(this.placeInfo)
+
+      if (!this.placeInfo) {
+        alert("no place info ... to be fixed here")
+        return
+      }
+
       this.$emit('clickPlace', {
-        name: this.name,
-        location: this.location,
+        name: this.placeInfo.name,
+        location: this.placeInfo.address,
+        id: this.placeInfo.id,
       });
     },
-    initImgUrl() {
-      // currently, spread random image
-      // later, replace this using image from backend
-      this.imgUrl = "https://picsum.photos/seed/" + Math.random() + "/300/300"
-    }
   },
+  computed: {
+    getImgUrl() {
+      if (!this.placeInfo) return this.defaultImgUrl
+      if (!this.placeInfo.imgUrl) return this.defaultImgUrl
+      return this.placeInfo.imgUrl
+    },
+    getName() {
+      if (!this.placeInfo) return 'NO PLACE'
+      if (!this.placeInfo.name) return 'NO NAME'
+      return this.placeInfo.name
+    }
+  }
 };
 </script>
 
