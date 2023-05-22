@@ -1,13 +1,25 @@
 <template>
   <v-row no-gutters>
-    <v-col cols="4">
+    <v-col>
       <v-sheet class="pa-2 ma-2">
         <v-select
-          :items="['여행루트1', '여행루트2', '여행루트3']"
+          hide-no-data="true"
+          v-model="selectedRoute"
+          label="여행 경로 선택"
+          return-object
+          :items="tripRoutes"
+          item-title="name"
+          item-value="id"
           variant="outlined"
           density="compact"
-        ></v-select>
-        <trip-time-line />
+        >
+        </v-select>
+
+        <trip-time-line
+          v-if="selectedRoute != null"
+          direction="vertical"
+          :tripRoute="selectedRoute"
+        />
       </v-sheet>
     </v-col>
     <v-col>
@@ -53,18 +65,28 @@
 
 <script>
 import TripTimeLine from "@/components/feed/TripTimeLine.vue";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "FeedEdit",
   components: { TripTimeLine },
   data: () => ({
+    selectedRoute: null,
     sortby: ["정확도", "조회수", "좋아요"],
+    tripRouteTitle: ["여행지A"],
 
     files: [], //업로드용 파일
     filesPreview: [],
     uploadImageIndex: 0, // 이미지 업로드를 위한 변수
   }),
+  computed: {
+    ...mapState("feedStore", ["tripRoutes"]),
+  },
+  created() {
+    this.getTripRoutes(); // [2]
+  },
   methods: {
+    ...mapActions("feedStore", ["getTripRoutes"]), // [1]
     imageAddUpload() {
       console.log(this.$refs.files.files);
 

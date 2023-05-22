@@ -31,7 +31,7 @@
                 >
               </td>
               <td>{{ article.title }}</td>
-              <td>{{ article.userId }}</td>
+              <td>{{ article.nickName }}</td>
               <td>{{ dateFormat(article.createdAt) }}</td>
               <td>{{ dateFormat(article.updatedAt) }}</td>
               <td>{{ article.view }}</td>
