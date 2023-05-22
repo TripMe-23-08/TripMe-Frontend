@@ -3,8 +3,12 @@
     <div>{{feed.tripRoute}}</div>
     <v-col>
       <v-sheet class="pa-2 ma-2">
-        <trip-time-line
+        <!-- <trip-time-line
           v-if="selectedRoute != null"
+          direction="vertical"
+          :tripRoute="feed.tripRoute"
+        /> -->
+        <trip-time-line
           direction="vertical"
           :tripRoute="feed.tripRoute"
         />
