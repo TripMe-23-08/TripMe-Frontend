@@ -29,7 +29,7 @@
       </v-col>
 
       <!-- top right search area-->
-      <v-col style="overflow-y: scroll">
+      <v-col style="overflow-y: scroll" >
         <!-- text input-->
         <v-card class="mx-auto">
           <v-card-text>
@@ -49,7 +49,7 @@
         </v-card>
 
         <!-- result view-->
-        <v-row v-model="searchResults" no-gutters style="overflow-y: scroll; max-height:400px;">
+        <v-row @scroll="onScroll" v-model="searchResults" no-gutters style="overflow-y: scroll; max-height:400px;">
           
           <!-- watch out in starts from 1, while index 0-->
           <v-col v-for="n in searchResults.length" :key="n" cols="4">
@@ -146,17 +146,27 @@ export default {
     },
     selectedDay: 1,
     drag: false,
+    
+    // lazy loading
+    imageEssential: true,
+    imgPerpage: 30,     // load for each page
+    page: 0,            // current page
+    continueReq: true,  // if false, ignore data request
   }),
   methods: {
     searchClick() {
-      this.loading = true;
+      // paing
+      this.page = 0
+      this.continueReq = true
 
+      this.loading = true;
       http
         .get("/places", {
           params: {
             searchKeyword: this.searchKeyword,
-            limit: 30,
-            image: true,
+            limit: this.imgPerpage,
+            image: this.imageEssential,
+            // offset: 0
           }
         })
         .then(({data}) => {
@@ -173,6 +183,43 @@ export default {
           this.loaded = true;
         })
     },
+    onScroll({target: {scrollTop, clientHeight, scrollHeight}}) {
+      if (scrollTop + clientHeight >= scrollHeight) {
+        this.reachBottom()
+      }
+    },
+
+    reachBottom() {
+      if (!this.continueReq) return
+      // paing
+      this.page++
+      this.continueReq = true
+
+      this.loading = true;
+      http
+        .get("/places", {
+          params: {
+            searchKeyword: this.searchKeyword,
+            limit: this.imgPerpage,
+            image: this.imageEssential,
+            offset: this.imgPerpage * this.page,
+          }
+        })
+        .then(({data}) => {
+          if (data['data'].length == 0) {
+            this.continueReq = false
+            // alert("이젠 더 요청할 것도 없다!")
+            return
+          }
+          this.searchResults = [...this.searchResults, ...data['data']]
+        })
+        .then(() => {
+          // console.log(this.searchResults[this.searchResults.length-1])
+          this.loading = false;
+          this.loaded = true;
+        })
+      console.log("reach bottom")
+    },  
 
     addDay(event) {
       console.log(event)
