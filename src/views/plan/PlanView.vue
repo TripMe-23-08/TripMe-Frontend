@@ -25,8 +25,13 @@
         </v-card>
 
         <!-- result view-->
-        <v-row no-gutters>
-          <v-col>
+        <v-row no-gutters style="overflow-y: scroll ">
+
+          <v-col v-for="n in 9" :key="n" cols="4">
+            <simple-image-card @clickPlace="addPlace"></simple-image-card>
+          </v-col>
+
+          <!-- <v-col>
             <simple-image-card @clickPlace="addPlace"></simple-image-card>
           </v-col>
           <v-col>
@@ -57,7 +62,7 @@
           <v-col>
             <simple-image-card @clickPlace="addPlace"></simple-image-card>
           </v-col>
-          <v-responsive width="100%"></v-responsive>
+          <v-responsive width="100%"></v-responsive> -->
 
         </v-row>
       </v-col>
