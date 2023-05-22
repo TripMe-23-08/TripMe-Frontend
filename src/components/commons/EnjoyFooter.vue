@@ -1,5 +1,5 @@
 <template>
-  <v-footer class="bg-indigo-lighten-1 text-center d-flex flex-column">
+  <v-footer color="#A2D2FF" class="text-center d-flex flex-column">
     <div>
       <v-btn
         v-for="item in items"
