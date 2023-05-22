@@ -7,7 +7,7 @@
           v-model="selectedRoute"
           label="여행 경로 선택"
           return-object
-          :items="tripRoutes"
+          :items="showTripRoutes"
           item-title="name"
           item-value="id"
           variant="outlined"
@@ -48,6 +48,15 @@
         </v-row>
         <v-row class="pt-2">
           <v-textarea
+            v-model="feed.title"
+            variant="outlined"
+            label="제목"
+            rows="1"
+          ></v-textarea>
+        </v-row>
+        <v-row>
+          <v-textarea
+            v-model="feed.content"
             variant="outlined"
             label="내용"
             rows="4"
@@ -55,7 +64,8 @@
           ></v-textarea>
         </v-row>
         <v-row class="d-flex justify-end">
-          <v-btn variant="outlined"> 등록 </v-btn>
+          <v-btn variant="outlined" @click="addFeed"> 등록 </v-btn>
+          <v-btn variant="outlined" @click="cancle"> 취소 </v-btn>
         </v-row>
       </v-sheet>
     </v-col>
@@ -65,59 +75,50 @@
 
 <script>
 import TripTimeLine from "@/components/feed/TripTimeLine.vue";
-import { mapActions, mapState } from "vuex";
-
+import { mapActions, mapGetters, mapState } from "vuex";
+import router from "@/router";
+import http from "@/api/http";
 export default {
   name: "FeedEdit",
   components: { TripTimeLine },
   data: () => ({
     selectedRoute: null,
-    sortby: ["정확도", "조회수", "좋아요"],
-    tripRouteTitle: ["여행지A"],
-
-    files: [], //업로드용 파일
-    filesPreview: [],
-    uploadImageIndex: 0, // 이미지 업로드를 위한 변수
+    // Post 등록시, 서버에 넘겨야 하는 정보
+    feed: {
+      title: "",
+      content: "",
+    },
   }),
+
   computed: {
     ...mapState("feedStore", ["tripRoutes"]),
+    ...mapGetters("feedStore", ["showTripRoutes"]),
   },
   created() {
     this.getTripRoutes(); // [2]
   },
   methods: {
     ...mapActions("feedStore", ["getTripRoutes"]), // [1]
-    imageAddUpload() {
-      console.log(this.$refs.files.files);
-
-      // this.files = [...this.files, this.$refs.files.files];
-      //하나의 배열로 넣기c
-      let num = -1;
-      for (let i = 0; i < this.$refs.files.files.length; i++) {
-        console.log(this.uploadImageIndex);
-        this.files = [
-          ...this.files,
-          //이미지 업로드
-          {
-            //실제 파일
-            file: this.$refs.files.files[i],
-            //이미지 프리뷰
-            preview: URL.createObjectURL(this.$refs.files.files[i]),
-            //삭제및 관리를 위한 number
-            number: i + this.uploadImageIndex,
-          },
-        ];
-        num = i;
-      }
-      this.uploadImageIndex = this.uploadImageIndex + num + 1;
-
-      console.log(this.files);
-      // console.log(this.filesPreview);
+    cancle() {
+      console.log("CANCLE");
+      router.replace({ path: "/feed" });
     },
-    fileDeleteButton(e) {
-      const name = e.target.getAttribute("name");
-      this.files = this.files.filter((data) => data.number !== Number(name));
-      // console.log(this.files);
+    addFeed() {
+      http.post(
+        "/articles",
+        {
+          title: this.feed.title,
+          content: this.feed.content,
+          tripRouteId: this.selectedRoute.id,
+        },
+        {
+          headers: {
+            Authorization:
+              "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiJhYUBnbWFpbC5jb20iLCJ1c2VyTmFtZSI6IuydtOumhOydtOumhCIsInVzZXJJZCI6Mywic3ViIjoiYWNjZXNzLXRva2VuIiwiaWF0IjoxNjg0Nzc1OTQxLCJleHAiOjE2ODQ3Nzk1NDF9.byM8cixkAkkP3wxB4ADcafTNTGTtWfea5jRqZGVxnVk",
+          },
+        }
+      );
+      router.replace({ path: "/feed" });
     },
   },
 };
