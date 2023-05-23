@@ -25,7 +25,8 @@
     <v-col>
       <v-sheet class="pa-2 ma-2">
         <!---이미지 업로드 뷰-->
-        <div
+        <v-row
+          id="img-upload"
           class="base-image-input"
           :style="{ 'background-image': `url(${imgPreview})` }"
           @click="chooseImage"
@@ -37,11 +38,12 @@
             type="file"
             @input="onSelectFile"
           />
-        </div>
+        </v-row>
+
         <!-- Trip Route에 포함된 장소 관련 장소 이미지--->
-        <v-row id="trip-route-img">
+        <v-row id="trip-route-img" v-if="selectedRoute != null">
           <v-col
-            v-for="tripPlace in selectedRoute && selectedRoute.tripPlaces"
+            v-for="tripPlace in selectedRoute.tripPlaces"
             :key="tripPlace"
             cols="3"
           >
@@ -86,7 +88,7 @@ import { mapActions, mapGetters, mapState } from "vuex";
 import router from "@/router";
 import http from "@/api/http";
 export default {
-  name: "FeedEdit",
+  name: "feedAdd",
   components: { TripTimeLine },
   data: () => ({
     selectedRoute: null,
@@ -154,7 +156,7 @@ export default {
   display: block;
   width: 100%;
   height: 300px;
-  margin-bottom: 7%;
+  margin-bottom: 100px;
   cursor: pointer;
   background-size: cover;
   background-position: center center;
@@ -176,7 +178,10 @@ export default {
 .file-input {
   display: none;
 }
-
+#img-upload {
+  overflow: auto;
+  height: 300px;
+}
 #trip-route-img {
   display: flex;
   flex-wrap: nowrap;

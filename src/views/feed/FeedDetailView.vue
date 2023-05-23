@@ -45,6 +45,9 @@
               :place-info="tripPlace.place"
               @click="clickPlaceImg"
             />
+
+            <!--TODO : Dialog 추가-->
+            <!-- <image-text-dialog :clickedPlaceInfo="tripPlace.place" /> -->
           </v-col>
         </v-row>
         <!--제목 내용 뷰-->
@@ -97,11 +100,13 @@ import TripTimeLine from "@/components/feed/TripTimeLine.vue";
 import { mapActions, mapGetters, mapState } from "vuex";
 import router from "@/router";
 import SimpleImageCard from "@/components/cards/SimpleImageCard.vue";
+// import ImageTextDialog from "@/components/dialogs/ImageTextDialog.vue";
 export default {
   name: "FeedDetailView",
   data: () => ({
     editable: true,
     rules: [(v) => v.length <= 250 || "최대 250자"],
+    imgClicked: false,
   }),
   components: { TripTimeLine, SimpleImageCard },
   computed: {
@@ -128,7 +133,8 @@ export default {
       this.editable = !this.editable;
     },
     clickPlaceImg(e) {
-      console.log(e.target.parentElement.id);
+      this.imgClicked = true;
+      console.log("****", e.target.parentElement.id);
     },
   },
 };

@@ -2,7 +2,7 @@
   <v-container class="bv-example-row mt-3">
     <v-row class="mv-1">
       <v-col class="text-right">
-        <v-button @click="moveWrite()">글쓰기</v-button>
+        <v-button @click="moveWrite">글쓰기</v-button>
       </v-col>
     </v-row>
     <!-- <v-list lines="three">
@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     moveWrite() {
-      this.$router.push({ name: "feedEdit" });
+      this.$router.push({ name: "feedAdd" });
     },
     viewArticle(article) {
       this.$router.push({
