@@ -5,6 +5,30 @@
         <v-button @click="moveWrite()">글쓰기</v-button>
       </v-col>
     </v-row>
+    <!-- <v-list lines="three">
+      <v-list-item
+        v-for="article in articles"
+        :key="article.id"
+        link
+        @click="$router.push(`/feed/${article.id}`)"
+      >
+        <template v-slot:prepend>
+          <v-avatar class="me-4 mt-2" rounded="0">
+            <v-img
+              :src="`https://picsum.photos/seed/picsum/200/300`"
+              cover
+            ></v-img>
+          </v-avatar>
+        </template>
+        <div v-text="article.title"></div>
+
+        <v-list-item-title
+          class="text-uppercase font-weight-regular text-caption"
+          v-text="article.nickName"
+        ></v-list-item-title>
+      </v-list-item>
+    </v-list> -->
+
     <v-row>
       <v-col>
         <v-table fixed-header>

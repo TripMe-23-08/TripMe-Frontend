@@ -45,12 +45,22 @@
           ></v-textarea>
         </v-row>
         <v-row>
-          <v-textarea
+          <!-- <v-textarea
             v-model="feed.content"
             variant="outlined"
             rows="4"
             row-height="40"
             :readonly="editable"
+          ></v-textarea> -->
+          <v-textarea
+            counter
+            label="설명"
+            :rules="rules"
+            v-model="feed.content"
+            no-resize
+            rows="4"
+            :readonly="editable"
+            variant="outlined"
           ></v-textarea>
         </v-row>
 
@@ -78,6 +88,7 @@ export default {
   name: "FeedDetailView",
   data: () => ({
     editable: true,
+    rules: [(v) => v.length <= 250 || "최대 250자"],
   }),
   components: { TripTimeLine },
   computed: {
