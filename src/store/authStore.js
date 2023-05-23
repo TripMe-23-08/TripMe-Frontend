@@ -28,7 +28,6 @@ const mutations = {
     state.isValidToken = isValidToken;
   },
   SET_USER_INFO: (state, userInfo) => {
-    state.isLogin = true;
     state.userInfo = userInfo;
   },
 };
@@ -41,7 +40,11 @@ const actions = {
         console.log(data.data);
         let accessToken = data.data["accessToken"];
         let refreshToken = data.data["refreshToken"];
-        console.log("login success token created!!!! >> ", accessToken, refreshToken);
+        console.log(
+          "login success token created!!!! >> ",
+          accessToken,
+          refreshToken
+        );
         commit("SET_IS_LOGIN", true);
         commit("SET_IS_LOGIN_ERROR", false);
         commit("SET_IS_VALID_TOKEN", true);
@@ -54,18 +57,17 @@ const actions = {
     );
   },
   async userLogout({ commit }) {
+    // commit("SET_IS_LOGIN", false);
+    // commit("SET_USER_INFO", null);
+    // commit("SET_IS_VALID_TOKEN", false);
+    //router.push({ name: "loginView" });
     console.log("usreLOgout");
-    await logout(
-      () => {
-        commit("SET_IS_LOGIN", false);
-        commit("SET_USER_INFO", null);
-        commit("SET_IS_VALID_TOKEN", false);
-        router.push({ name: "loginView" });
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    logout(() => {
+      commit("SET_IS_LOGIN", false);
+      commit("SET_USER_INFO", null);
+      commit("SET_IS_VALID_TOKEN", false);
+      router.push({ name: "loginView" });
+    });
   },
   async getUserInfo({ commit, dispatch }, token) {
     let decodeToken = jwtDecode(token);
@@ -87,7 +89,10 @@ const actions = {
     );
   },
   async tokenRegeneration({ commit, state }) {
-    console.log("토큰 재발급 >> 기존 토큰 정보 : {}", sessionStorage.getItem("accessToken"));
+    console.log(
+      "토큰 재발급 >> 기존 토큰 정보 : {}",
+      sessionStorage.getItem("accessToken")
+    );
     await tokenRegeneration(
       ({ data }) => {
         let accessToken = data["accessToken"];

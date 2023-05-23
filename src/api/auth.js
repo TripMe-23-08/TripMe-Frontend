@@ -9,9 +9,11 @@ async function login(user, success, fail) {
     .then(success)
     .catch(fail);
 }
-async function logout(success, fail) {
-  http.defaults.headers["Authorization"] = sessionStorage.getItem("accessToken"); //axios header에 refresh-token 셋팅
-  await http.get("/logout").then(success).catch(fail);
+ function logout(success) {//success, fail
+  // http.defaults.headers["Authorization"] = sessionStorage.getItem("accessToken"); //axios header에 refresh-token 셋팅
+  // await http.get("/logout").then(success).catch(fail);
+  success();
+  console.log("LOGOUT IN AUHT>JS");
 }
 async function findById(userId, success, fail) {
   http.defaults.headers["Authorization"] = sessionStorage.getItem("accessToken");
