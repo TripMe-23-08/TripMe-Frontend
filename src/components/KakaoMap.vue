@@ -14,7 +14,7 @@ export default {
       map: null,
       markers: [],
       infowindow: null,
-      overlayMap: {}
+      overlayMap: {},
     };
   },
   mounted() {
@@ -38,9 +38,7 @@ export default {
       };
 
       this.map = new kakao.maps.Map(container, options);
-
-
-      // this.displayMarker([[33.450701, 126.570667]])
+      this.displayMarker([[33.450701, 126.570667]])
 
     },
 
@@ -49,6 +47,7 @@ export default {
       if (this.markers.length > 0) {
         this.markers.forEach((marker) => marker.setMap(null));
       }
+
       this.markers = []
       this.overlayMap = {}
 
@@ -87,13 +86,19 @@ export default {
           this.overlayMap[marker] = overlay
         }
 
+        // case 1: single pin
+        if (this.markers.length === 1) {
+          this.map.panTo(this.markers[0].getPosition())
 
-        // set bound of the map overview
-        const bounds = positions.reduce(
-          (bounds, latlng) => bounds.extend(latlng),
-          new kakao.maps.LatLngBounds()
-        );
-        this.map.setBounds(bounds);
+        // case 2: multiple pins
+        } else {
+          // set bound of the map overview
+          const bounds = positions.reduce(
+            (bounds, latlng) => bounds.extend(latlng),
+            new kakao.maps.LatLngBounds()
+          );
+          this.map.setBounds(bounds);
+        }
 
         // set marker events
         this.setMarkerEvents();
@@ -115,7 +120,6 @@ export default {
       // // 커스텀 오버레이를 지도에 표시합니다
       // customOverlay.setMap(this.map);
       /////
-
     },
 
     // mouse over (in & out) event
@@ -218,7 +222,7 @@ function closeOverlay() {
   },
   watch: {
     // markerPositions is modified if search clicked from its parents
-    markerPositions(oldPositions, newPositions) {
+    markerPositions(newPositions) {
     // show result if the data exists
     if (newPositions.length > 0) {
       this.displayMarker(newPositions)
@@ -227,7 +231,12 @@ function closeOverlay() {
     }
     
     },
-  }
+  },
+  updated() {
+    // cutting map phenonmina fixed
+    this.map.relayout()
+    console.log("update and relayout")
+  },
 };
 </script>
 

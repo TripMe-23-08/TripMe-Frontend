@@ -6,7 +6,7 @@
       <v-btn variant="text" icon="fa:fas fa-x" @click="removePlace"></v-btn>
     </p>
 
-    <p class="location">{{ location }}</p>
+    <p class="location">{{ address }}</p>
   </v-card>
 </template>
 
@@ -16,7 +16,7 @@ export default {
   components: {},
   props: {
     name: String,
-    location: String,
+    address: String,
   },
   data() {},
   created() {},
@@ -25,7 +25,7 @@ export default {
       // console.log("remove place called !!");
       this.$emit("removePlace", {
         name: this.name,
-        location: this.location,
+        location: this.address,
       });
     },
   },
