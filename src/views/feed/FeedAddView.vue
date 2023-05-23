@@ -24,28 +24,35 @@
     </v-col>
     <v-col>
       <v-sheet class="pa-2 ma-2">
-        <v-row style="overflow: auto; height: 300px">
-          <v-col class="d-flex child-flex" cols="4">
-            <div class="v-responsive v-img v-img--booting bg-grey-lighten-2">
-              <input
-                type="file"
-                id="file"
-                ref="files"
-                @change="imageAddUpload"
-                multiple
-              />
-            </div>
-          </v-col>
-          <v-col v-for="n in 9" :key="n" class="d-flex child-flex" cols="4">
-            <v-img
-              :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
-              aspect-ratio="1"
-              cover
-              class="bg-grey-lighten-2"
-            >
-            </v-img>
+        <!---이미지 업로드 뷰-->
+        <div
+          class="base-image-input"
+          :style="{ 'background-image': `url(${imgPreview})` }"
+          @click="chooseImage"
+        >
+          <span v-if="!imgPreview" class="placeholder"> 이미지 선택 </span>
+          <input
+            class="file-input"
+            ref="fileInput"
+            type="file"
+            @input="onSelectFile"
+          />
+        </div>
+        <!-- Trip Route에 포함된 장소 관련 장소 이미지--->
+        <v-row id="trip-route-img">
+          <v-col
+            v-for="tripPlace in selectedRoute && selectedRoute.tripPlaces"
+            :key="tripPlace"
+            cols="3"
+          >
+            <simple-image-card
+              :place-info="tripPlace.place"
+              @click="clickPlaceImg"
+            />
           </v-col>
         </v-row>
+
+        <!--제목 내용 뷰--->
         <v-row class="pt-2">
           <v-textarea
             v-model="feed.title"
@@ -83,10 +90,13 @@ export default {
   components: { TripTimeLine },
   data: () => ({
     selectedRoute: null,
+    imgPreview: null,
+
     // Post 등록시, 서버에 넘겨야 하는 정보
     feed: {
       title: "",
       content: "",
+      file: [],
     },
   }),
 
@@ -99,6 +109,21 @@ export default {
   },
   methods: {
     ...mapActions("feedStore", ["getTripRoutes"]), // [1]
+    chooseImage() {
+      this.$refs.fileInput.click();
+    },
+    onSelectFile() {
+      const input = this.$refs.fileInput;
+      const files = input.files;
+      if (files && files[0]) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.imgPreview = e.target.result;
+        };
+        reader.readAsDataURL(files[0]);
+        this.$emit("input", files[0]);
+      }
+    },
     cancle() {
       console.log("CANCLE");
       router.replace({ path: "/feed" });
@@ -124,4 +149,37 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.base-image-input {
+  display: block;
+  width: 100%;
+  height: 300px;
+  margin-bottom: 7%;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center center;
+}
+.placeholder {
+  background: #f0f0f0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+  font-size: 18px;
+  font-family: Helvetica;
+}
+.placeholder:hover {
+  background: #e0e0e0;
+}
+.file-input {
+  display: none;
+}
+
+#trip-route-img {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: scroll;
+}
+</style>

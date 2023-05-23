@@ -24,15 +24,27 @@
     <v-col>
       <v-sheet class="pa-2 ma-2">
         <!--이미지 업로드 뷰-->
-        <v-row style="overflow: auto; height: 300px">
-          <v-col v-for="n in 9" :key="n" class="d-flex child-flex" cols="4">
-            <v-img
-              :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
-              aspect-ratio="1"
-              cover
-              class="bg-grey-lighten-2"
-            >
-            </v-img>
+        <v-row id="img-upload">
+          <v-img
+            :src="`https://picsum.photos/500/200?image=${1 + 10}`"
+            aspect-ratio="1"
+            cover
+            class="bg-grey-lighten-2"
+          >
+          </v-img>
+        </v-row>
+
+        <!-- Trip Route에 포함된 장소 관련 장소 이미지--->
+        <v-row id="trip-route-img">
+          <v-col
+            v-for="tripPlace in feed.tripRoute.tripPlaces"
+            :key="tripPlace"
+            cols="3"
+          >
+            <simple-image-card
+              :place-info="tripPlace.place"
+              @click="clickPlaceImg"
+            />
           </v-col>
         </v-row>
         <!--제목 내용 뷰-->
@@ -84,13 +96,14 @@
 import TripTimeLine from "@/components/feed/TripTimeLine.vue";
 import { mapActions, mapGetters, mapState } from "vuex";
 import router from "@/router";
+import SimpleImageCard from "@/components/cards/SimpleImageCard.vue";
 export default {
   name: "FeedDetailView",
   data: () => ({
     editable: true,
     rules: [(v) => v.length <= 250 || "최대 250자"],
   }),
-  components: { TripTimeLine },
+  components: { TripTimeLine, SimpleImageCard },
   computed: {
     ...mapState("feedStore", ["feed"]),
     ...mapGetters("feedStore", ["showFeed"]),
@@ -114,8 +127,21 @@ export default {
     reverse() {
       this.editable = !this.editable;
     },
+    clickPlaceImg(e) {
+      console.log(e.target.parentElement.id);
+    },
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+#img-upload {
+  overflow: auto;
+  height: 300px;
+}
+#trip-route-img {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: scroll;
+}
+</style>
