@@ -1,6 +1,5 @@
 <template>
   <div id="map"></div>
-
 </template>
 
 <script>
@@ -13,6 +12,7 @@ export default {
     return {
       map: null,
       markers: [],
+      meta: [],
       infowindow: null,
       overlayMap: {},
     };
@@ -26,7 +26,6 @@ export default {
       script.onload = () => kakao.maps.load(this.initMap);
       script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${"dcf4ead723c5ce726be18993bc5246fc"}`;
       document.head.appendChild(script);
-
     }
   },
   methods: {
@@ -38,8 +37,7 @@ export default {
       };
 
       this.map = new kakao.maps.Map(container, options);
-      this.displayMarker([[33.450701, 126.570667]])
-
+      this.displayMarker([{ latitude: 33.450701, longitude: 126.570667 }]);
     },
 
     // show markers based on latlng from markerPositions array
@@ -47,50 +45,37 @@ export default {
       if (this.markers.length > 0) {
         this.markers.forEach((marker) => marker.setMap(null));
       }
+      console.log("!!!!!!!!!!!!>>>>>>>", markerPositions);
+      this.markers = [];
+      this.overlayMap = {};
 
-      this.markers = []
-      this.overlayMap = {}
-
-      const positions = markerPositions.map((position) => new kakao.maps.LatLng(...position));
-
+      const positions = markerPositions.map((position) => {
+        console.log(position);
+        return new kakao.maps.LatLng(position.latitude, position.longitude);
+      });
+      /// 여기부터>>>>>>>>>>>>>>.
       if (positions.length > 0) {
-        // this.markers = positions.map(
-        //   (position) =>
-        //     new kakao.maps.Marker({
-        //       map: this.map,
-        //       position: position,
-        //     })
-        // );
         for (let i = 0; i < positions.length; i++) {
           var marker = new kakao.maps.Marker({
             map: this.map,
             position: positions[i],
-          })
-          this.markers.push(marker)
-
-                // var position = new kakao.maps.LatLng(33.450701, 126.570667);  
-
-      // // 커스텀 오버레이를 생성합니다
-      // var customOverlay = new kakao.maps.CustomOverlay({
-      //     position: position,
-      //     content: content
-      // });
-
-      // // 커스텀 오버레이를 지도에 표시합니다
-      // customOverlay.setMap(this.map); 
-          var content = '<div class ="label"><span class="left"></span><span class="center" style="color:red;">카카오!</span><span class="right"></span></div>';
+          });
+          this.markers.push(marker);
+          this.meta.push();
+          var content =
+            '<div class ="label"><span class="left"></span><span class="center" style="color:red;">카카오!</span><span class="right"></span></div>';
           var overlay = new kakao.maps.CustomOverlay({
             position: positions[i],
             content: content,
-          })
-          this.overlayMap[marker] = overlay
+          });
+          this.overlayMap[marker] = overlay;
         }
 
         // case 1: single pin
         if (this.markers.length === 1) {
-          this.map.panTo(this.markers[0].getPosition())
+          this.map.panTo(this.markers[0].getPosition());
 
-        // case 2: multiple pins
+          // case 2: multiple pins
         } else {
           // set bound of the map overview
           const bounds = positions.reduce(
@@ -102,30 +87,15 @@ export default {
 
         // set marker events
         this.setMarkerEvents();
-
       }
-
-      ///////
-      // var content = '<div class ="label"><span class="left"></span><span class="center" style="color:red;">카카오!</span><span class="right"></span></div>';
-
-      // 커스텀 오버레이가 표시될 위치입니다 
-      // var position = new kakao.maps.LatLng(33.450701, 126.570667);  
-
-      // // 커스텀 오버레이를 생성합니다
-      // var customOverlay = new kakao.maps.CustomOverlay({
-      //     position: position,
-      //     content: content   
-      // });
-
-      // // 커스텀 오버레이를 지도에 표시합니다
-      // customOverlay.setMap(this.map);
-      /////
+      // 여기까지 진행<<<<<<<<<<<<<<
     },
 
     // mouse over (in & out) event
     setMarkerEvents() {
-      this.setMarkersMouseInEvent()
-      this.setMarkersMouseOutEvent()
+      //this.setMarkersMouseInEvent();
+      //this.setMarkersMouseOutEvent();
+      this.setMarkersMouseClickEvent();
     },
     /*
     var overlay = new kakao.maps.CustomOverlay({
@@ -144,52 +114,96 @@ function closeOverlay() {
     overlay.setMap(null);     
 }
     */
+    setMarkersMouseClickEvent() {
+      //[동일한지 확인]console.log(this.map);
+      this.markers.forEach((marker) => {
+        kakao.maps.event.addListener(marker, "click", () => {
+          //[동일한지 확인]console.log(this.map);
+          let iwContent = makeCard(this.markerPositions),
+            iwPosition = marker.getPosition(),
+            iwRemoveable = true;
+
+          marker.infowindow = new kakao.maps.InfoWindow({
+            map: this.map, // 인포윈도우가 표시될 지도
+            position: iwPosition,
+            content: iwContent,
+            removable: iwRemoveable,
+          });
+        });
+      });
+
+      function makeCard(data) {
+        var img = data.imgUrl
+          ? data.imgUrl
+          : "../../assets/img/infoview_default.png";
+        var title = data.title ? data.title : "상호명 정보 없음";
+        var addr = data.addr1 ? data.addr1 : "주소 정보 없음";
+        var zipcode = data.zipcode ? data.zipcode : "우편번호 정보 없음";
+        var tel = data.tel ? data.tel : "";
+
+        var content = `    <div style="max-width: 270px; border-radius: 0; border: none;">
+  <div style="align-items: center">
+    <div class="row g-0" style="align-items: center">
+      <div class="col-4">
+        <img src="${img}" class="img-fluid rounded-start" alt="..." />
+      </div>
+      <div class="col-8 ps-2">
+        <div class="h5 fw-bold mb-0">${title}</div>
+        <small>${addr}</small><br />
+        <small class="text-black-50">(우) ${zipcode}</small><br />
+        <small class="text-black-50">(전화번호) ${tel}</small>
+      </div>
+    </div>
+  </div>
+</div>`;
+        return content;
+      }
+    },
+
     setMarkersMouseInEvent() {
       // var content = '<div class ="label"><span class="left"></span><span class="center" style="color:red;">카카오!</span><span class="right"></span></div>';
 
-      // // 커스텀 오버레이가 표시될 위치입니다 
-      // var position = new kakao.maps.LatLng(33.450701, 126.570667);  
+      // // 커스텀 오버레이가 표시될 위치입니다
+      // var position = new kakao.maps.LatLng(33.450701, 126.570667);
 
       // // 커스텀 오버레이를 생성합니다
       // var customOverlay = new kakao.maps.CustomOverlay({
       //     position: position,
-      //     content: content   
+      //     content: content
       // });
 
       // // 커스텀 오버레이를 지도에 표시합니다
       // customOverlay.setMap(this.map);
 
-
       for (let marker of this.markers) {
-        kakao.maps.event.addListener(marker, 'mouseover', function () {
-          
-          console.log("mouse in with " + marker)
-          console.log(marker.getPosition())
+        kakao.maps.event.addListener(marker, "mouseover", function () {
+          console.log("mouse in with ", marker);
+          console.log(marker.getPosition());
 
-          console.log(this.overlayMap)
-          // if (marker in this.overlayMap) { 
-          //   console.log('overlay: ' + this.overlayMap[marker])  
+          console.log(this.overlayMap);
+          // if (marker in this.overlayMap) {
+          //   console.log('overlay: ' + this.overlayMap[marker])
           // } else {
           //   console.log('no overlay')
           // }
-          
+
           // // 임시 커스텀 오버레이
           // let content = '<div class ="label"><span class="left"></span><span class="center" style="color:red;">카카오!</span><span class="right"></span></div>';
 
-          // // 커스텀 오버레이가 표시될 위치입니다 
-          // let position = new kakao.maps.LatLng(33.450701, 126.570667);  
+          // // 커스텀 오버레이가 표시될 위치입니다
+          // let position = new kakao.maps.LatLng(33.450701, 126.570667);
 
           // // 커스텀 오버레이를 생성합니다
           // let customOverlay = new kakao.maps.CustomOverlay({
           //     position: position,
-          //     content: content   
+          //     content: content
           // });
 
           // // 커스텀 오버레이를 지도에 표시합니다
           // customOverlay.setMap(this.map);
           // this.customOverlay = customOverlay
           // console.log("show info view")
-          
+
           // iw.setMap(this.map)
           // var content = '<div class ="label"><span class="left"></span><span class="center">카카오!</span><span class="right"></span></div>';
           // this.overlay = new kakao.maps.CustomOverlay({
@@ -199,43 +213,39 @@ function closeOverlay() {
           // });
           // this.overlay.setPosition(marker.getPosition())
           // this.overlay.setContent(content)
-          
-          // this.overlay.setMap(this.map);
 
-        })
+          // this.overlay.setMap(this.map);
+        });
       }
     },
 
     setMarkersMouseOutEvent() {
       for (let marker of this.markers) {
-        kakao.maps.event.addListener(marker, 'mouseout', function () {
-          console.log("mouse in with " + marker)
-          console.log(marker.getPosition())
+        kakao.maps.event.addListener(marker, "mouseout", function () {
+          console.log("mouse in with " + marker);
+          console.log(marker.getPosition());
 
           // this.overlay.setMap(null)
           // this.overlay = null
-
-        })
+        });
       }
     },
-
   },
   watch: {
     // markerPositions is modified if search clicked from its parents
     markerPositions(newPositions) {
-    // show result if the data exists
-    if (newPositions.length > 0) {
-      this.displayMarker(newPositions)
-    } else {
-      alert("검색 결과가 없습니다.")
-    }
-    
+      // show result if the data exists
+      if (newPositions.length > 0) {
+        this.displayMarker(newPositions);
+      } else {
+        alert("검색 결과가 없습니다.");
+      }
     },
   },
   updated() {
     // cutting map phenonmina fixed
-    this.map.relayout()
-    console.log("update and relayout")
+    this.map.relayout();
+    console.log("update and relayout");
   },
 };
 </script>
