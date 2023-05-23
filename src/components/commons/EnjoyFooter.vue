@@ -11,11 +11,11 @@
       ></v-btn>
     </div>
 
-    <div class="pt-0">Enjoy Trip</div>
+    <div class="pt-0 desc">Enjoy Trip</div>
 
     <v-divider></v-divider>
 
-    <div>{{ new Date().getFullYear() }} — <strong>Team08</strong></div>
+    <div class="desc">{{ new Date().getFullYear() }} — <strong>Team08</strong></div>
   </v-footer>
 </template>
 
@@ -32,5 +32,9 @@ export default {
 <style scoped>
 h3 {
   margin: 40px 0 0;
+}
+
+.desc {
+  font-family: "LeeSeoyun", sans-serif;
 }
 </style>
