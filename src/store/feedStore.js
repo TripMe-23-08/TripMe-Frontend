@@ -142,7 +142,7 @@ const actions = {
       .put(`/articles/${state.feed.id}`, state.feed)
       .then(({ data }) => {
         console.log(data);
-        router.replace({ path: `/feed/${state.feed.id}` });
+        router.replace({ path: `/feed` });
       })
       .catch((error) => {
         console.log(error);
