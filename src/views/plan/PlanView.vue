@@ -21,7 +21,7 @@
     <v-row>
       <!-- top left map area -->
       <v-col style="mx-auto; max-height: 550px;">
-        <kakao-map v-model:markerPositions="pinLocation" />
+        <kakao-map markerPositions="pinLocation" />
       </v-col>
 
       <!-- top right search area-->
