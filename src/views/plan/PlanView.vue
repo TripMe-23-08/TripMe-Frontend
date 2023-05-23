@@ -6,12 +6,18 @@
         <v-text-field v-model="tripTitle" label="여행 경로 제목"></v-text-field>
       </v-sheet>
       <v-sheet style="width: 20%; max-width: 100px">
-        <v-btn block color="success" size="large" type="submit" variant="elevated" @click="submit">
+        <v-btn
+          block
+          color="success"
+          size="large"
+          type="submit"
+          variant="elevated"
+          @click="submit"
+        >
           저장하기
         </v-btn>
       </v-sheet>
     </div>
-
     <v-row>
       <!-- top left map area -->
       <v-col style="mx-auto; max-height: 550px;">
@@ -66,7 +72,9 @@
           Day {{ n }}
         </v-tab>
         <v-spacer></v-spacer>
-        <v-btn :disabled="length === 1" variant="text" @click="removeDay"> 날짜 삭제 </v-btn>
+        <v-btn :disabled="length === 1" variant="text" @click="removeDay">
+          날짜 삭제
+        </v-btn>
         <v-divider class="mx-1" vertical></v-divider>
         <v-btn variant="text" @click="addDay"> 날짜 추가 </v-btn>
       </v-tabs>
@@ -92,7 +100,11 @@
             >
               <template #item="{ element, idx }">
                 <v-col :key="idx">
-                  <text-card v-bind="element" @removePlace="removeSelectedPlace"> </text-card>
+                  <text-card
+                    v-bind="element"
+                    @removePlace="removeSelectedPlace"
+                  >
+                  </text-card>
                 </v-col>
               </template>
             </draggable>
@@ -114,7 +126,12 @@
       >
         <template #item="{ element, idx }">
           <v-col :key="idx">
-            <text-card v-bind="element" @removePlace="removeCandidatePlace" order="1"> </text-card>
+            <text-card
+              v-bind="element"
+              @removePlace="removeCandidatePlace"
+              order="1"
+            >
+            </text-card>
           </v-col>
         </template>
       </draggable>
@@ -123,6 +140,7 @@
 </template>
 
 <script>
+import router from "@/router";
 import KakaoMap from "@/components/KakaoMap.vue";
 import TextCard from "@/components/cards/TextCard.vue";
 import SimpleImageCard from "@/components/cards/SimpleImageCard.vue";
@@ -154,7 +172,7 @@ export default {
     continueReq: true, // if false, ignore data request
 
     // map interaction
-    pinLocation: [[36.13790501, 126.4935202]],
+    pinLocation: [{ latitude: 36.13790501, longitude: 126.4935202 }],
   }),
   methods: {
     submit() {
@@ -196,6 +214,7 @@ export default {
           // alert or forward here
           // currently, just a sample alert
           alert(this.tripTitle + "\n경로 생성 완료!");
+          router.push({ name: "home" });
         });
     },
     searchClick() {
@@ -286,13 +305,17 @@ export default {
 
       // check selected spaces
       if (this.allPlaces.places.length > 0) {
-        let selectedNames = this.allPlaces.places[this.selectedDay - 1].map((place) => place.name);
+        let selectedNames = this.allPlaces.places[this.selectedDay - 1].map(
+          (place) => place.name
+        );
         nameToCompare = [...nameToCompare, ...selectedNames];
       }
 
       // check candidate space
       if (this.allPlaces.candidates.length > 0) {
-        let candidateNames = this.allPlaces.candidates.map((place) => place.name);
+        let candidateNames = this.allPlaces.candidates.map(
+          (place) => place.name
+        );
         nameToCompare = [...nameToCompare, ...candidateNames];
       }
 
@@ -308,7 +331,7 @@ export default {
       // map interaction
       // add pin and move camera to the place
 
-      this.pinLocation = [[placeData.latitude, placeData.longitude]];
+      this.pinLocation = [{ ...placeData }];
       console.log("pin loc : " + this.pinLocation);
     },
 
@@ -327,7 +350,7 @@ export default {
     },
 
     hoverWaitPlace(placeData) {
-      this.pinLocation = [[placeData.latitude, placeData.longitude]];
+      this.pinLocation = [{ ...placeData }];
     },
   },
 
