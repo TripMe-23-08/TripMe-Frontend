@@ -1,11 +1,4 @@
 <template>
-  <!-- <v-app-bar rounded="">
-    <v-container class="fill-height d-flex align-center">
-      <v-btn v-for="link in links" :key="link" variant="text">
-        {{ link }}
-      </v-btn>
-    </v-container>
-  </v-app-bar> -->
   <v-toolbar color="#FEF9EF" height="150">
     <div>
       <img :width="70" :height="100" class="logo ml-5 mt-3" :src="require('@/assets/logo.png')" />
@@ -16,9 +9,8 @@
         <v-btn v-for="page in pages" :key="page.title" :href="page.link" variant="text">
           {{ page.title }}
         </v-btn>
-        <v-btn v-if="userInfo!=null" @click="logout"  >
+        <v-btn v-if="checkUserInfo()!==null" @click="logout"  >
           <v-icon icon ="fa:fas fa-sharp fa-right-from-bracket"/>
-
         </v-btn>
 
       </v-toolbar-items>
@@ -27,6 +19,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters} from "vuex";
+
 export default {
   name: "EnjoyHeader",
   data: () => ({
@@ -38,6 +32,16 @@ export default {
       { title: "마이페이지", link: "/mypage" },
     ],
   }),
+  
+  methods: {
+    ...mapGetters("authStore",["checkUserInfo"]),
+    ...mapActions("authStore", ["userLogout"]),
+    logout() { 
+      console.log("LOGOUT IN METHOD");
+      this.userLogout();
+    }
+  },
+  
 };
 </script>
 

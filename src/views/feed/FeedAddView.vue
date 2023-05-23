@@ -18,7 +18,7 @@
         <trip-time-line
           v-if="selectedRoute != null"
           direction="vertical"
-          :tripRoute="selectedRoute"
+          :tripPlaces="selectedRoute.tripPlaces"
         />
       </v-sheet>
     </v-col>

@@ -4,6 +4,8 @@ import router from "@/router";
 import { login, logout, tokenRegeneration, findById } from "@/api/auth";
 
 const state = {
+  isLogin: false,
+  isLoginError: false,
   userInfo: null,
   isValidToken: false,
 };
@@ -18,6 +20,9 @@ const getters = {
 const mutations = {
   SET_IS_LOGIN: (state, isLogin) => {
     state.isLogin = isLogin;
+  },
+  SET_IS_LOGIN_ERROR: (state, isLoginError) => {
+    state.isLoginError = isLoginError;
   },
   SET_IS_VALID_TOKEN: (state, isValidToken) => {
     state.isValidToken = isValidToken;
@@ -49,14 +54,13 @@ const actions = {
     );
   },
   async userLogout({ commit }) {
+    console.log("usreLOgout");
     await logout(
-      ({ data }) => {
-        if (data.message === "success") {
-          commit("SET_IS_LOGIN", false);
-          commit("SET_IS_VALID_TOKEN", false);
-        } else {
-          console.log("유저 정보 없음!!!!");
-        }
+      () => {
+        commit("SET_IS_LOGIN", false);
+        commit("SET_USER_INFO", null);
+        commit("SET_IS_VALID_TOKEN", false);
+        router.push({ name: "loginView" });
       },
       (error) => {
         console.log(error);
