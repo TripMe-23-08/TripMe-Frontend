@@ -76,7 +76,7 @@ const actions = {
       decodeToken.userId,
       ({ data }) => {
         commit("SET_USER_INFO", data.data);
-        //console.log("3. getUserInfo data >> ", data);
+        console.log("3. getUserInfo data >> ", data);
       },
       async (error) => {
         console.log(

@@ -72,6 +72,9 @@
 import TripTimeLine from "@/components/feed/TripTimeLine.vue";
 import { mapActions, mapGetters, mapState } from "vuex";
 import router from "@/router";
+import http from "@/api/http";
+
+
 export default {
   name: "FeedDetailView",
   data: () => ({
@@ -80,10 +83,24 @@ export default {
   components: { TripTimeLine },
   computed: {
     ...mapState("feedStore", ["feed"]),
+    ...mapState("authStore", ["isLogin", "userInfo"]),
     ...mapGetters("feedStore", ["showFeed"]),
   },
   created() {
     this.getFeedDetail(this.$route.params.feedId); // [2]
+    if (this.isLogin) {
+      console.log("logged in! here is your info")
+      console.log(this.userInfo)
+      console.log("id: " + this.userInfo.id)
+      console.log("pid: " + this.$route.params.feedId)
+      http
+        .post("/articles/history", {
+          params: {
+            userId: this.userInfo.id,
+            postId: this.$route.params.feedId, 
+          }
+        })
+    }
   },
   methods: {
     ...mapActions("feedStore", [
