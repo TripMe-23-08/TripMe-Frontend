@@ -10,7 +10,7 @@
       <div class="font-weight-bold logo_name loca mb-10"><h1>trip_Me</h1></div>
     </v-row>
     <v-row justify="center" class="loca mb-10">
-      <v-btn-group>
+      <v-btn-group v-if="checkUserInfo() == null">
         <v-btn class="font-weight-bold btn">
           <router-link to="/join" style="text-decoration-line: none">회원가입</router-link></v-btn
         >
@@ -30,12 +30,15 @@
 <script>
 import TripFeedBack from "@/components/feedback/TripFeedBack.vue";
 
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   components: { TripFeedBack },
   computed: {
     ...mapState("authStore", ["userInfo"]),
+  },
+  methods: {
+    ...mapGetters("authStore", ["checkUserInfo"]),
   },
 };
 </script>

@@ -18,7 +18,7 @@
         <trip-time-line
           v-if="selectedRoute != null"
           direction="vertical"
-          :tripRoute="selectedRoute"
+          :tripPlaces="selectedRoute.tripPlaces"
         />
       </v-sheet>
     </v-col>
@@ -114,7 +114,7 @@ export default {
         {
           headers: {
             Authorization:
-              "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiJhYUBnbWFpbC5jb20iLCJ1c2VyTmFtZSI6IuydtOumhOydtOumhCIsInVzZXJJZCI6Mywic3ViIjoiYWNjZXNzLXRva2VuIiwiaWF0IjoxNjg0ODAwODk2LCJleHAiOjE2ODQ4MDQ0OTZ9.SxfC_80y-oMvTAzKZ5INAf2VXqv8zVbp2bpDqV2JTAU",
+              "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiJhYUBnbWFpbC5jb20iLCJ1c2VyTmFtZSI6IuydtOumhOydtOumhCIsInVzZXJJZCI6Mywic3ViIjoiYWNjZXNzLXRva2VuIiwiaWF0IjoxNjg0ODE1NjQ0LCJleHAiOjE2ODQ4MTkyNDR9.n5WhHmyz6oWlRRStcSrsPWzirL8P4WCPBFQBceS7JEc",
           },
         }
       );

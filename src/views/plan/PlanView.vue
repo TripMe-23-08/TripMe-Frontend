@@ -3,20 +3,10 @@
     <!-- title and submit bar -->
     <div class="d-flex justify-space-between">
       <v-sheet class="flex-fill mr-8">
-      <v-text-field
-          v-model="tripTitle"
-          label="여행 경로 제목"
-        ></v-text-field>
+        <v-text-field v-model="tripTitle" label="여행 경로 제목"></v-text-field>
       </v-sheet>
-      <v-sheet style="width:20%; max-width: 100px;">
-        <v-btn
-          block
-          color="success"
-          size="large"
-          type="submit"
-          variant="elevated"
-          @click="submit"
-        >
+      <v-sheet style="width: 20%; max-width: 100px">
+        <v-btn block color="success" size="large" type="submit" variant="elevated" @click="submit">
           저장하기
         </v-btn>
       </v-sheet>
@@ -29,7 +19,7 @@
       </v-col>
 
       <!-- top right search area-->
-      <v-col >
+      <v-col>
         <!-- text input-->
         <v-card class="mx-auto">
           <v-card-text>
@@ -49,17 +39,21 @@
         </v-card>
 
         <!-- result view-->
-        <v-row class="noscroll" @scroll="onScroll" v-model="searchResults" no-gutters style="overflow-y: scroll; max-height:400px;">
-          
+        <v-row
+          class="noscroll"
+          @scroll="onScroll"
+          v-model="searchResults"
+          no-gutters
+          style="overflow-y: scroll; max-height: 400px"
+        >
           <!-- watch out in starts from 1, while index 0-->
           <v-col v-for="n in searchResults.length" :key="n" cols="4">
-            <simple-image-card 
-            :place-info="searchResults[n-1]" 
-            @clickPlace="addPlace"
-            @hoverWaitPlace="hoverWaitPlace"
-          />
+            <simple-image-card
+              :place-info="searchResults[n - 1]"
+              @clickPlace="addPlace"
+              @hoverWaitPlace="hoverWaitPlace"
+            />
           </v-col>
-
         </v-row>
       </v-col>
     </v-row>
@@ -68,7 +62,9 @@
     <!-- select day-->
     <v-card class="mt-4">
       <v-tabs v-model="tab" bg-color="brown-lighten-5">
-        <v-tab v-for="n in length" :key="n" :value="n" @click="selectedDay=n"> Day {{ n }} </v-tab>
+        <v-tab v-for="n in length" :key="n" :value="n" @click="selectedDay = n">
+          Day {{ n }}
+        </v-tab>
         <v-spacer></v-spacer>
         <v-btn :disabled="length === 1" variant="text" @click="removeDay"> 날짜 삭제 </v-btn>
         <v-divider class="mx-1" vertical></v-divider>
@@ -78,25 +74,28 @@
       <!-- daily places -->
       <v-card-text>
         <v-window v-model="tab">
-          <v-window-item class="noscroll" v-for="n in length" :key="n" :value="n" style="overflow-x: scroll ">
+          <v-window-item
+            class="noscroll"
+            v-for="n in length"
+            :key="n"
+            :value="n"
+            style="overflow-x: scroll"
+          >
             <draggable
               class="d-flex flex-row"
-              v-model="allPlaces.places[n-1]"
+              v-model="allPlaces.places[n - 1]"
               group="people"
               @start="drag = true"
               @end="drag = false"
               item-key="id"
               sortable-list
             >
-
-              <template #item="{element, idx}">
+              <template #item="{ element, idx }">
                 <v-col :key="idx">
-                  <text-card v-bind="element" @removePlace="removeSelectedPlace">  </text-card> 
+                  <text-card v-bind="element" @removePlace="removeSelectedPlace"> </text-card>
                 </v-col>
               </template>
-
             </draggable>
-            
           </v-window-item>
         </v-window>
       </v-card-text>
@@ -113,16 +112,13 @@
         item-key="id"
         sortable-list
       >
-
-        <template #item="{element, idx}">
+        <template #item="{ element, idx }">
           <v-col :key="idx">
-            <text-card v-bind="element" @removePlace="removeCandidatePlace" order="1" >  </text-card> 
+            <text-card v-bind="element" @removePlace="removeCandidatePlace" order="1"> </text-card>
           </v-col>
         </template>
-
       </draggable>
     </v-card>
-
   </v-container>
 </template>
 
@@ -130,7 +126,7 @@
 import KakaoMap from "@/components/KakaoMap.vue";
 import TextCard from "@/components/cards/TextCard.vue";
 import SimpleImageCard from "@/components/cards/SimpleImageCard.vue";
-import draggable from 'vuedraggable'
+import draggable from "vuedraggable";
 import http from "@/api/http";
 
 export default {
@@ -150,20 +146,19 @@ export default {
     },
     selectedDay: 1,
     drag: false,
-    
+
     // lazy loading
     imageEssential: true,
-    imgPerpage: 30,     // load for each page
-    page: 0,            // current page
-    continueReq: true,  // if false, ignore data request
+    imgPerpage: 30, // load for each page
+    page: 0, // current page
+    continueReq: true, // if false, ignore data request
 
     // map interaction
     pinLocation: [[36.13790501, 126.4935202]],
-
   }),
   methods: {
     submit() {
-      console.log("submit !!! ")
+      console.log("submit !!! ");
       // console.log("places : " + this.allPlaces.places)
       // console.log("places ===")
       // for (let i = 0; i < this.allPlaces.places.length; ++i) {
@@ -171,17 +166,17 @@ export default {
       // }
       // console.log("title : " + this.tripTitle)
 
-      let currentPlaces = []
+      let currentPlaces = [];
       for (let i = 0; i < this.allPlaces.places.length; ++i) {
-        let dailyPlaces = this.allPlaces.places[i]
-        for(let o = 0; o < dailyPlaces.length; ++o) {
+        let dailyPlaces = this.allPlaces.places[i];
+        for (let o = 0; o < dailyPlaces.length; ++o) {
           currentPlaces.push({
             // id set by the server
             placeId: dailyPlaces[o].id,
             // tripRoutId set by the server
-            tripDay: i+1,
-            tripOrder: o+1,
-          })
+            tripDay: i + 1,
+            tripOrder: o + 1,
+          });
         }
       }
 
@@ -194,20 +189,19 @@ export default {
             // userId set by the server
             // tripImgUrl set by the server
             tripPlaces: currentPlaces,
-          }
+          },
         })
-        .then(({data}) => {
-          console.log(data)
+        .then(({ data }) => {
+          console.log(data);
           // alert or forward here
           // currently, just a sample alert
-          alert(this.tripTitle + "\n경로 생성 완료!")
-        })
-
+          alert(this.tripTitle + "\n경로 생성 완료!");
+        });
     },
     searchClick() {
       // paing
-      this.page = 0
-      this.continueReq = true
+      this.page = 0;
+      this.continueReq = true;
 
       this.loading = true;
       http
@@ -217,33 +211,33 @@ export default {
             limit: this.imgPerpage,
             image: this.imageEssential,
             // offset: 0
-          }
+          },
         })
-        .then(({data}) => {
-          console.log("response of keyword : " + this.searchKeyword)
-          console.log(data['data'], data['message'])
-          this.searchResults = data['data']
+        .then(({ data }) => {
+          console.log("response of keyword : " + this.searchKeyword);
+          console.log(data["data"], data["message"]);
+          this.searchResults = data["data"];
           if (this.searchResults.length == 0) {
-            alert("검색 결과가 존재하지 않습니다")
+            alert("검색 결과가 존재하지 않습니다");
           }
         })
         .then(() => {
-          console.log(this.searchResults[this.searchResults.length-1])
+          console.log(this.searchResults[this.searchResults.length - 1]);
           this.loading = false;
           this.loaded = true;
-        })
+        });
     },
-    onScroll({target: {scrollTop, clientHeight, scrollHeight}}) {
+    onScroll({ target: { scrollTop, clientHeight, scrollHeight } }) {
       if (scrollTop + clientHeight >= scrollHeight) {
-        this.reachBottom()
+        this.reachBottom();
       }
     },
 
     reachBottom() {
-      if (!this.continueReq) return
+      if (!this.continueReq) return;
       // paing
-      this.page++
-      this.continueReq = true
+      this.page++;
+      this.continueReq = true;
 
       this.loading = true;
       http
@@ -253,85 +247,88 @@ export default {
             limit: this.imgPerpage,
             image: this.imageEssential,
             offset: this.imgPerpage * this.page,
-          }
+          },
         })
-        .then(({data}) => {
-          if (data['data'].length == 0) {
-            this.continueReq = false
+        .then(({ data }) => {
+          if (data["data"].length == 0) {
+            this.continueReq = false;
             // alert("이젠 더 요청할 것도 없다!")
-            return
+            return;
           }
-          this.searchResults = [...this.searchResults, ...data['data']]
+          this.searchResults = [...this.searchResults, ...data["data"]];
         })
         .then(() => {
           // console.log(this.searchResults[this.searchResults.length-1])
           this.loading = false;
           this.loaded = true;
-        })
-      console.log("reach bottom")
-    },  
+        });
+      console.log("reach bottom");
+    },
 
     addDay(event) {
-      console.log(event)
-      this.allPlaces.places.push([])
-      this.length++
+      console.log(event);
+      this.allPlaces.places.push([]);
+      this.length++;
     },
-    
+
     removeDay(event) {
-      console.log(event)
-      this.allPlaces.places.pop()
-      this.length--
+      console.log(event);
+      this.allPlaces.places.pop();
+      this.length--;
     },
 
     addPlace(placeData) {
       // console.log(placeData)
 
-      // check duplicate existance      
+      // check duplicate existance
       // namespace to compare with
-      let nameToCompare = []
+      let nameToCompare = [];
 
       // check selected spaces
       if (this.allPlaces.places.length > 0) {
-        let selectedNames = this.allPlaces.places[this.selectedDay-1].map(place => place.name)
-        nameToCompare = [...nameToCompare, ...selectedNames]
+        let selectedNames = this.allPlaces.places[this.selectedDay - 1].map((place) => place.name);
+        nameToCompare = [...nameToCompare, ...selectedNames];
       }
-      
+
       // check candidate space
       if (this.allPlaces.candidates.length > 0) {
-        let candidateNames = this.allPlaces.candidates.map(place => place.name) 
-        nameToCompare = [...nameToCompare, ...candidateNames]
+        let candidateNames = this.allPlaces.candidates.map((place) => place.name);
+        nameToCompare = [...nameToCompare, ...candidateNames];
       }
 
       // check duplicate existance
       if (nameToCompare.includes(placeData.name)) {
-        alert(placeData.name + "\n이미 추가된 장소입니다.")
-        return
+        alert(placeData.name + "\n이미 추가된 장소입니다.");
+        return;
       }
-      
+
       // add place to its candidates for flexibility
-      this.allPlaces.candidates.push(placeData)
+      this.allPlaces.candidates.push(placeData);
 
       // map interaction
       // add pin and move camera to the place
-      
-      this.pinLocation = [[placeData.latitude, placeData.longitude]]
-      console.log("pin loc : " + this.pinLocation)
+
+      this.pinLocation = [[placeData.latitude, placeData.longitude]];
+      console.log("pin loc : " + this.pinLocation);
     },
 
     removeSelectedPlace(placeData) {
-      this.allPlaces.places[this.selectedDay-1] = this.allPlaces.places[this.selectedDay-1].filter(place => place.name !== placeData.name) 
+      this.allPlaces.places[this.selectedDay - 1] = this.allPlaces.places[
+        this.selectedDay - 1
+      ].filter((place) => place.name !== placeData.name);
     },
 
     removeCandidatePlace(placeData) {
-      console.log(placeData)
+      console.log(placeData);
       // remove place text card from the candidate
-      this.allPlaces.candidates = this.allPlaces.candidates.filter(place => place.name !== placeData.name)  
+      this.allPlaces.candidates = this.allPlaces.candidates.filter(
+        (place) => place.name !== placeData.name
+      );
     },
 
     hoverWaitPlace(placeData) {
-      this.pinLocation = [[placeData.latitude, placeData.longitude]]
+      this.pinLocation = [[placeData.latitude, placeData.longitude]];
     },
-
   },
 
   watch: {
@@ -344,6 +341,6 @@ export default {
 
 <style scoped>
 .noscroll::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera*/
+  display: none; /* Chrome, Safari, Opera*/
 }
 </style>

@@ -1,16 +1,11 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <enjoy-header />
     <v-main>
       <v-container>
         <v-row>
           <v-col cols="3">
-            <v-sheet
-              class="pa-2 ma-2"
-              color="#CFD8DC"
-              min-width="200px"
-              max-width="300px"
-            >
+            <v-sheet rounded class="pa-2 ma-2" color="#CFD8DC" min-width="200px" max-width="300px">
               <v-row justify="center">
                 <div class="ma-4">
                   <div class="text-subtitle-2"></div>
@@ -24,22 +19,10 @@
                 </div>
               </v-row>
               <v-row justify="center">
-                <v-btn
-                  color="#9E9E9E"
-                  class="mb-3"
-                  width="160px"
-                  variant="text"
-                >
-                  아이디
-                </v-btn>
+                <v-chip class="ma-2" color="success" variant="outlined"> Server Status </v-chip>
               </v-row>
               <v-row justify="center">
-                <v-btn
-                  @click="moveEdit"
-                  color="#9E9E9E"
-                  class="mb-5"
-                  width="160px"
-                >
+                <v-btn @click="moveEdit" color="#9E9E9E" class="mb-5" width="160px">
                   개인 정보 수정
                 </v-btn>
               </v-row>
@@ -48,6 +31,7 @@
             <v-row>
               <v-col>
                 <v-sheet
+                  rounded
                   class="pa-2 ma-2"
                   color="#CFD8DC"
                   min-width="200px"
@@ -69,7 +53,7 @@
               </v-col>
             </v-row>
           </v-col>
-          <v-col> <component :is="whichStep"></component> </v-col>
+          <v-col min-width="620px"> <component :is="whichStep"></component> </v-col>
         </v-row>
       </v-container>
     </v-main>

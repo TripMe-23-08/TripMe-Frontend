@@ -9,7 +9,7 @@ export default createStore({
   },
   plugins: [
     createPersistedState({
-      storage: sessionStorage,
+      //storage: sessionStorage,
     }),
   ],
 });

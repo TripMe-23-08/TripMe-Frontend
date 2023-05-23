@@ -15,7 +15,7 @@
       <v-sheet class="pa-2 ma-2">
         <trip-time-line
           direction="vertical"
-          :tripPlaces="showFeed.tripRoute.tripPlaces"
+          :tripPlaces="showFeed.tripRoute ? showFeed.tripRoute.tripPlaces: null"
         />
       </v-sheet>
     </v-col>
