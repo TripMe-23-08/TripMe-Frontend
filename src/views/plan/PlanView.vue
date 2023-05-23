@@ -123,6 +123,7 @@
 </template>
 
 <script>
+import router from "@/router";
 import KakaoMap from "@/components/KakaoMap.vue";
 import TextCard from "@/components/cards/TextCard.vue";
 import SimpleImageCard from "@/components/cards/SimpleImageCard.vue";
@@ -196,6 +197,8 @@ export default {
           // alert or forward here
           // currently, just a sample alert
           alert(this.tripTitle + "\n경로 생성 완료!");
+          router.push({ name: "home" });
+
         });
     },
     searchClick() {
