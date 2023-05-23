@@ -164,12 +164,45 @@ export default {
   methods: {
     submit() {
       console.log("submit !!! ")
-      console.log("places : " + this.allPlaces.places)
-      console.log("places ===")
+      // console.log("places : " + this.allPlaces.places)
+      // console.log("places ===")
+      // for (let i = 0; i < this.allPlaces.places.length; ++i) {
+      //   console.log("day " + (i+1) + " : " + this.allPlaces.places[i])
+      // }
+      // console.log("title : " + this.tripTitle)
+
+      let currentPlaces = []
       for (let i = 0; i < this.allPlaces.places.length; ++i) {
-        console.log("day " + (i+1) + " : " + this.allPlaces.places[i])
+        let dailyPlaces = this.allPlaces.places[i]
+        for(let o = 0; o < dailyPlaces.length; ++o) {
+          currentPlaces.push({
+            // id set by the server
+            placeId: dailyPlaces[o].id,
+            // tripRoutId set by the server
+            tripDay: i+1,
+            tripOrder: o+1,
+          })
+        }
       }
-      console.log("title : " + this.tripTitle)
+
+      http
+        .post("/trip-routes", {
+          params: {
+            // id set by the server
+            name: this.tripTitle,
+            // createdAt set by db
+            // userId set by the server
+            // tripImgUrl set by the server
+            tripPlaces: currentPlaces,
+          }
+        })
+        .then(({data}) => {
+          console.log(data)
+          // alert or forward here
+          // currently, just a sample alert
+          alert(this.tripTitle + "\n경로 생성 완료!")
+        })
+
     },
     searchClick() {
       // paing
