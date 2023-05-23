@@ -103,6 +103,7 @@ export default {
           },
         })
         .then(({ data }) => {
+          console.log(data["data"]);
           this.markerPositions = data["data"];
         });
     },
