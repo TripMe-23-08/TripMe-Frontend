@@ -1,38 +1,41 @@
 <template>
   <v-container class="mt-5" style="max-width: 500px">
-    <v-card align="center" text="회원가입" variant="outlined">
+    <v-card text="회원가입" variant="outlined">
       <form width="200" class="mx-auto" @submit.prevent="submit">
         <v-text-field
           class="ma-5"
-          :counter="10"
-          label="Id"
-          v-model="name.value.value"
-          :error-messages="name.errorMessage.value"
+          label="이메일"
+          v-model="email.value.value"
+          :error-messages="email.errorMessage.value"
         ></v-text-field>
 
         <v-text-field
           class="ma-5"
           :counter="7"
-          label="Password"
+          label="비밀번호"
           v-model="password.value.value"
           :error-messages="password.errorMessage.value"
         ></v-text-field>
 
         <v-text-field
           class="ma-5"
-          label="Phone"
-          v-model="phone.value.value"
-          :error-messages="phone.errorMessage.value"
+          :counter="10"
+          label="닉네임"
+          v-model="nickName.value.value"
+          :error-messages="nickName.errorMessage.value"
         ></v-text-field>
+
+   
 
         <v-text-field
           class="ma-5"
-          label="E-mail"
-          v-model="email.value.value"
-          :error-messages="email.errorMessage.value"
+          label="전화번호"
+          v-model="phoneNumber.value.value"
+          :error-messages="phoneNumber.errorMessage.value"
         ></v-text-field>
 
-        <v-btn class="mb-3" type="submit"> submit </v-btn>
+       
+        <v-btn class="mb-3" type="submit" @click="submit"> submit </v-btn>
       </form>
     </v-card>
   </v-container>
@@ -41,13 +44,18 @@
 <script>
 import { useField, useForm } from "vee-validate";
 import http from "@/api/http";
-
+import router from "@/router";
 export default {
   name: "joinView",
   setup() {
     const { handleSubmit } = useForm({
       validationSchema: {
-        name(value) {
+        email(value) {
+          if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true;
+
+          return "이메일을 필수 입력하세요";
+        },
+        nickName(value) {
           if (value?.length >= 2) return true;
 
           return "닉네임은 두 글자 이상 입력하세요";
@@ -57,29 +65,28 @@ export default {
 
           return "비밀번호는 적어도 두 글자 이상 입력하세요";
         },
-        phone(value) {
+        phoneNumber(value) {
           if (value?.length > 9 && /[0-9-]+/.test(value)) return true;
 
           return "휴대폰 번호는 적어도 9글자 이상 입력하세요";
         },
-        email(value) {
-          if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true;
-
-          return "이메일을 필수 입력하세요";
-        },
       },
     });
-    const name = useField("name");
-    const phone = useField("phone");
+    const nickName = useField("nickName");
+    const phoneNumber = useField("phoneNumber");
     const email = useField("email");
     const password = useField("password");
 
     const submit = handleSubmit((values) => {
-      alert(JSON.stringify(values, null, 2));
-      http.post("/login");
+      http.post("/users", values)
+      .then(({data}) => {
+        console.log(data);
+        });
+      router.replace({ name: "loginView" });
+
     });
 
-    return { name, phone, email, password, submit };
+    return { nickName, phoneNumber, email, password, submit };
   },
 };
 </script>

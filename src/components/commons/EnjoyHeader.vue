@@ -16,6 +16,11 @@
         <v-btn v-for="page in pages" :key="page.title" :href="page.link" variant="text">
           {{ page.title }}
         </v-btn>
+        <v-btn v-if="userInfo!=null" @click="logout"  >
+          <v-icon icon ="fa:fas fa-sharp fa-right-from-bracket"/>
+
+        </v-btn>
+
       </v-toolbar-items>
     </v-container>
   </v-toolbar>

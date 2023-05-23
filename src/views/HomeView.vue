@@ -6,7 +6,7 @@
     cover
   >
     <div class="text-cyan-lighten-5"><h1>Enjoy Trip</h1></div>
-    <v-btn-group class="ms-3">
+    <v-btn-group v-if="userInfo!=null" class="ms-3">
       <v-btn>
         <router-link to="/join" style="text-decoration-line: none"
           >회원가입</router-link
@@ -30,9 +30,12 @@
 <script>
 import TripFeedBack from "@/components/feedback/TripFeedBack.vue";
 
-// component test
+import { mapState } from "vuex";
 
 export default {
   components: { TripFeedBack },
+  computed: {
+    ...mapState("authStore", ["userInfo"]),
+  },
 };
 </script>
