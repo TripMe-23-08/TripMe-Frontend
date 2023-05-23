@@ -1,31 +1,43 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="4">
-        <v-sheet class="pa-2 ml-5 mb-5" color="#CFD8DC" min-width="200px">
+      <v-col cols="3">
+        <v-sheet
+          rounded
+          class="pa-2 mt-16 w-screen"
+          color="#FEF9EF"
+          height="450px"
+          min-width="200px"
+          max-width="300px"
+        >
           <v-row justify="center">
             <v-col>
-              <v-img
-                aspect-ratio="1"
-                cover
-                class="ma-5"
-                :src="require('@/assets/day.jpg')"
-              ></v-img>
+              <div class="ma-12">
+                <v-img
+                  :aspect-ratio="3 / 4"
+                  cover
+                  width="150"
+                  class="bg-white"
+                  :src="require('@/assets/day.jpg')"
+                ></v-img>
+              </div>
               <v-btn
-                color="#9E9E9E"
-                class="ma-3"
+                color="#FEE440"
+                class="mb-3 btn"
+                elevation="0"
                 width="160px"
                 :key="labels.title"
                 :href="labels.link"
               >
                 기본 정보 수정
               </v-btn>
-              <v-dialog v-model="dialog" persistent width="1024">
+              <v-dialog v-model="dialog" persistent width="700">
                 <template v-slot:activator="{ props }">
                   <v-btn
                     v-bind="props"
-                    color="#9E9E9E"
-                    class="ma-3"
+                    color="#FF865E"
+                    elevation="0"
+                    class="mb-3 btn"
                     width="160px"
                   >
                     회원탈퇴
@@ -33,14 +45,15 @@
                 </template>
                 <v-card>
                   <v-card-title>
-                    <span class="text-h5">User Profile</span>
+                    <div class="btn" style="font-size: 30px">회원 탈퇴</div>
                   </v-card-title>
                   <v-card-text>
                     <v-container>
                       <v-row>
-                        <v-col cols="12">
+                        <v-col cols="8">
                           <v-text-field
-                            label="Password*"
+                            class="btn"
+                            label="비밀번호*"
                             type="password"
                             required
                           ></v-text-field>
@@ -48,27 +61,14 @@
                         <v-col cols="12" sm="6"> </v-col>
                       </v-row>
                     </v-container>
-                    <small
-                      >*탈퇴를 원한다면 해당 계정의 비밀번호를
-                      입력해주세요</small
-                    >
+                    <small class="btn">*탈퇴를 원한다면 해당 계정의 비밀번호를 입력해주세요</small>
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn
-                      color="blue-darken-1"
-                      variant="text"
-                      @click="dialog = false"
-                    >
+                    <v-btn class="btn" color="blue-darken-1" variant="text" @click="dialog = false">
                       그만두기
                     </v-btn>
-                    <v-btn
-                      color="blue-darken-1"
-                      variant="text"
-                      @click="moveMain"
-                    >
-                      탈퇴
-                    </v-btn>
+                    <v-btn class="btn" color="red" variant="text" @click="moveMain"> 탈퇴 </v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -76,46 +76,52 @@
           </v-row>
         </v-sheet>
       </v-col>
-      <v-col cols="2"></v-col>
+      <v-col cols="1" />
       <v-col cols="6">
-        <v-sheet class="mr-5 mb-5 h-100" color="#CFD8DC" min-width="300px">
-          <v-chip class="ma-2" label> 기본 정보 수정 </v-chip>
-          <form @submit.prevent="submit">
-            <v-text-field
-              v-model="name.value.value"
-              :error-messages="name.errorMessage.value"
-              variant="outlined"
-              class="ma-3"
-              label="닉네임"
-            ></v-text-field>
-            <v-text-field
-              v-model="email.value.value"
-              :error-messages="email.errorMessage.value"
-              variant="outlined"
-              class="ma-3"
-              label="이메일"
-            ></v-text-field>
-            <v-text-field
-              v-model="phone.value.value"
-              :error-messages="phone.errorMessage.value"
-              variant="outlined"
-              class="ma-3"
-              label="전화번호"
-            ></v-text-field>
-            <v-text-field
-              v-model="address.value.value"
-              :error-messages="address.errorMessage.value"
-              variant="outlined"
-              class="ma-3"
-              label="주소"
-            ></v-text-field>
-            <v-btn color="white" class="ma-3" width="160px" type="submit">
-              SUBMIT
-            </v-btn>
-          </form>
+        <v-sheet
+          rounded
+          class="pa-2 mt-16"
+          color="#FEF9EF"
+          height="550px"
+          max-width="600px"
+          min-width="300px"
+        >
+          <row>
+            <v-chip class="ma-2 btn" color="#A2D2FF" label> 기본 정보 수정 </v-chip>
+            <form class="btn" @submit.prevent="submit">
+              <v-text-field
+                v-model="name.value.value"
+                :error-messages="name.errorMessage.value"
+                variant="outlined"
+                class="ma-3"
+                label="닉네임"
+              ></v-text-field>
+              <v-text-field
+                v-model="email.value.value"
+                :error-messages="email.errorMessage.value"
+                variant="outlined"
+                class="ma-3"
+                label="이메일"
+              ></v-text-field>
+              <v-text-field
+                v-model="phone.value.value"
+                :error-messages="phone.errorMessage.value"
+                variant="outlined"
+                class="ma-3"
+                label="전화번호"
+              ></v-text-field>
+              <v-text-field
+                v-model="address.value.value"
+                :error-messages="address.errorMessage.value"
+                variant="outlined"
+                class="ma-3"
+                label="주소"
+              ></v-text-field>
+              <v-btn color="white" class="ma-3" width="160px" type="submit"> SUBMIT </v-btn>
+            </form>
+          </row>
         </v-sheet>
       </v-col>
-      <v-col></v-col>
     </v-row>
   </v-container>
 </template>
@@ -173,4 +179,11 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.btn {
+  font-family: "LeeSeoyun";
+  font-weight: bold;
+  font-size: 20px;
+  height: 50px;
+}
+</style>

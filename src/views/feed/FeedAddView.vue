@@ -27,13 +27,7 @@
         <v-row style="overflow: auto; height: 300px">
           <v-col class="d-flex child-flex" cols="4">
             <div class="v-responsive v-img v-img--booting bg-grey-lighten-2">
-              <input
-                type="file"
-                id="file"
-                ref="files"
-                @change="imageAddUpload"
-                multiple
-              />
+              <input type="file" id="file" ref="files" @change="imageAddUpload" multiple />
             </div>
           </v-col>
           <v-col v-for="n in 9" :key="n" class="d-flex child-flex" cols="4">
@@ -47,12 +41,7 @@
           </v-col>
         </v-row>
         <v-row class="pt-2">
-          <v-textarea
-            v-model="feed.title"
-            variant="outlined"
-            label="제목"
-            rows="1"
-          ></v-textarea>
+          <v-textarea v-model="feed.title" variant="outlined" label="제목" rows="1"></v-textarea>
         </v-row>
         <v-row>
           <v-textarea
