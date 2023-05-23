@@ -24,6 +24,11 @@
         >
           {{ page.title }}
         </v-btn>
+        <v-btn v-if="userInfo!=null" @click="logout"  >
+          <v-icon icon ="fa:fas fa-sharp fa-right-from-bracket"/>
+
+        </v-btn>
+
       </v-toolbar-items>
     </v-container>
   </v-toolbar>

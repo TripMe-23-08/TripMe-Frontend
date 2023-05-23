@@ -6,6 +6,7 @@
     height="550px"
     cover
   >
+<<<<<<< HEAD
     <v-row justify="center" align="start">
       <div class="font-weight-bold logo_name loca mb-10"><h1>trip_Me</h1></div>
     </v-row>
@@ -19,6 +20,22 @@
         >
       </v-btn-group>
     </v-row>
+=======
+    <div class="text-cyan-lighten-5"><h1>Enjoy Trip</h1></div>
+    <v-btn-group v-if="userInfo!=null" class="ms-3">
+      <v-btn>
+        <router-link to="/join" style="text-decoration-line: none"
+          >회원가입</router-link
+        ></v-btn
+      >
+
+      <v-btn>
+        <router-link to="/login" style="text-decoration-line: none"
+          >로그인</router-link
+        ></v-btn
+      >
+    </v-btn-group>
+>>>>>>> 4b09b6e99b300ff0813538424c4a34ddb9722676
   </v-img>
   <!--떠나세요-->
   <v-sheet class="bg-grey-lighten-3 ml-16 mr-16 mt-3" min-height="50vh" rounded="lg"> </v-sheet>
@@ -30,10 +47,13 @@
 <script>
 import TripFeedBack from "@/components/feedback/TripFeedBack.vue";
 
-// component test
+import { mapState } from "vuex";
 
 export default {
   components: { TripFeedBack },
+  computed: {
+    ...mapState("authStore", ["userInfo"]),
+  },
 };
 </script>
 
