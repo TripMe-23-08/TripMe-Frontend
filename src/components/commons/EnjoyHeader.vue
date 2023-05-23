@@ -8,14 +8,9 @@
   </v-app-bar> -->
   <v-toolbar color="#FEF9EF" height="100px">
     <div>
-      <img
-        :width="50"
-        :height="70"
-        class="logo ml-10 mr-4 mt-5"
-        :src="require('@/assets/logo.png')"
-      />
+      <img :width="50" :height="70" class="logo ml-15" :src="require('@/assets/logo.png')" />
     </div>
-    <div class="logo_name font-weight-bold ml-5">trip_Me</div>
+    <div class="logo_name font-weight-bold ml-5 mr-5">trip_Me</div>
     <v-container class="align-center">
       <v-toolbar-items>
         <v-btn
@@ -56,7 +51,7 @@ export default {
 
 .logo_name {
   font-family: "Rubik Puddles", cursive;
-  font-size: 55px;
+  font-size: 50px;
   color: #ff865e;
 }
 

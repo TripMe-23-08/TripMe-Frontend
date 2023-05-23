@@ -4,7 +4,7 @@
     class="justify-center align-center mt-3 ml-16 mr-16 rounded-lg"
     :src="require('@/assets/pexels-asad-photo-maldives-1268871.jpg')"
     height="550px"
-    style="max-width: 100%"
+    cover
   >
     <v-row justify="center" align="start">
       <div class="font-weight-bold logo_name loca mb-10"><h1>trip_Me</h1></div>
@@ -29,6 +29,7 @@
 
 <script>
 import TripFeedBack from "@/components/feedback/TripFeedBack.vue";
+
 // component test
 
 export default {
@@ -51,6 +52,6 @@ export default {
 .btn {
   font-family: "LeeSeoyun";
   font-size: 18px;
-  opacity: 0.7;
+  opacity: 0.8;
 }
 </style>
