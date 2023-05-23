@@ -1,26 +1,33 @@
 <template>
-  <v-timeline side="end" align="start" :direction="direction">
-    <template v-for="day in days" :key="day">
-      <v-timeline-item dot-color="pink" size="small">
+  <v-timeline side="end" :direction="direction">
+    <template v-for="tripPlace in tripPlaces" :key="tripPlace.day">
+      <v-timeline-item
+        v-if="tripPlace.places.length >= 1"
+        dot-color="pink"
+        size="small"
+      >
         <template v-slot:opposite>
           <div
             class="pt-1 headline font-weight-bold"
-            v-text="`Day ${day}`"
+            v-text="`Day ${tripPlace.day}`"
           ></div>
         </template>
       </v-timeline-item>
 
       <v-timeline-item
-        :key="tripPlace.id"
-        v-for="tripPlace in tripPlaces[day - 1]"
+        :key="places"
+        v-for="places in tripPlace.places"
         class="mb-3"
         color="grey"
         icon-color="grey lighten-2"
         size="x-small"
       >
-        <div class="d-flex">
+        <div class="d-flex flex-column">
+          <div class="text-bold">
+            {{ places.place.name }}
+          </div>
           <div class="text-caption">
-            {{ tripPlace.placeName }}
+            {{ places.place.address }}
           </div>
         </div>
       </v-timeline-item>
@@ -30,15 +37,6 @@
 <script>
 export default {
   name: "TripTimeLine",
-  props: ["direction", "tripRoute"],
-  computed: {
-    tripPlaces() {
-      console.log(this.tripRoute);
-      return this.tripRoute.tripPlaces;
-    },
-    days() {
-      return this.tripRoute;
-    },
-  },
+  props: ["direction", "tripPlaces"],
 };
 </script>

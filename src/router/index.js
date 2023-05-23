@@ -20,9 +20,9 @@ const routes = [
     meta: { requiresAuth: false },
   },
   {
-    path: "/feed/edit",
+    path: "/feed/new",
     name: "feedEdit",
-    component: () => import("@/views/feed/FeedEditView.vue"),
+    component: () => import("@/views/feed/FeedAddView.vue"),
     meta: { requiresAuth: true },
   },
   {
@@ -31,12 +31,7 @@ const routes = [
     component: () => import("@/views/feed/FeedDetailView.vue"),
     meta: { requiresAuth: false },
   },
-  {
-    path: "/feed/:feedId(\\d+)/edit",
-    name: "feedDetailEdit",
-    component: () => import("@/views/feed/FeedEditView.vue"),
-    meta: { requiresAuth: true },
-  },
+
   {
     path: "/place",
     name: "place",

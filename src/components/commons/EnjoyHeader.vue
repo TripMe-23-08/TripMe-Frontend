@@ -6,23 +6,14 @@
       </v-btn>
     </v-container>
   </v-app-bar> -->
-  <v-toolbar color="indigo">
-    <v-toolbar-title class="white--text">
-      <div>
-        <img
-          class="logo"
-          src="https://vuetifyjs.com/apple-touch-icon-180x180.png"
-        />
-      </div>
-    </v-toolbar-title>
+  <v-toolbar color="#FEF9EF" height="150">
+    <div>
+      <img :width="70" :height="100" class="logo ml-5 mt-3" :src="require('@/assets/logo.png')" />
+    </div>
+    <div class="logo_name font-weight-black ml-2">trip_Me</div>
     <v-container class="fill-height d-flex align-center">
       <v-toolbar-items>
-        <v-btn
-          v-for="page in pages"
-          :key="page.title"
-          :href="page.link"
-          variant="text"
-        >
+        <v-btn v-for="page in pages" :key="page.title" :href="page.link" variant="text">
           {{ page.title }}
         </v-btn>
       </v-toolbar-items>
@@ -46,4 +37,12 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Rubik+Puddles&display=swap");
+
+.logo_name {
+  font-family: "Rubik Puddles", cursive;
+  font-size: 50px;
+  color: #ff865e;
+}
+</style>
