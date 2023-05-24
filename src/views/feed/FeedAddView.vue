@@ -39,17 +39,17 @@
             @input="onSelectFile"
           />
         </v-row>
-
+        
         <!-- Trip Route에 포함된 장소 관련 장소 이미지--->
         <v-row id="trip-route-img" v-if="selectedRoute != null">
           <v-col
-            v-for="tripPlace in selectedRoute.tripPlaces"
+            v-for="tripPlace in extractPlaces(selectedRoute)"
             :key="tripPlace"
             cols="3"
           >
             <simple-image-card
               :place-info="tripPlace.place"
-              @click="clickPlaceImg"
+              @click="() => {console.log('img click on feed add view')}"
             />
           </v-col>
         </v-row>
@@ -84,12 +84,13 @@
 
 <script>
 import TripTimeLine from "@/components/feed/TripTimeLine.vue";
+import SimpleImageCard from "@/components/cards/SimpleImageCard.vue";
 import { mapActions, mapGetters, mapState } from "vuex";
 import router from "@/router";
 import http from "@/api/http";
 export default {
   name: "feedAdd",
-  components: { TripTimeLine },
+  components: { TripTimeLine, SimpleImageCard },
   data: () => ({
     selectedRoute: null,
     imgPreview: null,
@@ -147,6 +148,17 @@ export default {
       );
       router.replace({ path: "/feed" });
     },
+
+    extractPlaces(selectedRoute) {
+      let places = []
+      if (!selectedRoute) return places
+
+      selectedRoute.tripPlaces.forEach((tripPlace) => {
+        places = [...places, ...tripPlace.places]
+      })
+
+      return places
+    }
   },
 };
 </script>
