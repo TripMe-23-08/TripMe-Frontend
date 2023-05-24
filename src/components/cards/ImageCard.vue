@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto" width="250" height="250">
+  <v-card class="mx-auto ma-8 plan" width="250" height="250">
     <v-img :src="require('@/assets/mountain.jpg')" height="170px" cover> </v-img>
 
     <v-card-title class="pb-0"> {{ title }} </v-card-title>
@@ -35,4 +35,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap");
+
+.plan {
+  font-family: "LINESeedKR-Bd";
+}
+</style>
