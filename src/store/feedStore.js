@@ -6,7 +6,7 @@ const state = {
 };
 const getters = {
   showTripRoutes({ tripRoutes }) {
-    console.log("showFeedDetail", tripRoutes);
+    //console.log("showFeedDetail", tripRoutes);
     let newTripRoutes = [];
     for (let i = 0; i < tripRoutes.length; i++) {
       // 각각의 tripRoute에 대해
@@ -31,7 +31,6 @@ const getters = {
       }
       newTripRoutes.push({ ...tripRoutes[i], tripPlaces: placesPerDay });
     }
-    console.log(">>", newTripRoutes);
     return newTripRoutes;
   },
   showFeed({ feed }) {
@@ -85,11 +84,11 @@ const mutations = {
     //   }
     //   tripRoutes[i] = { ...tripRoutes[i], tripPlaces: placesPerDay };
     // }
-    console.log("SET_TRIPROUTE_LIST", tripRoutes);
+    // console.log("SET_TRIPROUTE_LIST", tripRoutes);
     state.tripRoutes = tripRoutes;
   },
   SET_FEED_DETAIL(state, feed) {
-    console.log("SET_FEED_DETAIL", feed);
+    //console.log("SET_FEED_DETAIL", feed);
     // let days = 1; // 날짜 구하기
     // let places = feed.tripRoute.tripPlaces;
     // let placesPerDay = []; //{day:1, places:[]}
@@ -126,7 +125,7 @@ const actions = {
       });
   },
   getFeedDetail({ commit }, feedId) {
-    console.log("getFeedDetail:\t" + "");
+    //console.log("getFeedDetail:\t" + "");
     http
       .get(`/articles/${feedId}`)
       .then(({ data }) => {
@@ -137,7 +136,7 @@ const actions = {
       });
   },
   updateFeedDetail({ state }) {
-    console.log(state.feed);
+    //console.log(state.feed);
     http
       .put(`/articles/${state.feed.id}`, state.feed)
       .then(({ data }) => {

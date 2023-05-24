@@ -8,20 +8,16 @@
     >
       <v-responsive :aspect-ratio="1 / 1" class="border px-0">
         <!-- <div v-show="isHovering" class="text">Hello World</div> -->
-        <v-card-title 
-          class="text" 
-          v-if="isHovering" 
-          style="white-space: initial;"
+        <v-card-title
+          class="text"
+          v-if="isHovering"
+          style="white-space: initial"
           @mouseover="mouseIn"
           @mouseleave="mouseOut"
-        >  
+        >
           {{ getName }}
         </v-card-title>
-        <v-img
-          :class="isHovering ? 'blur' : 'normal'"
-          :src="getImgUrl"
-          cover
-        />
+        <v-img :class="isHovering ? 'blur' : 'normal'" :src="getImgUrl" cover />
       </v-responsive>
     </v-card>
   </v-hover>
@@ -32,28 +28,28 @@ export default {
   name: "SimpleImageCard",
   components: {},
   props: {
-    placeInfo: Object
+    placeInfo: Object,
   },
   data() {
     return {
-      defaultImgUrl: 'https://images.unsplash.com/photo-1572633424705-d813d2fb5cb4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8OHwzMzMyNTYyfHxlbnwwfHx8fHw%3D&auto=format&fit=crop&w=500&q=60',
+      defaultImgUrl:
+        "https://images.unsplash.com/photo-1572633424705-d813d2fb5cb4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8OHwzMzMyNTYyfHxlbnwwfHx8fHw%3D&auto=format&fit=crop&w=500&q=60",
       mouseLocated: false,
     };
   },
-  created() {
-  },
+  created() {},
   methods: {
     onClick() {
       // alert("clicked");
-      console.log("place image clicked !!!")
-      console.log(this.placeInfo)
+      console.log("place image clicked !!!");
+      console.log(this.placeInfo);
 
       if (!this.placeInfo) {
-        alert("no place info ... to be fixed here")
-        return
+        alert("no place info ... to be fixed here");
+        return;
       }
-      
-      this.$emit('clickPlace', this.placeInfo);
+
+      this.$emit("clickPlace", this.placeInfo);
 
       // this.$emit('clickPlace', {
       //   name: this.placeInfo.name,
@@ -63,31 +59,30 @@ export default {
     },
 
     mouseIn() {
-      this.mouseLocated = true
+      this.mouseLocated = true;
       setTimeout(() => {
         if (this.mouseLocated) {
           // console.log("place hovering time passed ... good")
-          this.$emit('hoverWaitPlace', this.placeInfo);
+          this.$emit("hoverWaitPlace", this.placeInfo);
         }
       }, 650);
-
     },
     mouseOut() {
-      this.mouseLocated = false
+      this.mouseLocated = false;
     },
   },
   computed: {
     getImgUrl() {
-      if (!this.placeInfo) return this.defaultImgUrl
-      if (!this.placeInfo.imgUrl) return this.defaultImgUrl
-      return this.placeInfo.imgUrl
+      if (!this.placeInfo) return this.defaultImgUrl;
+      if (!this.placeInfo.imgUrl) return this.defaultImgUrl;
+      return this.placeInfo.imgUrl;
     },
     getName() {
-      if (!this.placeInfo) return 'NO PLACE'
-      if (!this.placeInfo.name) return 'NO NAME'
-      return this.placeInfo.name
-    }
-  }
+      if (!this.placeInfo) return "NO PLACE";
+      if (!this.placeInfo.name) return "NO NAME";
+      return this.placeInfo.name;
+    },
+  },
 };
 </script>
 
