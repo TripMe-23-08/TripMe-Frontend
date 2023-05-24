@@ -1,7 +1,7 @@
 <template>
-  <v-toolbar color="#FEF9EF" height="150">
+  <v-toolbar color="#FEF9EF" height="90">
     <div>
-      <img :width="50" :height="70" class="logo ml-15" :src="require('@/assets/logo.png')" />
+      <img :width="45" :height="60" class="logo ml-15" :src="require('@/assets/logo.png')" />
     </div>
     <div class="logo_name font-weight-bold ml-5 mr-5">trip_Me</div>
     <v-container class="align-center">
@@ -58,7 +58,7 @@ export default {
 
 .logo_name {
   font-family: "Rubik Puddles", cursive;
-  font-size: 50px;
+  font-size: 43px;
   color: #ff865e;
 }
 

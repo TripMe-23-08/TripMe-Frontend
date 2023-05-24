@@ -3,26 +3,42 @@
     <enjoy-header />
     <v-main>
       <v-container>
-        <v-row>
+        <v-row class="view">
           <v-col cols="3">
-            <v-sheet rounded class="pa-2 ma-2" color="#CFD8DC" min-width="200px" max-width="300px">
+            <v-sheet
+              rounded
+              class="pa-2 mt-16 w-screen"
+              color="#FEF9EF"
+              height="450px"
+              min-width="200px"
+              max-width="300px"
+            >
               <v-row justify="center">
-                <div class="ma-4">
+                <div class="mt-16 mr-10 ml-10 mb-3">
                   <div class="text-subtitle-2"></div>
                   <v-img
                     class="bg-white"
                     width="150"
-                    :aspect-ratio="3.5 / 4"
+                    :aspect-ratio="3 / 4"
                     :src="require('@/assets/day.jpg')"
                     cover
                   ></v-img>
                 </div>
               </v-row>
               <v-row justify="center">
-                <v-chip class="ma-2" color="success" variant="outlined"> Server Status </v-chip>
+                <v-chip class="mt-11 mr-10 ml-10 id" variant="outlined">
+                  <i class="fa-solid fa-user" style="color: #000000"></i>
+                  아이디
+                </v-chip>
               </v-row>
               <v-row justify="center">
-                <v-btn @click="moveEdit" color="#9E9E9E" class="mb-5" width="160px">
+                <v-btn
+                  @click="moveEdit"
+                  elevation="0"
+                  color="#FEE440"
+                  class="mt-5 mr-10 ml-10 btn w-screen"
+                  width="160px"
+                >
                   개인 정보 수정
                 </v-btn>
               </v-row>
@@ -32,28 +48,56 @@
               <v-col>
                 <v-sheet
                   rounded
-                  class="pa-2 ma-2"
-                  color="#CFD8DC"
+                  class="pa-2 mt-10 h-screen w-screen"
+                  color="#FEF9EF"
                   min-width="200px"
                   max-width="300px"
                 >
                   <v-row justify="center">
                     <v-btn
-                      color="#9E9E9E"
-                      class="mb-3 mt-5"
+                      elevation="0"
+                      color="#FEE440"
+                      class="mt-16 btn w-screen"
                       width="160px"
-                      v-for="page in pages"
-                      :key="page.title"
-                      :active="active"
+                      @click="currentTabCompo = 'MyTripPlanVue'"
                     >
-                      {{ page.title }}
+                      나의 여행 계획
+                    </v-btn>
+                    <v-btn
+                      elevation="0"
+                      color="#FEE440"
+                      class="mt-16 btn w-screen"
+                      width="160px"
+                      @click="currentTabCompo = 'MyPostVue'"
+                    >
+                      내가 쓴 포스트
+                    </v-btn>
+                    <v-btn
+                      elevation="0"
+                      color="#FEE440"
+                      class="mt-16 btn w-screen"
+                      width="160px"
+                      @click="currentTabCompo = 'MyTripPlanVue'"
+                    >
+                      조회한 여행지 목록
+                    </v-btn>
+                    <v-btn
+                      elevation="0"
+                      color="#FEE440"
+                      class="mt-16 btn w-screen"
+                      width="160px"
+                      @click="currentTabCompo = 'MyTripPlanVue'"
+                    >
+                      조회한 게시글
                     </v-btn>
                   </v-row>
                 </v-sheet>
               </v-col>
             </v-row>
           </v-col>
-          <v-col min-width="620px"> <component :is="whichStep"></component> </v-col>
+          <v-col>
+            <component v-bind:is="currentTabCompo"> </component>
+          </v-col>
         </v-row>
       </v-container>
     </v-main>
@@ -74,13 +118,7 @@ export default {
   },
   data() {
     return {
-      active: 0,
-      pages: [
-        { id: 1, title: "나의 여행 계획" },
-        { id: 2, title: "내가 쓴 포스트" },
-        { id: 3, title: "조회한 여행지 목록" },
-        { id: 4, title: "조회한 게시글" },
-      ],
+      currentTabCompo: "MyTripPlanVue",
     };
   },
   methods: {
@@ -88,21 +126,25 @@ export default {
       this.$router.push({ name: "mypageEdit" });
     },
   },
-  computed: {
-    whichStep() {
-      if (this.active.id === 1) return MyTripPlanVue;
-      if (this.active.id === 2) return MyPostVue;
-      switch (this.active) {
-        case 1:
-          return MyTripPlanVue;
-        case 2:
-          return MyPostVue;
-        default:
-          return MyTripPlanVue;
-      }
-    },
-  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.id {
+  max-width: 200px;
+  min-width: 100px;
+  height: 40px;
+}
+
+.btn {
+  font-family: "LeeSeoyun";
+  font-weight: bold;
+  font-size: 20px;
+  height: 50px;
+}
+
+.view {
+  display: flex;
+  flex-direction: row;
+}
+</style>
