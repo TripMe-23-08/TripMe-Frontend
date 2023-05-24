@@ -2,8 +2,8 @@
   <div id="map"></div>
 
   <!--Place Dialog START-->
-  <v-dialog v-model="dialog" width="auto">
-    <v-card>
+  <v-dialog v-model="dialog" width="40%">
+    <v-card style="border-radius: 3%">
       <!-- <div v-html="makeCard(dialogData)"></div> -->
 
       <place-detail-info :dialogData="dialogData" />
@@ -19,7 +19,7 @@
 <script>
 import http from "@/api/http";
 import { mapState } from "vuex";
-import PlaceDetailInfo from "./PlaceDetailInfo.vue";
+import PlaceDetailInfo from "../map/PlaceDetailInfo.vue";
 
 export default {
   components: { PlaceDetailInfo },
@@ -137,44 +137,44 @@ export default {
         });
       }
     },
-    makeCard(data) {
-      let categoryMapper = (categoryCode) => {
-        let categoryMap = {
-          12: "fa-solid fa-umbrella-beach", // 관광지
-          14: "fa-solid fa-building-columns", // 문화시설
-          15: "fa-solid fa-champagne-glasses", // 축제/공연/행사
-          25: "fa-solid fa-map-location-dot", // 여행코스
-          28: "fa-solid fa-person-hiking", // 레포츠
-          32: "fa-solid fa-hotel", //숙박
-          38: "fa-solid fa-basket-shopping", // 쇼핑
-          39: "fa-solid fa-utensils", // 음식점
-        };
-        console.log(categoryMap[categoryCode]);
-        return categoryMap[categoryCode];
-      };
-      var img = data.imgUrl
-        ? data.imgUrl
-        : "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/place_thumb.png";
-      var name = data.name ? data.name : "상호명 정보 없음";
-      var address = data.address ? data.address : "주소 정보 없음";
-      var overview = data.overview;
-      var category = data.category;
+    // makeCard(data) {
+    //   let categoryMapper = (categoryCode) => {
+    //     let categoryMap = {
+    //       12: "fa-solid fa-umbrella-beach", // 관광지
+    //       14: "fa-solid fa-building-columns", // 문화시설
+    //       15: "fa-solid fa-champagne-glasses", // 축제/공연/행사
+    //       25: "fa-solid fa-map-location-dot", // 여행코스
+    //       28: "fa-solid fa-person-hiking", // 레포츠
+    //       32: "fa-solid fa-hotel", //숙박
+    //       38: "fa-solid fa-basket-shopping", // 쇼핑
+    //       39: "fa-solid fa-utensils", // 음식점
+    //     };
+    //     console.log(categoryMap[categoryCode]);
+    //     return categoryMap[categoryCode];
+    //   };
+    //   var img = data.imgUrl
+    //     ? data.imgUrl
+    //     : "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/place_thumb.png";
+    //   var name = data.name ? data.name : "상호명 정보 없음";
+    //   var address = data.address ? data.address : "주소 정보 없음";
+    //   var overview = data.overview;
+    //   var category = data.category;
 
-      let content = `<div class="overlay_info">
-        <a href="https://map.kakao.com/link/map/${data.latitude},${
-        data.longitude
-      }" target="_blank">
-          <i class="${categoryMapper(category)}" ></i>
-          <strong>${name}</strong></a>
-        <div class="desc">
-          <img src=${img} alt="" >
-          <div class="address">${address}</div>
-          <div>${overview}</div>
-        </div>
-        </div>`;
+    //   let content = `<div class="overlay_info">
+    //     <a href="https://map.kakao.com/link/map/${data.latitude},${
+    //     data.longitude
+    //   }" target="_blank">
+    //       <i class="${categoryMapper(category)}" ></i>
+    //       <strong>${name}</strong></a>
+    //     <div class="desc">
+    //       <img src=${img} alt="" >
+    //       <div class="address">${address}</div>
+    //       <div>${overview}</div>
+    //     </div>
+    //     </div>`;
 
-      return content;
-    },
+    //   return content;
+    // },
     // setMarkersMouseClickEvent() {
     //   //[동일한지 확인]console.log(this.map);
     //   for (let i = 0; i < this.markers.length; i++) {

@@ -5,10 +5,17 @@
         ? dialogData.imgUrl
         : `https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/place_thumb.png`
     "
-    height="200px"
+    style="border-radius: 15px; margin: 15px"
     cover
   ></v-img>
-  <div style="display: flex; align-items: center">
+  <div
+    style="
+      display: flex;
+      align-items: center;
+      margin-left: 5px;
+      margin-right: 5px;
+    "
+  >
     <v-card-title>
       {{ dialogData.name ? dialogData.name : "상호명 정보 없음" }}
     </v-card-title>
@@ -17,7 +24,7 @@
       <v-icon v-else icon="fa:fas fa-star" style="color: #ffef3d"></v-icon>
     </div>
   </div>
-  <v-card-subtitle>
+  <v-card-subtitle style="margin-left: 5px; margin-right: 5px">
     {{ dialogData.address ? dialogData.address : "주소 정보 없음" }}
   </v-card-subtitle>
 
