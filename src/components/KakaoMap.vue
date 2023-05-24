@@ -3,10 +3,16 @@
 </template>
 
 <script>
+import http from "@/api/http";
+import { mapState } from "vuex";
+
 export default {
   name: "KakaoMap",
   props: {
     markerPositions: Array,
+  },
+  computed: {
+    ...mapState("authStore", ["isLogin", "userInfo"]),
   },
   data() {
     return {
@@ -115,8 +121,20 @@ export default {
             content: iwContent,
             removable: iwRemoveable,
           });
+
+                // update history log
+          if (this.isLogin) {
+            http
+              .post("/places/history", {
+                params: {
+                  userId: this.userInfo.id,
+                  placeId: meta.id,
+                }
+            })
+          }
         });
       }
+
       function makeCard(data) {
         // var img = data.imgUrl
         //   ? data.imgUrl
@@ -130,6 +148,7 @@ export default {
         </div>`;
         return content;
       }
+
     },
 
     setMarkersMouseInEvent() {

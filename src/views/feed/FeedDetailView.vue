@@ -91,10 +91,6 @@ export default {
   created() {
     this.getFeedDetail(this.$route.params.feedId); // [2]
     if (this.isLogin) {
-      console.log("logged in! here is your info")
-      console.log(this.userInfo)
-      console.log("id: " + this.userInfo.id)
-      console.log("pid: " + this.$route.params.feedId)
       http
         .post("/articles/history", {
           params: {
