@@ -1,12 +1,28 @@
 <template>
   <div id="map"></div>
+
+  <!--Place Dialog START-->
+  <v-dialog v-model="dialog" width="auto">
+    <v-card>
+      <!-- <div v-html="makeCard(dialogData)"></div> -->
+
+      <place-detail-info :dialogData="dialogData" />
+
+      <v-card-actions>
+        <v-btn color="primary" block @click="dialog = false">닫기</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+  <!--Place Dialog END-->
 </template>
 
 <script>
 import http from "@/api/http";
 import { mapState } from "vuex";
+import PlaceDetailInfo from "./PlaceDetailInfo.vue";
 
 export default {
+  components: { PlaceDetailInfo },
   name: "KakaoMap",
   props: {
     markerPositions: Array,
@@ -21,6 +37,9 @@ export default {
       markersMeta: [],
       infowindow: null,
       overlayMap: {},
+      dialog: false,
+
+      dialogData: {},
     };
   },
   mounted() {
@@ -53,7 +72,7 @@ export default {
       }
       this.markers = [];
       this.overlayMap = {};
-
+      this.markersMeta = [];
       const positions = markerPositions.map((markerInfo) => {
         let point = new kakao.maps.LatLng(
           markerInfo.latitude,
@@ -92,62 +111,121 @@ export default {
     setMarkerEvents() {
       //this.setMarkersMouseInEvent();
       //this.setMarkersMouseOutEvent();
-      this.setMarkersMouseClickEvent();
+      //this.setMarkersMouseClickEvent();
+      this.setMouseClickEvent();
     },
-
-    setMarkersMouseClickEvent() {
+    setMouseClickEvent() {
       //[동일한지 확인]console.log(this.map);
       for (let i = 0; i < this.markers.length; i++) {
         let marker = this.markers[i];
         let meta = this.markersMeta[i];
+
         kakao.maps.event.addListener(marker, "click", () => {
           //[동일한지 확인]console.log(this.map);
-          let iwContent = makeCard(meta),
-            iwPosition = marker.getPosition(),
-            iwRemoveable = true;
 
-          marker.infowindow = new kakao.maps.CustomOverlay({
-            map: this.map, // 인포윈도우가 표시될 지도
-            position: iwPosition,
-            content: iwContent,
-            removable: iwRemoveable,
-          });
-
-                // update history log
+          this.dialog = true;
+          this.dialogData = meta;
+          // update history log
           if (this.isLogin) {
-            http
-              .post("/places/history", {
-                params: {
-                  userId: this.userInfo.id,
-                  placeId: meta.id,
-                }
-            })
+            http.post("/places/history", {
+              params: {
+                userId: this.userInfo.id,
+                placeId: meta.id,
+              },
+            });
           }
         });
       }
+    },
+    makeCard(data) {
+      let categoryMapper = (categoryCode) => {
+        let categoryMap = {
+          12: "fa-solid fa-umbrella-beach", // 관광지
+          14: "fa-solid fa-building-columns", // 문화시설
+          15: "fa-solid fa-champagne-glasses", // 축제/공연/행사
+          25: "fa-solid fa-map-location-dot", // 여행코스
+          28: "fa-solid fa-person-hiking", // 레포츠
+          32: "fa-solid fa-hotel", //숙박
+          38: "fa-solid fa-basket-shopping", // 쇼핑
+          39: "fa-solid fa-utensils", // 음식점
+        };
+        console.log(categoryMap[categoryCode]);
+        return categoryMap[categoryCode];
+      };
+      var img = data.imgUrl
+        ? data.imgUrl
+        : "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/place_thumb.png";
+      var name = data.name ? data.name : "상호명 정보 없음";
+      var address = data.address ? data.address : "주소 정보 없음";
+      var overview = data.overview;
+      var category = data.category;
 
-      function makeCard(data) {
-        console.log(data);
-        var img = data.imgUrl
-          ? data.imgUrl
-          : "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/place_thumb.png";
-        var name = data.name ? data.name : "상호명 정보 없음";
-        var address = data.address ? data.address : "주소 정보 없음";
-
-        let content = `<div class="overlay_info">
-        <a href="https://map.kakao.com/link/map/${data.latitude},${data.longitude}" target="_blank">
-          <strong style="background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/place_icon.png)
-    no-repeat;">${name}</strong></a>
+      let content = `<div class="overlay_info">
+        <a href="https://map.kakao.com/link/map/${data.latitude},${
+        data.longitude
+      }" target="_blank">
+          <i class="${categoryMapper(category)}" ></i>
+          <strong>${name}</strong></a>
         <div class="desc">
           <img src=${img} alt="" >
-          <span class="address">${address}</span>
+          <div class="address">${address}</div>
+          <div>${overview}</div>
         </div>
         </div>`;
 
-        return content;
-      }
-
+      return content;
     },
+    // setMarkersMouseClickEvent() {
+    //   //[동일한지 확인]console.log(this.map);
+    //   for (let i = 0; i < this.markers.length; i++) {
+    //     let marker = this.markers[i];
+    //     let meta = this.markersMeta[i];
+    //     kakao.maps.event.addListener(marker, "click", () => {
+    //       //[동일한지 확인]console.log(this.map);
+    //       let iwContent = makeCard(meta),
+    //         iwPosition = marker.getPosition(),
+    //         iwRemoveable = true;
+
+    //       marker.infowindow = new kakao.maps.CustomOverlay({
+    //         map: this.map, // 인포윈도우가 표시될 지도
+    //         position: iwPosition,
+    //         content: iwContent,
+    //         removable: iwRemoveable,
+    //       });
+
+    //       // update history log
+    //       if (this.isLogin) {
+    //         http.post("/places/history", {
+    //           params: {
+    //             userId: this.userInfo.id,
+    //             placeId: meta.id,
+    //           },
+    //         });
+    //       }
+    //     });
+    //   }
+
+    //   function makeCard(data) {
+    //     console.log(data);
+    //     var img = data.imgUrl
+    //       ? data.imgUrl
+    //       : "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/place_thumb.png";
+    //     var name = data.name ? data.name : "상호명 정보 없음";
+    //     var address = data.address ? data.address : "주소 정보 없음";
+
+    //     let content = `<div class="overlay_info">
+    //     <a href="https://map.kakao.com/link/map/${data.latitude},${data.longitude}" target="_blank">
+    //       <strong style="background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/place_icon.png)
+    // no-repeat;">${name}</strong></a>
+    //     <div class="desc">
+    //       <img src=${img} alt="" >
+    //       <span class="address">${address}</span>
+    //     </div>
+    //     </div>`;
+
+    //     return content;
+    //   }
+    // },
 
     // setMarkersMouseInEvent() {
     //   //[동일한지 확인]console.log(this.map);
@@ -209,7 +287,7 @@ export default {
   },
   updated() {
     // cutting map phenonmina fixed
-    this.map.relayout();
+    //this.map.relayout();
     console.log("update and relayout");
   },
 };
@@ -232,17 +310,12 @@ button {
 }
 
 .overlay_info {
-  border-radius: 6px;
   margin-bottom: 12px;
   float: left;
   position: relative;
-  border: 1px solid #ccc;
-  border-bottom: 2px solid #ddd;
-  background-color: #fff;
 }
 .overlay_info:nth-of-type(n) {
   border: 0;
-  box-shadow: 0px 1px 2px #888;
 }
 .overlay_info a {
   display: block;
@@ -254,7 +327,6 @@ button {
   color: #fff;
   padding: 12px 36px 12px 14px;
   font-size: 14px;
-  border-radius: 6px 6px 0 0;
 }
 .overlay_info a strong {
   padding-left: 27px;
@@ -271,7 +343,7 @@ button {
   width: 56px;
 }
 .overlay_info .address {
-  font-size: 12px;
+  font-size: 16px;
   color: #333;
   position: absolute;
   left: 80px;
@@ -279,7 +351,7 @@ button {
   top: 13px;
   white-space: initial;
 }
-.overlay_info:after {
+/* .overlay_info:after {
   content: "";
   position: absolute;
   margin-left: -11px;
@@ -289,5 +361,5 @@ button {
   height: 12px;
   background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png)
     no-repeat 0 bottom;
-}
+} */
 </style>

@@ -39,7 +39,7 @@
             @input="onSelectFile"
           />
         </v-row>
-        
+
         <!-- Trip Route에 포함된 장소 관련 장소 이미지--->
         <v-row id="trip-route-img" v-if="selectedRoute != null">
           <v-col
@@ -49,7 +49,11 @@
           >
             <simple-image-card
               :place-info="tripPlace.place"
-              @click="() => {console.log('img click on feed add view')}"
+              @click="
+                () => {
+                  console.log('img click on feed add view');
+                }
+              "
             />
           </v-col>
         </v-row>
@@ -142,7 +146,7 @@ export default {
         {
           headers: {
             Authorization:
-              "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiJhYUBnbWFpbC5jb20iLCJ1c2VyTmFtZSI6IuydtOumhOydtOumhCIsInVzZXJJZCI6Mywic3ViIjoiYWNjZXNzLXRva2VuIiwiaWF0IjoxNjg0ODE1NjQ0LCJleHAiOjE2ODQ4MTkyNDR9.n5WhHmyz6oWlRRStcSrsPWzirL8P4WCPBFQBceS7JEc",
+              "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiJhYUBnbWFpbC5jb20iLCJ1c2VyTmFtZSI6IuydtOumhOydtOumhCIsInVzZXJJZCI6Mywic3ViIjoiYWNjZXNzLXRva2VuIiwiaWF0IjoxNjg0OTE1MDM4LCJleHAiOjE2ODQ5MTg2Mzh9.mFLlGmd4OlHHvnoPiRDgS6nVPmQhpvYMiZ65IFvEuxE",
           },
         }
       );
@@ -150,15 +154,15 @@ export default {
     },
 
     extractPlaces(selectedRoute) {
-      let places = []
-      if (!selectedRoute) return places
+      let places = [];
+      if (!selectedRoute) return places;
 
       selectedRoute.tripPlaces.forEach((tripPlace) => {
-        places = [...places, ...tripPlace.places]
-      })
+        places = [...places, ...tripPlace.places];
+      });
 
-      return places
-    }
+      return places;
+    },
   },
 };
 </script>

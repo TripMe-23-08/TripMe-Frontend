@@ -104,6 +104,7 @@ export default {
         })
         .then(({ data }) => {
           console.log(data["data"]);
+          this.markerPositions = [];
           this.markerPositions = data["data"];
         })
         .then(() => {
