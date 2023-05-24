@@ -105,6 +105,11 @@ export default {
         .then(({ data }) => {
           console.log(data["data"]);
           this.markerPositions = data["data"];
+        })
+        .then(() => {
+          if (this.markerPositions.length === 0) {
+            alert("검색 결과가 없습니다.");
+          }
         });
     },
 

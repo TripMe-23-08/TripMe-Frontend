@@ -204,8 +204,6 @@ export default {
       // show result if the data exists
       if (newPositions.length > 0) {
         this.displayMarker(newPositions);
-      } else {
-        alert("검색 결과가 없습니다.");
       }
     },
   },
