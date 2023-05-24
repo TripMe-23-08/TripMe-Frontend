@@ -99,6 +99,9 @@
 import TripTimeLine from "@/components/feed/TripTimeLine.vue";
 import { mapActions, mapGetters, mapState } from "vuex";
 import router from "@/router";
+import http from "@/api/http";
+
+
 import SimpleImageCard from "@/components/cards/SimpleImageCard.vue";
 // import ImageTextDialog from "@/components/dialogs/ImageTextDialog.vue";
 export default {
@@ -111,10 +114,20 @@ export default {
   components: { TripTimeLine, SimpleImageCard },
   computed: {
     ...mapState("feedStore", ["feed"]),
+    ...mapState("authStore", ["isLogin", "userInfo"]),
     ...mapGetters("feedStore", ["showFeed"]),
   },
   created() {
     this.getFeedDetail(this.$route.params.feedId); // [2]
+    if (this.isLogin) {
+      http
+        .post("/articles/history", {
+          params: {
+            userId: this.userInfo.id,
+            postId: this.$route.params.feedId, 
+          }
+        })
+    }
   },
   methods: {
     ...mapActions("feedStore", [
