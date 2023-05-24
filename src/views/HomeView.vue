@@ -23,6 +23,7 @@
   <!--떠나세요-->
   <v-sheet class="bg-grey-lighten-3 ml-16 mr-16 mt-3" min-height="50vh" rounded="lg"> </v-sheet>
   <!--여행 후기-->
+  <h3 class="d-flex justify-start mt-3 ml-15 mr-15 title">여행 후기</h3>
   <trip-feed-back />
   <!--추천 여행지-->
 </template>
@@ -59,5 +60,10 @@ export default {
   font-family: "LeeSeoyun";
   font-size: 18px;
   opacity: 0.8;
+}
+
+.title {
+  font-family: "Do Hyeon", sans-serif;
+  font-size: 30px;
 }
 </style>

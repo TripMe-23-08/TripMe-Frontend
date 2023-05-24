@@ -1,16 +1,12 @@
 <template>
-  <v-row>
-    <v-col>
-      <v-sheet rounded class="pa-2 mt-2 mb-3" color="#CFD8DC" min-width="600px">
-        나의 여행 계획
-      </v-sheet>
-      <v-row class="mb-6" justify="space-evenly">
-        <v-col cols="auto" class="mb-3" v-for="n in cardItems" :key="`card-${n}`">
-          <image-card></image-card>
-        </v-col>
-      </v-row>
-    </v-col>
-  </v-row>
+  <v-col>
+    <v-sheet rounded class="pa-2 mt-13 btn" color="#A2D2FF"> 나의 여행 계획 </v-sheet>
+    <v-row class="mb-6">
+      <v-col cols="auto" v-for="n in cardItems" :key="`card-${n}`">
+        <image-card></image-card>
+      </v-col>
+    </v-row>
+  </v-col>
 </template>
 
 <script>
@@ -27,4 +23,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.btn {
+  font-family: "LeeSeoyun";
+  font-weight: bold;
+  font-size: 25px;
+}
+</style>
