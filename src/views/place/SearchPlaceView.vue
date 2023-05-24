@@ -103,10 +103,8 @@ export default {
           },
         })
         .then(({ data }) => {
-          this.markerPositions = data["data"].map((e) => [
-            e.latitude,
-            e.longitude,
-          ]);
+          console.log(data["data"]);
+          this.markerPositions = data["data"];
         });
     },
 
