@@ -64,7 +64,29 @@ export default {
       this.map = new kakao.maps.Map(container, options);
       this.displayMarker([{ latitude: 33.450701, longitude: 126.570667 }]);
     },
-
+    categoryMarkerImgMapper(categoryCode) {
+      let categoryMap = {
+        12: "tm-umbrella-beach", // 관광지
+        14: "tm-building-columns", // 문화시설
+        15: "tm-champagne-glasses", // 축제/공연/행사
+        25: "tm-travel-course", // 여행코스
+        28: "tm-person-hiking", // 레포츠
+        32: "tm-hotel", //숙박
+        38: "tm-basket-shopping", // 쇼핑
+        39: "tm-utensils", // 음식점
+        undefined: "tm-undefined",
+      };
+      return require(`@/assets/img/marker/${categoryMap[categoryCode]}.svg`);
+    },
+    createMarkerImage(src) {
+      // let options = {
+      //   spriteOrigin: new kakao.maps.Point(10, 36),
+      //   spriteSize: new kakao.maps.Size(36, 98),
+      // };
+      let size = new kakao.maps.Size(36, 36);
+      var markerImage = new kakao.maps.MarkerImage(src, size);
+      return markerImage;
+    },
     // show markers based on latlng from markerPositions array
     displayMarker(markerPositions) {
       if (this.markers.length > 0) {
@@ -78,10 +100,11 @@ export default {
           markerInfo.latitude,
           markerInfo.longitude
         );
-
+        let src = this.categoryMarkerImgMapper(markerInfo.category);
         var marker = new kakao.maps.Marker({
           map: this.map,
           position: point,
+          image: this.createMarkerImage(src),
         });
 
         this.markers.push(marker);
