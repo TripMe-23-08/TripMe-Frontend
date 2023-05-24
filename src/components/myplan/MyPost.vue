@@ -1,7 +1,9 @@
 <template>
   <v-row>
     <v-col>
-      <v-sheet rounded class="pa-2 mt-16 mb-3 btn" color="#A2D2FF"> 내가 쓴 포스트 </v-sheet>
+      <v-sheet rounded class="pa-2 mt-5 mb-3 btn text-center" color="#A2D2FF">
+        내가 쓴 포스트
+      </v-sheet>
       <v-row class="mb-6">
         <v-col cols="auto" class="mb-3" v-for="n in cardItems" :key="`card-${n}`">
           <trip-feed-back-vue />

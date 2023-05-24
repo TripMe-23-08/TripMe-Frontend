@@ -11,7 +11,7 @@
           max-width="300px"
         >
           <v-row justify="center">
-            <v-col>
+            <v-col class="text-center">
               <div class="ma-12">
                 <v-img
                   :aspect-ratio="3 / 4"
@@ -80,7 +80,7 @@
       <v-col cols="6">
         <v-sheet
           rounded
-          class="pa-2 mt-16"
+          class="pa-2 mt-16 text-center"
           color="#FEF9EF"
           height="550px"
           max-width="600px"

@@ -6,7 +6,7 @@
       v-bind="props"
       @click="onClick"
     >
-      <v-responsive :aspect-ratio="1 / 1" class="border px-0">
+      <v-responsive cover class="border px-0 imgRatio">
         <!-- <div v-show="isHovering" class="text">Hello World</div> -->
         <v-card-title
           class="text"
@@ -32,8 +32,7 @@ export default {
   },
   data() {
     return {
-      defaultImgUrl:
-        "https://images.unsplash.com/photo-1572633424705-d813d2fb5cb4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8OHwzMzMyNTYyfHxlbnwwfHx8fHw%3D&auto=format&fit=crop&w=500&q=60",
+      defaultImgUrl: require("@/assets/loading.jpg"),
       mouseLocated: false,
     };
   },
@@ -124,5 +123,9 @@ export default {
   align-items: center;
   justify-content: center;
   z-index: 2;
+}
+.imgRatio {
+  width: auto;
+  aspect-ratio: 1/1;
 }
 </style>

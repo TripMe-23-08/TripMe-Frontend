@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-space-evenly">
+  <div class="d-flex mt-10 mb-10 justify-space-evenly btn">
     <v-select
       class="ms-2"
       flat="true"
@@ -29,16 +29,11 @@
       density="compact"
       variant="underlined"
     ></v-select>
-    <v-btn class="ml-2" variant="outlined" density="default" @click="search"
-      >검색</v-btn
-    >
+    <v-btn class="ml-2" variant="outlined" density="default" @click="search">검색</v-btn>
   </div>
   <!--카카오 지도 추가-->
   <!-- map size should be determined by its parent component -->
-  <kakao-map
-    style="width: 100%; height: 400px"
-    :markerPositions="markerPositions"
-  />
+  <kakao-map class="mb-10" style="width: 100%; height: 550px" :markerPositions="markerPositions" />
 </template>
 
 <script>
@@ -162,4 +157,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.btn {
+  font-family: "LeeSeoyun";
+  font-weight: bold;
+  font-size: 20px;
+}
+</style>

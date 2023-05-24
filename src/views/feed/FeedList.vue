@@ -1,7 +1,7 @@
 <template>
   <v-container class="bv-example-row mt-3">
     <v-row class="mv-1">
-      <v-col class="text-right">
+      <v-col class="text-right title">
         <v-button @click="moveWrite">글쓰기</v-button>
       </v-col>
     </v-row>
@@ -32,18 +32,14 @@
     <v-row>
       <v-col>
         <v-table fixed-header>
-          <thead>
+          <thead class="title">
             <tr>
-              <th
-                v-for="field in fields"
-                :key="field.id"
-                :class="field.tdClass"
-              >
+              <th v-for="field in fields" :key="field.id" :class="field.tdClass">
                 {{ field.label }}
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="content">
             <tr v-for="article in articles" :key="article.id">
               <td>
                 <router-link
@@ -117,5 +113,15 @@ export default {
 .tdSubject {
   width: 300px;
   text-align: center;
+}
+.title {
+  font-family: "LeeSeoyun";
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.content {
+  font-family: "LeeSeoyun";
+  font-size: 20px;
 }
 </style>

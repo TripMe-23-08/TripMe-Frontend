@@ -23,8 +23,10 @@
   <!--떠나세요-->
   <v-sheet class="bg-grey-lighten-3 ml-16 mr-16 mt-3" min-height="50vh" rounded="lg"> </v-sheet>
   <!--여행 후기-->
-  <h3 class="d-flex justify-start mt-3 ml-15 mr-15 title">여행 후기</h3>
-  <trip-feed-back />
+  <h3 class="d-flex justify-start mt-10 ml-16 title">여행 후기</h3>
+  <div class="d-flex justify-start ml-13 mr-13">
+    <trip-feed-back />
+  </div>
   <!--추천 여행지-->
 </template>
 
