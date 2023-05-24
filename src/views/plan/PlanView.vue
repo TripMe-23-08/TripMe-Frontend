@@ -1,21 +1,16 @@
 <template>
-  <v-container>
+  <v-container fluid class="btn">
     <!-- title and submit bar -->
-    <div class="d-flex justify-space-between">
+    <div class="d-flex justify-center">
       <v-sheet class="flex-fill mr-8">
-        <v-text-field v-model="tripTitle" label="여행 경로 제목"></v-text-field>
+        <v-text-field
+          v-model="tripTitle"
+          variant="solo-filled"
+          label="여행 경로 제목"
+        ></v-text-field>
       </v-sheet>
       <v-sheet style="width: 20%; max-width: 100px">
-        <v-btn
-          block
-          color="success"
-          size="large"
-          type="submit"
-          variant="elevated"
-          @click="submit"
-        >
-          저장하기
-        </v-btn>
+        <v-btn size="x-large" block color="#A2D2FF" type="submit" @click="submit"> 저장하기 </v-btn>
       </v-sheet>
     </div>
     <v-row>
@@ -72,9 +67,7 @@
           Day {{ n }}
         </v-tab>
         <v-spacer></v-spacer>
-        <v-btn :disabled="length === 1" variant="text" @click="removeDay">
-          날짜 삭제
-        </v-btn>
+        <v-btn :disabled="length === 1" variant="text" @click="removeDay"> 날짜 삭제 </v-btn>
         <v-divider class="mx-1" vertical></v-divider>
         <v-btn variant="text" @click="addDay"> 날짜 추가 </v-btn>
       </v-tabs>
@@ -83,11 +76,11 @@
       <v-card-text>
         <v-window v-model="tab">
           <v-window-item
-            class="noscroll"
+            class="overflow-x-auto overflow-y-hidden"
             v-for="n in length"
             :key="n"
             :value="n"
-            style="overflow-x: scroll"
+            style="height: 180px"
           >
             <draggable
               class="d-flex flex-row"
@@ -100,11 +93,7 @@
             >
               <template #item="{ element, idx }">
                 <v-col :key="idx">
-                  <text-card
-                    v-bind="element"
-                    @removePlace="removeSelectedPlace"
-                  >
-                  </text-card>
+                  <text-card v-bind="element" @removePlace="removeSelectedPlace"> </text-card>
                 </v-col>
               </template>
             </draggable>
@@ -114,7 +103,7 @@
     </v-card>
 
     <!-- temporary space for candidate places -->
-    <v-card class="d-flex flex-column mt-4 noscroll" style="overflow-x: scroll">
+    <v-card class="d-flex flex-column mt-4 overflow-x-auto" style="height: 180px">
       <draggable
         class="d-flex flex-row"
         v-model="allPlaces.candidates"
@@ -126,12 +115,7 @@
       >
         <template #item="{ element, idx }">
           <v-col :key="idx">
-            <text-card
-              v-bind="element"
-              @removePlace="removeCandidatePlace"
-              order="1"
-            >
-            </text-card>
+            <text-card v-bind="element" @removePlace="removeCandidatePlace" order="1"> </text-card>
           </v-col>
         </template>
       </draggable>
@@ -305,17 +289,13 @@ export default {
 
       // check selected spaces
       if (this.allPlaces.places.length > 0) {
-        let selectedNames = this.allPlaces.places[this.selectedDay - 1].map(
-          (place) => place.name
-        );
+        let selectedNames = this.allPlaces.places[this.selectedDay - 1].map((place) => place.name);
         nameToCompare = [...nameToCompare, ...selectedNames];
       }
 
       // check candidate space
       if (this.allPlaces.candidates.length > 0) {
-        let candidateNames = this.allPlaces.candidates.map(
-          (place) => place.name
-        );
+        let candidateNames = this.allPlaces.candidates.map((place) => place.name);
         nameToCompare = [...nameToCompare, ...candidateNames];
       }
 
@@ -365,5 +345,11 @@ export default {
 <style scoped>
 .noscroll::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera*/
+}
+
+.btn {
+  font-family: "LeeSeoyun";
+  font-weight: bold;
+  font-size: 20px;
 }
 </style>
