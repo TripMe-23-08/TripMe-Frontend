@@ -1,5 +1,22 @@
 <template>
   <v-container class="mt-5 text-center" style="max-width: 600px">
+    <div class="text-center">
+    <v-dialog
+      v-model="this.dialog"
+      width="auto"
+    >
+
+      <v-card>
+        <v-card-text>
+          아이디나 패스워드가 잘못되었습니다!
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="#a2d2ff" block @click="this.dialog = false">닫기</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
+  
     <v-card class="borderwidth" variant="outlined" color="#a2d2ff">
       <v-card-title class="login">LOGIN</v-card-title>
       <form width="200" class="mx-auto content">
@@ -35,7 +52,11 @@ import { mapActions, mapState } from "vuex";
 export default {
   name: "loginView",
   data() {
-    return { user: { email: "", password: "" }, error: "" };
+    return {
+      user: { email: "", password: "" },
+      error: "", 
+      dialog: false,
+    };
   },
   computed: {
     ...mapState("authStore", ["isLogin", "isLoginError", "userInfo"]),
@@ -53,7 +74,7 @@ export default {
         await this.getUserInfo(token);
         router.push({ name: "home" });
       } else {
-        alert("아이디와 패스워드를 다시 확인해주세요.");
+        this.dialog = true
       }
     },
   },

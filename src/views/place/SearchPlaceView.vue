@@ -1,4 +1,21 @@
 <template>
+  <div class="text-center">
+      <v-dialog
+        v-model="this.dialog"
+        width="auto"
+      >
+
+        <v-card>
+          <v-card-text>
+            검색 결과가 없습니다!
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="#a2d2ff" block @click="this.dialog = false">닫기</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+
   <div class="d-flex mt-10 mb-10 justify-space-evenly btn">
     <v-select
       class="ms-2"
@@ -61,6 +78,7 @@ export default {
   components: { KakaoMap },
   name: "SearchPlaceView",
   data: () => ({
+    dialog: false,
     markerPositions: [],
     // category mapping => name: code
     categoryMap: {
@@ -121,7 +139,7 @@ export default {
         })
         .then(() => {
           if (this.markerPositions.length === 0) {
-            alert("검색 결과가 없습니다.");
+            this.dialog = true;
           }
         });
     },

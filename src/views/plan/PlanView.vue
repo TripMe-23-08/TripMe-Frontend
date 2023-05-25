@@ -1,5 +1,22 @@
 <template>
   <v-container fluid class="btn">
+    <div class="text-center">
+      <v-dialog
+        v-model="this.dialog"
+        width="auto"
+      >
+
+        <v-card>
+          <v-card-text>
+            검색 결과가 없습니다!
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="#a2d2ff" block @click="this.dialog = false">닫기</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+
     <!-- title and submit bar -->
     <div class="d-flex justify-center">
       <v-sheet class="flex-fill mr-8">
@@ -149,6 +166,7 @@ export default {
   name: "PlanView",
   components: { KakaoMap, TextCard, SimpleImageCard, draggable },
   data: () => ({
+    dialog: false,
     tripTitle: "",
     searchKeyword: "",
     loaded: false,
@@ -192,21 +210,21 @@ export default {
           currentPlaces.push({
             // id set by the server
             placeId: dailyPlaces[o].id,
+            imgUrl: dailyPlaces[o].imgUrl,
             // tripRoutId set by the server
             tripDay: i + 1,
             tripOrder: o + 1,
           });
         }
       }
-
+      // let tripImgUrl = this.allPlaces.places[0][0].imgUrl;
       http
         .post("/trip-routes", {
           params: {
             user_id: this.userInfo.id,
             name: this.tripTitle,
+            trip_img_url: currentPlaces[0].imgUrl,
             // createdAt set by db
-            // userId set by the server
-            // tripImgUrl set by the server
             tripPlaces: currentPlaces,
           },
         })
@@ -238,7 +256,7 @@ export default {
           console.log(data["data"], data["message"]);
           this.searchResults = data["data"];
           if (this.searchResults.length == 0) {
-            alert("검색 결과가 존재하지 않습니다");
+            this.dialog = true
           }
         })
         .then(() => {

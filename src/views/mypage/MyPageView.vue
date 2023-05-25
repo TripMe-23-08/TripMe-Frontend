@@ -16,7 +16,7 @@
               <v-img
                 class="bg-white"
                 width="150"
-                :aspect-ratio="3 / 4"
+                :aspect-ratio="4 / 5"
                 :src="require('@/assets/day.jpg')"
                 cover
               ></v-img>
@@ -24,8 +24,8 @@
           </v-row>
           <v-row justify="center">
             <v-chip class="mt-11 mr-10 ml-10 id" variant="outlined">
-              <i class="fa-solid fa-user" style="color: #000000"></i>
-              아이디
+              <i class="fa-solid fa-user" style="color: #000000;"></i>
+              {{ this.userInfo.email }}
             </v-chip>
           </v-row>
           <v-row justify="center">
@@ -58,8 +58,10 @@
                   width="160px"
                   @click="
                     () => {
+                      this.getUserRoutes();
                       currentTabCompo = 'MyTripPlanVue';
-                      this.kind = '';
+                      this.kind = 'route';
+                      this.currentTitle = '나의 여행 계획'
                     }
                   "
                 >
@@ -75,6 +77,7 @@
                       this.getUserPlaces();
                       currentTabCompo = 'KakaoMap';
                       this.kind = 'map';
+                      this.currentTitle = '조회한 여행지 목록'
                     }
                   "
                 >
@@ -90,6 +93,7 @@
                       currentTabCompo = 'FeedList';
                       this.kind = 'user';
                       this.getUserPlaces();
+                      this.currentTitle = '내가 쓴 포스트'
                     }
                   "
                 >
@@ -104,6 +108,7 @@
                     () => {
                       currentTabCompo = 'FeedList';
                       this.kind = 'history';
+                      this.currentTitle = '최근 초회한 게시글'
                     }
                   "
                 >
@@ -116,6 +121,9 @@
       </v-col>
       <!-- <v-col style="height: 300px"> -->
       <v-col>
+        <v-sheet rounded class="mx-auto pa-2 mt-3 btn text-center" color="#A2D2FF">
+          {{ currentTitle }}
+        </v-sheet>
         <component v-bind:is="currentTabCompo" v-bind="currentProperties" :key="this.kind">
         </component>
       </v-col>
@@ -145,8 +153,10 @@ export default {
       currentTabCompo: "MyTripPlanVue",
       kind: "",
       placeInfo: [],
+      routeInfo: [],
+      currentTitle: "마이페이지",
     };
-  },
+  },  
   methods: {
     moveEdit() {
       this.$router.push({ name: "mypageEdit" });
@@ -157,6 +167,13 @@ export default {
         setTimeout(() => (this.placeInfo = data["data"]), 100);
 
         console.log(this.placeInfo);
+      });
+    },
+    getUserRoutes() {
+      let userId = this.userInfo.id;
+      http.get(`/trip-routes/user/${userId}`).then(({ data }) => {
+        this.routeInfo = data["data"]
+        console.log(this.routeInfo);
       });
     },
   },
@@ -173,6 +190,10 @@ export default {
         console.log("map called with");
         console.log(this.placeInfo);
         return { markerPositions: this.placeInfo };
+      } else if (this.kind === 'route') {
+        console.log("route called")
+        console.log(this.routeInfo)
+        return { tripRoutes: this.routeInfo}
       }
 
       return {};

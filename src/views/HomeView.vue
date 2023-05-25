@@ -13,17 +13,17 @@
       <v-btn-group v-if="checkUserInfo() == null">
         <v-btn class="font-weight-bold btn">
           <router-link to="/join" style="color: ; text-decoration-line: none"
-            >회원가입</router-link
+            ><p style="color:cadetblue">회원가입</p></router-link
           ></v-btn
         >
         <v-btn class="font-weight-bold btn">
-          <router-link to="/login" style="text-decoration-line: none">로그인</router-link></v-btn
+          <router-link to="/login" style="text-decoration-line: none"><p style="color:cadetblue">로그인</p></router-link></v-btn
         >
       </v-btn-group>
     </v-row>
   </v-img>
   <!--떠나세요-->
-  <v-sheet class="bg-grey-lighten-3 ml-16 mr-16 mt-3" min-height="50vh" rounded="lg"> </v-sheet>
+  <!-- <v-sheet class="bg-grey-lighten-3 ml-16 mr-16 mt-3" min-height="50vh" rounded="lg"> </v-sheet> -->
   <!--여행 후기-->
   <h3 class="d-flex justify-start mt-10 ml-16 title">여행 후기</h3>
   <div class="d-flex justify-start ml-13 mr-13">

@@ -1,27 +1,35 @@
 <template>
   <v-col>
-    <v-sheet rounded class="mx-auto pa-2 mt-3 btn text-center" color="#A2D2FF">
-      나의 여행 계획
-    </v-sheet>
     <v-row class="mb-6">
-      <v-col cols="auto" v-for="n in cardItems" :key="`card-${n}`">
-        <image-card></image-card>
+      <v-col cols="auto" v-for="route in this.tripRoutes" :key="route">
+        <image-card :route="route" @hitFavorite="hitFavorite"></image-card>
       </v-col>
     </v-row>
   </v-col>
 </template>
 
 <script>
+import http from "@/api/http";
+
 import ImageCard from "@/components/cards/ImageCard.vue";
 
 export default {
   name: "myTripPlan",
+  props: {
+    tripRoutes: Array,
+  },
   components: {
     ImageCard,
   },
   data: () => ({
     cardItems: 5,
   }),
+  methods: {
+    hitFavorite(route) {
+      http.get(`/trip-routes/favorite/${route.id}`)
+      route.favorite = (route.favorite === 1 ? 0 : 1)
+    }
+  }
 };
 </script>
 
