@@ -1,24 +1,26 @@
 <template>
-  <v-container class="mt-5" style="max-width: 500px">
-    <v-card  text="로그인" variant="outlined">
-      <form width="200" class="mx-auto">
+  <v-container class="mt-5 text-center" style="max-width: 600px">
+    <v-card class="borderwidth" variant="outlined" color="#a2d2ff">
+      <v-card-title class="login">LOGIN</v-card-title>
+      <form width="200" class="mx-auto content">
         <div>{{ error }}</div>
         <v-text-field
           class="ma-5"
           v-model="user.email"
-          :counter="10"
+          variant="outlined"
           label="Email"
         ></v-text-field>
 
         <v-text-field
           class="ma-5"
           v-model="user.password"
+          variant="outlined"
           label="Password"
         ></v-text-field>
 
-        <v-btn class="mb-3 mr-5" @click="login"> 로그인 </v-btn>
-        <v-btn class="mb-3">
-          <router-link to="/join" style="text-decoration-line: none"
+        <v-btn class="mb-3 mr-5" variant="tonal" @click="login"> 로그인 </v-btn>
+        <v-btn class="mb-3" variant="tonal">
+          <router-link to="/join" style="color: #a2d2ff; text-decoration-line: none"
             >회원가입</router-link
           >
         </v-btn>
@@ -36,18 +38,18 @@ export default {
     return { user: { email: "", password: "" }, error: "" };
   },
   computed: {
-    ...mapState("authStore",["isLogin","isLoginError","userInfo"])
+    ...mapState("authStore", ["isLogin", "isLoginError", "userInfo"]),
   },
   methods: {
-    ...mapActions("authStore",["userConfirm","getUserInfo"]),
+    ...mapActions("authStore", ["userConfirm", "getUserInfo"]),
     moveJoin() {
       this.$router.push({ name: "joinView" });
     },
     async login() {
-      console.log("LoginView login():\t",this.user);
+      console.log("LoginView login():\t", this.user);
       await this.userConfirm(this.user);
       let token = sessionStorage.getItem("accessToken");
-      if (this.isLogin) { 
+      if (this.isLogin) {
         await this.getUserInfo(token);
         router.push({ name: "home" });
       }
@@ -55,4 +57,21 @@ export default {
   },
 };
 </script>
-<style></style>
+<style scoped>
+.content {
+  font-family: "LeeSeoyun";
+  font-size: 20px;
+}
+.login {
+  margin: 15px;
+  padding: 15px;
+  font-weight: bold;
+  font-family: "Rubik Puddles", cursive;
+  font-size: 50px;
+  color: skyblue;
+}
+.borderwidth {
+  border-width: 5px;
+  border-radius: 50px;
+}
+</style>

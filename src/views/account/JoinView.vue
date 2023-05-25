@@ -1,41 +1,43 @@
 <template>
-  <v-container class="mt-5" style="max-width: 500px">
-    <v-card text="회원가입" variant="outlined">
-      <form width="200" class="mx-auto" @submit.prevent="submit">
+  <v-container class="mt-5 text-center" style="max-width: 600px">
+    <v-card class="borderwidth" variant="outlined" color="#a2d2ff">
+      <v-card-title class="join">JOIN</v-card-title>
+      <form width="200" class="mx-auto content" @submit.prevent="submit">
         <v-text-field
           class="ma-5"
           label="이메일"
+          variant="outlined"
           v-model="email.value.value"
           :error-messages="email.errorMessage.value"
         ></v-text-field>
 
         <v-text-field
           class="ma-5"
-          :counter="7"
           label="비밀번호"
+          variant="outlined"
           v-model="password.value.value"
           :error-messages="password.errorMessage.value"
         ></v-text-field>
 
         <v-text-field
           class="ma-5"
-          :counter="10"
           label="닉네임"
+          variant="outlined"
           v-model="nickName.value.value"
           :error-messages="nickName.errorMessage.value"
         ></v-text-field>
 
-   
-
         <v-text-field
           class="ma-5"
           label="전화번호"
+          variant="outlined"
           v-model="phoneNumber.value.value"
           :error-messages="phoneNumber.errorMessage.value"
         ></v-text-field>
 
-       
-        <v-btn class="mb-3" type="submit" @click="submit"> submit </v-btn>
+        <v-btn color="skyblue" class="mb-3" variant="tonal" type="submit" @click="submit">
+          submit
+        </v-btn>
       </form>
     </v-card>
   </v-container>
@@ -78,16 +80,31 @@ export default {
     const password = useField("password");
 
     const submit = handleSubmit((values) => {
-      http.post("/users", values)
-      .then(({data}) => {
+      http.post("/users", values).then(({ data }) => {
         console.log(data);
-        });
+      });
       router.replace({ name: "loginView" });
-
     });
 
     return { nickName, phoneNumber, email, password, submit };
   },
 };
 </script>
-<style></style>
+<style scoped>
+.content {
+  font-family: "LeeSeoyun";
+  font-size: 20px;
+}
+.join {
+  margin: 15px;
+  padding: 15px;
+  font-weight: bold;
+  font-family: "Rubik Puddles", cursive;
+  font-size: 50px;
+  color: skyblue;
+}
+.borderwidth {
+  border-width: 5px;
+  border-radius: 50px;
+}
+</style>
