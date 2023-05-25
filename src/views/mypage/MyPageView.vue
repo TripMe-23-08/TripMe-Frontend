@@ -1,4 +1,7 @@
 <template>
+  {{ this.isLogin }}
+  {{ this.userInfo }}
+  {{ this.kind }}
   <v-container>
     <v-row class="view">
       <v-col cols="3">
@@ -56,18 +59,12 @@
                   color="#FEE440"
                   class="mt-16 btn w-screen"
                   width="160px"
-                  @click="currentTabCompo = 'MyTripPlanVue'"
+                  @click="() => {
+                    currentTabCompo = 'MyTripPlanVue'
+                    this.kind = ''
+                  }"
                 >
                   나의 여행 계획
-                </v-btn>
-                <v-btn
-                  elevation="0"
-                  color="#FEE440"
-                  class="mt-16 btn w-screen"
-                  width="160px"
-                  @click="currentTabCompo = 'MyPostVue'"
-                >
-                  내가 쓴 포스트
                 </v-btn>
                 <v-btn
                   elevation="0"
@@ -83,7 +80,22 @@
                   color="#FEE440"
                   class="mt-16 btn w-screen"
                   width="160px"
-                  @click="currentTabCompo = 'MyTripPlanVue'"
+                  @click="() => {
+                    currentTabCompo = 'FeedList'
+                    this.kind = 'user'
+                  }"
+                >
+                  내가 쓴 포스트
+                </v-btn>
+                <v-btn
+                  elevation="0"
+                  color="#FEE440"
+                  class="mt-16 btn w-screen"
+                  width="160px"
+                  @click="() => {
+                    currentTabCompo = 'FeedList'
+                    this.kind = 'history'
+                  }"
                 >
                   조회한 게시글
                 </v-btn>
@@ -93,7 +105,7 @@
         </v-row>
       </v-col>
       <v-col>
-        <component v-bind:is="currentTabCompo"> </component>
+        <component v-bind:is="currentTabCompo" v-bind="currentProperties" :key="this.kind"> </component>
       </v-col>
     </v-row>
   </v-container>
@@ -102,6 +114,8 @@
 <script>
 import MyPostVue from "@/components/myplan/MyPost.vue";
 import MyTripPlanVue from "@/components/myplan/MyTripPlan.vue";
+import FeedList from "@/views/feed/FeedList.vue"
+import { mapState } from "vuex";
 
 export default {
   name: "mypageView",
@@ -109,10 +123,12 @@ export default {
   components: {
     MyPostVue,
     MyTripPlanVue,
+    FeedList,
   },
   data() {
     return {
       currentTabCompo: "MyTripPlanVue",
+      kind: '',
     };
   },
   methods: {
@@ -120,6 +136,16 @@ export default {
       this.$router.push({ name: "mypageEdit" });
     },
   },
+  computed: {
+    ...mapState("authStore",["isLogin","isLoginError","userInfo"]),
+    currentProperties() {
+      if (this.isLogin) {
+        return {kind: this.kind, userId: this.userInfo.id}
+      }
+
+      return {}
+    }
+  }
 };
 </script>
 
