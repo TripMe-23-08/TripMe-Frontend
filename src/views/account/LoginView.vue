@@ -33,6 +33,7 @@
           v-model="user.password"
           variant="outlined"
           label="Password"
+          type="password"
         ></v-text-field>
 
         <v-btn class="mb-3 mr-5" variant="tonal" @click="login"> 로그인 </v-btn>
