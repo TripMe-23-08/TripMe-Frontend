@@ -87,7 +87,7 @@
           ></v-textarea>
         </v-row>
 
-        <v-row class="d-flex justify-end">
+        <v-row class="d-flex justify-end" v-if="this.feed.userId === this.userInfo.id">
           <div v-if="editable">
             <v-btn color="#FEE440" variant="outlined" class="mr-3" @click="modify"> 수정</v-btn>
             <v-btn color="#FF865E" variant="outlined" @click="deleteFeed"> 삭제</v-btn>
