@@ -96,10 +96,7 @@ export default {
       this.overlayMap = {};
       this.markersMeta = [];
       const positions = markerPositions.map((markerInfo) => {
-        let point = new kakao.maps.LatLng(
-          markerInfo.latitude,
-          markerInfo.longitude
-        );
+        let point = new kakao.maps.LatLng(markerInfo.latitude, markerInfo.longitude);
         let src = this.categoryMarkerImgMapper(markerInfo.category);
         var marker = new kakao.maps.Marker({
           map: this.map,
@@ -304,6 +301,8 @@ export default {
     markerPositions(newPositions) {
       // show result if the data exists
       if (newPositions.length > 0) {
+        console.log("marker position set with : ");
+        console.log(newPositions);
         this.displayMarker(newPositions);
       }
     },
@@ -317,7 +316,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style >
+<style>
 #map {
   width: 100%;
   height: 100%;
@@ -343,8 +342,7 @@ button {
 .overlay_info a {
   display: block;
   background: #d95050;
-  background: #d95050
-    url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png)
+  background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png)
     no-repeat right 14px center;
   text-decoration: none;
   color: #fff;

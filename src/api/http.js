@@ -9,7 +9,7 @@ http.interceptors.request.use((config) => {
   config.headers["Access-Control-Allow-Origin"] = "*";
   config.headers["Content-Type"] = "application/json;charset=UTF-8";
   config.headers["Authorization"] =
-    "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiJhQGEuYSIsInVzZXJJZCI6OCwic3ViIjoiYWNjZXNzLXRva2VuIiwiaWF0IjoxNjg0OTg4MDA1LCJleHAiOjE2ODQ5OTE2MDV9.SfmrnBi2JD2JgYe_D3qnyL4IYB9Wf5AoEbiqWFwgRaM";
+    "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiJhQGEuYSIsInVzZXJJZCI6OCwic3ViIjoiYWNjZXNzLXRva2VuIiwiaWF0IjoxNjg0OTk0OTA1LCJleHAiOjE2ODQ5OTg1MDV9.3sq8KLFlLKbo2DTKotVAnhF66t1b4QwMtg71ZZIV4r0";
   return config;
 });
 
