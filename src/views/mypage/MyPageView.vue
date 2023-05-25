@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row class="view">
+    <v-row class="view ">
       <v-col cols="3">
         <v-sheet
           rounded
@@ -54,7 +54,7 @@
                 <v-btn
                   elevation="0"
                   color="#FEE440"
-                  class="mt-16 btn w-screen"
+                  class="mt-5 btn w-screen"
                   width="160px"
                   @click="() => {
                     currentTabCompo = 'MyTripPlanVue'
@@ -66,7 +66,7 @@
                 <v-btn
                   elevation="0"
                   color="#FEE440"
-                  class="mt-16 btn w-screen"
+                  class="mt-5 btn w-screen"
                   width="160px"
                   @click="currentTabCompo = 'MyTripPlanVue'"
                 >
@@ -75,7 +75,7 @@
                 <v-btn
                   elevation="0"
                   color="#FEE440"
-                  class="mt-16 btn w-screen"
+                  class="mt-5 btn w-screen"
                   width="160px"
                   @click="() => {
                     currentTabCompo = 'FeedList'
@@ -87,7 +87,7 @@
                 <v-btn
                   elevation="0"
                   color="#FEE440"
-                  class="mt-16 btn w-screen"
+                  class="mt-5 btn w-screen"
                   width="160px"
                   @click="() => {
                     currentTabCompo = 'FeedList'

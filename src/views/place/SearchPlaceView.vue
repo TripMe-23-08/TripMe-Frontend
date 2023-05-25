@@ -5,11 +5,14 @@
       flat="true"
       :items="Object.keys(sidoMap)"
       :model-value="currentSido"
-      @update:model-value="currentSido = $event"
+      @update:model-value="currentSido = $event" 
       label="시/도"
       density="compact"
       variant="underlined"
-    ></v-select>
+    ><template  v-slot:item="{ item , props}">
+        <v-list-item v-bind="props" :title="item.title" class="btn">
+        </v-list-item>
+      </template></v-select>
     <v-select
       class="ms-2"
       flat="true"
@@ -19,7 +22,11 @@
       label="구/군"
       density="compact"
       variant="underlined"
-    ></v-select>
+    ><template v-slot:item="{ item,props }">
+        <v-list-item v-bind="props" :title="item.title" class="btn">
+        </v-list-item>
+      </template>
+        </v-select>
     <v-select
       class="ms-2"
       :items="Object.keys(categoryMap)"
@@ -28,7 +35,10 @@
       label="카테고리"
       density="compact"
       variant="underlined"
-    ></v-select>
+    ><template v-slot:item="{ item,props }">
+        <v-list-item v-bind="props" :title="item.title" class="btn">
+        </v-list-item>
+      </template></v-select>
     <v-btn class="ml-2" variant="outlined" density="default" @click="search"
       >검색</v-btn
     >
@@ -45,6 +55,7 @@
 <script>
 import KakaoMap from "@/components/map/KakaoMap.vue";
 import http from "@/api/http";
+
 
 export default {
   components: { KakaoMap },

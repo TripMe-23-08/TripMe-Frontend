@@ -53,7 +53,7 @@ export default {
     const { handleSubmit } = useForm({
       validationSchema: {
         email(value) {
-          if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true;
+          if (/^[a-z0-9_-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true;
 
           return "이메일을 필수 입력하세요";
         },

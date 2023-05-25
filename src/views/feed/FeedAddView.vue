@@ -12,9 +12,12 @@
           item-value="id"
           variant="outlined"
           density="compact"
-        >
+          class="content"
+        >        
+        <template v-slot:item="{ item, props }">
+        <v-list-item v-bind="props" :title="item.title" class="content"> </v-list-item>
+      </template>
         </v-select>
-
         <trip-time-line
           v-if="selectedRoute != null"
           direction="vertical"
@@ -114,6 +117,7 @@ export default {
   },
   methods: {
     ...mapActions("feedStore", ["getTripRoutes"]), // [1]
+
     chooseImage() {
       this.$refs.fileInput.click();
     },
@@ -228,4 +232,5 @@ export default {
   border-radius: 100px;
   background-color: #fee440;
 }
+
 </style>
