@@ -2,7 +2,7 @@
   <v-container class="bv-example-row mt-3">
     <v-row class="mv-1">
       <v-col class="text-right title">
-        <v-button @click="moveWrite">글쓰기</v-button>
+        <v-btn variant="outlined" @click="moveWrite" style="color: #ff865e">글쓰기</v-btn>
       </v-col>
     </v-row>
     <!-- <v-list lines="three">
@@ -31,33 +31,37 @@
 
     <v-row>
       <v-col>
-        <v-table fixed-header>
-          <thead class="title">
-            <tr>
-              <th v-for="field in fields" :key="field.id" :class="field.tdClass">
-                {{ field.label }}
-              </th>
-            </tr>
-          </thead>
-          <tbody class="content">
-            <tr v-for="article in articles" :key="article.id">
-              <td>
-                <router-link
-                  :to="{
-                    name: 'feedDetail',
-                    params: { feedId: article.id },
-                  }"
-                  >{{ article.id }}</router-link
-                >
-              </td>
-              <td>{{ article.title }}</td>
-              <td>{{ article.nickName }}</td>
-              <td>{{ dateFormat(article.createdAt) }}</td>
-              <td>{{ dateFormat(article.updatedAt) }}</td>
-              <td>{{ article.view }}</td>
-            </tr>
-          </tbody>
-        </v-table>
+        <v-card>
+          <v-table>
+            <thead>
+              <tr class="card title">
+                <th v-for="field in fields" :key="field.id" :class="tdClass">
+                  {{ field.label }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="article in articles" :key="article.id">
+                <td>
+                  <router-link
+                    class="title"
+                    :to="{
+                      name: 'feedDetail',
+                      params: { feedId: article.id },
+                    }"
+                    style="text-decoration-line: none; color: black"
+                    >{{ article.id }}</router-link
+                  >
+                </td>
+                <td class="content">{{ article.title }}</td>
+                <td class="content">{{ article.nickName }}</td>
+                <td class="content">{{ dateFormat(article.createdAt) }}</td>
+                <td class="content">{{ dateFormat(article.updatedAt) }}</td>
+                <td class="content">{{ article.view }}</td>
+              </tr>
+            </tbody>
+          </v-table>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -123,5 +127,13 @@ export default {
 .content {
   font-family: "LeeSeoyun";
   font-size: 20px;
+}
+
+.card {
+  background-color: #fef9ef;
+}
+
+th {
+  border-radius: 6px;
 }
 </style>

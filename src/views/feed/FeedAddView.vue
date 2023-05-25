@@ -1,5 +1,5 @@
 <template>
-  <v-row no-gutters>
+  <v-row class="content">
     <v-col>
       <v-sheet class="pa-2 ma-2">
         <v-select
@@ -32,21 +32,12 @@
           @click="chooseImage"
         >
           <span v-if="!imgPreview" class="placeholder"> 이미지 선택 </span>
-          <input
-            class="file-input"
-            ref="fileInput"
-            type="file"
-            @input="onSelectFile"
-          />
+          <input class="file-input" ref="fileInput" type="file" @input="onSelectFile" />
         </v-row>
 
         <!-- Trip Route에 포함된 장소 관련 장소 이미지--->
         <v-row id="trip-route-img" v-if="selectedRoute != null">
-          <v-col
-            v-for="tripPlace in extractPlaces(selectedRoute)"
-            :key="tripPlace"
-            cols="3"
-          >
+          <v-col v-for="tripPlace in extractPlaces(selectedRoute)" :key="tripPlace" cols="3">
             <simple-image-card
               :place-info="tripPlace.place"
               @click="
@@ -60,12 +51,7 @@
 
         <!--제목 내용 뷰--->
         <v-row class="pt-2">
-          <v-textarea
-            v-model="feed.title"
-            variant="outlined"
-            label="제목"
-            rows="1"
-          ></v-textarea>
+          <v-textarea v-model="feed.title" variant="outlined" label="제목" rows="1"></v-textarea>
         </v-row>
         <v-row>
           <v-textarea
@@ -202,5 +188,9 @@ export default {
   display: flex;
   flex-wrap: nowrap;
   overflow: scroll;
+}
+.content {
+  font-family: "LeeSeoyun";
+  font-size: 20px;
 }
 </style>

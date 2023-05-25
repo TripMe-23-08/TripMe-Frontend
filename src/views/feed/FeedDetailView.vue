@@ -1,5 +1,5 @@
 <template>
-  <v-row no-gutters>
+  <v-row class="mt-10 content">
     <v-col>
       <v-select
         hide-no-data="true"
@@ -12,17 +12,17 @@
         density="compact"
       >
       </v-select>
+      <br />
       <v-sheet class="pa-2 ma-2">
         <trip-time-line
           direction="vertical"
-          :tripPlaces="
-            showFeed.tripRoute ? showFeed.tripRoute.tripPlaces : null
-          "
+          dot-color="purple"
+          :tripPlaces="showFeed.tripRoute ? showFeed.tripRoute.tripPlaces : null"
         />
       </v-sheet>
     </v-col>
     <v-col>
-      <v-sheet class="pa-2 ma-2">
+      <v-sheet class="pa-2 ml-10 mt-1">
         <!--이미지 업로드 뷰-->
         <v-row id="img-upload">
           <v-img
@@ -35,16 +35,9 @@
         </v-row>
 
         <!-- Trip Route에 포함된 장소 관련 장소 이미지--->
-        <v-row id="trip-route-img">
-          <v-col
-            v-for="tripPlace in feed.tripRoute.tripPlaces"
-            :key="tripPlace"
-            cols="3"
-          >
-            <simple-image-card
-              :place-info="tripPlace.place"
-              @click="clickPlaceImg"
-            />
+        <v-row id="trip-route-img" style="overflow-y: hidden; max-height: 400px">
+          <v-col v-for="tripPlace in feed.tripRoute.tripPlaces" :key="tripPlace" cols="3">
+            <simple-image-card :place-info="tripPlace.place" @click="clickPlaceImg" />
 
             <!--TODO : Dialog 추가-->
             <!-- <image-text-dialog :clickedPlaceInfo="tripPlace.place" /> -->
@@ -54,8 +47,11 @@
         <v-row class="pt-2">
           <v-textarea
             v-model="feed.title"
+            label="제목"
             variant="outlined"
             rows="1"
+            class="mt-3"
+            no-resize
             :readonly="editable"
           ></v-textarea>
         </v-row>
@@ -68,7 +64,6 @@
             :readonly="editable"
           ></v-textarea> -->
           <v-textarea
-            counter
             label="설명"
             :rules="rules"
             v-model="feed.content"
@@ -81,11 +76,11 @@
 
         <v-row class="d-flex justify-end">
           <div v-if="editable">
-            <v-btn @click="modify"> 수정</v-btn>
+            <v-btn class="mr-3" @click="modify"> 수정</v-btn>
             <v-btn @click="deleteFeed"> 삭제</v-btn>
           </div>
           <div v-else>
-            <v-btn @click="updateFeedDetail"> 등록</v-btn>
+            <v-btn class="mr-3" @click="updateFeedDetail"> 등록</v-btn>
             <v-btn @click="cancle"> 취소</v-btn>
           </div>
         </v-row>
@@ -100,7 +95,6 @@ import TripTimeLine from "@/components/feed/TripTimeLine.vue";
 import { mapActions, mapGetters, mapState } from "vuex";
 import router from "@/router";
 import http from "@/api/http";
-
 
 import SimpleImageCard from "@/components/cards/SimpleImageCard.vue";
 // import ImageTextDialog from "@/components/dialogs/ImageTextDialog.vue";
@@ -120,21 +114,16 @@ export default {
   created() {
     this.getFeedDetail(this.$route.params.feedId); // [2]
     if (this.isLogin) {
-      http
-        .post("/articles/history", {
-          params: {
-            userId: this.userInfo.id,
-            postId: this.$route.params.feedId, 
-          }
-        })
+      http.post("/articles/history", {
+        params: {
+          userId: this.userInfo.id,
+          postId: this.$route.params.feedId,
+        },
+      });
     }
   },
   methods: {
-    ...mapActions("feedStore", [
-      "getFeedDetail",
-      "updateFeedDetail",
-      "deleteFeed",
-    ]), // [1]
+    ...mapActions("feedStore", ["getFeedDetail", "updateFeedDetail", "deleteFeed"]), // [1]
     modify() {
       this.reverse();
     },
@@ -162,5 +151,9 @@ export default {
   display: flex;
   flex-wrap: nowrap;
   overflow: scroll;
+}
+.content {
+  font-family: "LeeSeoyun";
+  font-size: 20px;
 }
 </style>
