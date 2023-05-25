@@ -13,10 +13,10 @@
           variant="outlined"
           density="compact"
           class="content"
-        >        
-        <template v-slot:item="{ item, props }">
-        <v-list-item v-bind="props" :title="item.title" class="content"> </v-list-item>
-      </template>
+        >
+          <template v-slot:item="{ item, props }">
+            <v-list-item v-bind="props" :title="item.title" class="content"> </v-list-item>
+          </template>
         </v-select>
         <trip-time-line
           v-if="selectedRoute != null"
@@ -37,12 +37,7 @@
           @click="chooseImage"
         >
           <span v-if="!imgPreview" class="placeholder"> 이미지 선택 </span>
-          <input
-            class="file-input"
-            ref="userImgInput"
-            type="file"
-            @input="onSelectFile"
-          />
+          <input class="file-input" ref="userImgInput" type="file" @input="onSelectFile" />
         </v-row>
 
         <!-- Trip Route에 포함된 장소 관련 장소 이미지--->
@@ -52,11 +47,7 @@
           v-if="selectedRoute != null"
           class="section"
         >
-          <v-col
-            v-for="tripPlace in extractPlaces(selectedRoute)"
-            :key="tripPlace"
-            cols="3"
-          >
+          <v-col v-for="tripPlace in extractPlaces(selectedRoute)" :key="tripPlace" cols="3">
             <simple-image-card
               :place-info="tripPlace.place"
               @click="
@@ -87,22 +78,8 @@
           ></v-textarea>
         </v-row>
         <v-row class="d-flex justify-end">
-          <v-btn
-            color="#A2D2FF"
-            class="mr-3"
-            variant="outlined"
-            @click="addFeed()"
-          >
-            등록
-          </v-btn>
-          <v-btn
-            color="#FF865E"
-            class="mr-3"
-            variant="outlined"
-            @click="cancle()"
-          >
-            취소
-          </v-btn>
+          <v-btn color="#A2D2FF" class="mr-3" variant="outlined" @click="addFeed()"> 등록 </v-btn>
+          <v-btn color="#FF865E" class="mr-3" variant="outlined" @click="cancle()"> 취소 </v-btn>
         </v-row>
       </v-sheet>
     </v-col>
@@ -140,7 +117,7 @@ export default {
     this.getUserTripRoutes(this.userInfo.id); // [2]
   },
   methods: {
-    ...mapActions("feedStore", ["getTripRoutes"]), // [1]
+    ...mapActions("feedStore", ["getUserTripRoutes"]), // [1]
 
     chooseImage() {
       this.$refs.userImgInput.click();
@@ -176,10 +153,7 @@ export default {
       const input = this.$refs.userImgInput;
       const files = input.files;
       const formData = new FormData();
-      formData.append(
-        "post",
-        new Blob([JSON.stringify(postInfo)], { type: "application/json" })
-      );
+      formData.append("post", new Blob([JSON.stringify(postInfo)], { type: "application/json" }));
       if (files.length > 0) {
         formData.append("files", files[0]);
       }
@@ -268,5 +242,4 @@ export default {
   border-radius: 100px;
   background-color: #fee440;
 }
-
 </style>
