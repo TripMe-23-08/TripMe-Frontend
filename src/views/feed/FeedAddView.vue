@@ -37,7 +37,12 @@
           @click="chooseImage"
         >
           <span v-if="!imgPreview" class="placeholder"> 이미지 선택 </span>
-          <input class="file-input" ref="fileInput" type="file" @input="onSelectFile" />
+          <input
+            class="file-input"
+            ref="userImgInput"
+            type="file"
+            @input="onSelectFile"
+          />
         </v-row>
 
         <!-- Trip Route에 포함된 장소 관련 장소 이미지--->
@@ -47,7 +52,11 @@
           v-if="selectedRoute != null"
           class="section"
         >
-          <v-col v-for="tripPlace in extractPlaces(selectedRoute)" :key="tripPlace" cols="3">
+          <v-col
+            v-for="tripPlace in extractPlaces(selectedRoute)"
+            :key="tripPlace"
+            cols="3"
+          >
             <simple-image-card
               :place-info="tripPlace.place"
               @click="
@@ -78,8 +87,22 @@
           ></v-textarea>
         </v-row>
         <v-row class="d-flex justify-end">
-          <v-btn color="#A2D2FF" class="mr-3" variant="outlined" @click="addFeed"> 등록 </v-btn>
-          <v-btn color="#FF865E" class="mr-3" variant="outlined" @click="cancle"> 취소 </v-btn>
+          <v-btn
+            color="#A2D2FF"
+            class="mr-3"
+            variant="outlined"
+            @click="addFeed()"
+          >
+            등록
+          </v-btn>
+          <v-btn
+            color="#FF865E"
+            class="mr-3"
+            variant="outlined"
+            @click="cancle()"
+          >
+            취소
+          </v-btn>
         </v-row>
       </v-sheet>
     </v-col>
@@ -120,15 +143,20 @@ export default {
     ...mapActions("feedStore", ["getTripRoutes"]), // [1]
 
     chooseImage() {
-      this.$refs.fileInput.click();
+      this.$refs.userImgInput.click();
     },
     onSelectFile() {
-      const input = this.$refs.fileInput;
+      const input = this.$refs.userImgInput;
+      console.log("onSelectFile: ", input);
       const files = input.files;
+      console.log("files: ", files[0]);
+
       if (files && files[0]) {
         const reader = new FileReader();
         reader.onload = (e) => {
           this.imgPreview = e.target.result;
+          //console.log("FILE INPUT RESULT>>>>>>>>>>>>", e.target.result);
+          //data:image/jpeg;base64,
         };
         reader.readAsDataURL(files[0]);
         this.$emit("input", files[0]);
@@ -139,21 +167,28 @@ export default {
       router.replace({ path: "/feed" });
     },
     addFeed() {
-      http.post(
-        "/articles",
-        {
-          title: this.feed.title,
-          content: this.feed.content,
-          tripRouteId: this.selectedRoute.id,
-        },
-        {
-          headers: {
-            Authorization:
-              "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyRW1haWwiOiJhYUBnbWFpbC5jb20iLCJ1c2VyTmFtZSI6IuydtOumhOydtOumhCIsInVzZXJJZCI6Mywic3ViIjoiYWNjZXNzLXRva2VuIiwiaWF0IjoxNjg0OTE1MDM4LCJleHAiOjE2ODQ5MTg2Mzh9.mFLlGmd4OlHHvnoPiRDgS6nVPmQhpvYMiZ65IFvEuxE",
-          },
-        }
+      ///////////////하는중
+      const postInfo = {
+        title: this.feed.title,
+        content: this.feed.content,
+        tripRouteId: this.selectedRoute.id,
+      };
+      const input = this.$refs.userImgInput;
+      const files = input.files;
+      const formData = new FormData();
+      formData.append(
+        "post",
+        new Blob([JSON.stringify(postInfo)], { type: "application/json" })
       );
-      router.replace({ path: "/feed" });
+      if (files.length > 0) {
+        formData.append("files", files[0]);
+      }
+      http.post("/articles", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      router.push({ path: "/feed" });
     },
 
     extractPlaces(selectedRoute) {
