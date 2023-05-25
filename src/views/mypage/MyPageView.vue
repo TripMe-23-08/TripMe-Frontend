@@ -120,7 +120,7 @@
         </v-row>
       </v-col>
       <!-- <v-col style="height: 300px"> -->
-      <v-col style="max-height: 1470px;">
+      <v-col style="max-height: 1300px;">
         <v-sheet rounded class="mx-auto pa-2 mt-3 btn text-center" color="#A2D2FF">
           {{ currentTitle }}
         </v-sheet>
