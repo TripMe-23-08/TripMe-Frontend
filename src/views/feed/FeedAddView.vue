@@ -109,11 +109,12 @@ export default {
   }),
 
   computed: {
+    ...mapState("authStore", ["isLogin", "isLoginError", "userInfo"]),
     ...mapState("feedStore", ["tripRoutes"]),
     ...mapGetters("feedStore", ["showTripRoutes"]),
   },
   created() {
-    this.getTripRoutes(); // [2]
+    this.getUserTripRoutes(this.userInfo.id); // [2]
   },
   methods: {
     ...mapActions("feedStore", ["getTripRoutes"]), // [1]

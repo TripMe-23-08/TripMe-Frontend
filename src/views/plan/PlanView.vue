@@ -143,6 +143,7 @@ import TextCard from "@/components/cards/TextCard.vue";
 import SimpleImageCard from "@/components/cards/SimpleImageCard.vue";
 import draggable from "vuedraggable";
 import http from "@/api/http";
+import { mapState } from "vuex";
 
 export default {
   name: "PlanView",
@@ -171,6 +172,9 @@ export default {
     // map interaction
     pinLocation: [{ latitude: 36.13790501, longitude: 126.4935202 }],
   }),
+  computed: {
+    ...mapState("authStore", ["isLogin", "isLoginError", "userInfo"]),
+  },
   methods: {
     submit() {
       console.log("submit !!! ");
@@ -198,7 +202,7 @@ export default {
       http
         .post("/trip-routes", {
           params: {
-            // id set by the server
+            user_id: this.userInfo.id,
             name: this.tripTitle,
             // createdAt set by db
             // userId set by the server
