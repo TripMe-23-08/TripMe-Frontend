@@ -4,12 +4,13 @@
       <v-select
         hide-no-data="true"
         v-model="feed.tripRoute"
-        label="여행 경로 선택"
+        label="여행 경로"
         return-object
         item-title="name"
         item-value="id"
         variant="outlined"
         density="compact"
+        menu-icon=""
       >
       </v-select>
       <br />

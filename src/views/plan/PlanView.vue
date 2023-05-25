@@ -10,15 +10,7 @@
         ></v-text-field>
       </v-sheet>
       <v-sheet style="width: 20%; max-width: 100px">
-        <v-btn
-          size="x-large"
-          block
-          color="#A2D2FF"
-          type="submit"
-          @click="submit"
-        >
-          저장하기
-        </v-btn>
+        <v-btn size="x-large" block color="#A2D2FF" type="submit" @click="submit"> 저장하기 </v-btn>
       </v-sheet>
     </div>
     <v-row>
@@ -75,9 +67,7 @@
           Day {{ n }}
         </v-tab>
         <v-spacer></v-spacer>
-        <v-btn :disabled="length === 1" variant="text" @click="removeDay">
-          날짜 삭제
-        </v-btn>
+        <v-btn :disabled="length === 1" variant="text" @click="removeDay"> 날짜 삭제 </v-btn>
         <v-divider class="mx-1" vertical></v-divider>
         <v-btn variant="text" @click="addDay"> 날짜 추가 </v-btn>
       </v-tabs>
@@ -103,11 +93,7 @@
             >
               <template #item="{ element, idx }">
                 <v-col :key="idx">
-                  <text-card
-                    v-bind="element"
-                    @removePlace="removeSelectedPlace"
-                  >
-                  </text-card>
+                  <text-card v-bind="element" @removePlace="removeSelectedPlace"> </text-card>
                 </v-col>
               </template>
             </draggable>
@@ -117,10 +103,7 @@
     </v-card>
 
     <!-- temporary space for candidate places -->
-    <v-card
-      class="d-flex flex-column mt-4 overflow-x-auto"
-      style="height: 180px"
-    >
+    <v-card class="d-flex flex-column mt-4 overflow-x-auto" style="height: 180px">
       <draggable
         class="d-flex flex-row"
         v-model="allPlaces.candidates"
@@ -132,12 +115,7 @@
       >
         <template #item="{ element, idx }">
           <v-col :key="idx">
-            <text-card
-              v-bind="element"
-              @removePlace="removeCandidatePlace"
-              order="1"
-            >
-            </text-card>
+            <text-card v-bind="element" @removePlace="removeCandidatePlace" order="1"> </text-card>
           </v-col>
         </template>
       </draggable>
@@ -152,6 +130,7 @@ import TextCard from "@/components/cards/TextCard.vue";
 import SimpleImageCard from "@/components/cards/SimpleImageCard.vue";
 import draggable from "vuedraggable";
 import http from "@/api/http";
+import { mapState } from "vuex";
 
 export default {
   name: "PlanView",
@@ -180,6 +159,9 @@ export default {
     // map interaction
     pinLocation: [{ latitude: 36.13790501, longitude: 126.4935202 }],
   }),
+  computed: {
+    ...mapState("authStore", ["isLogin", "isLoginError", "userInfo"]),
+  },
   methods: {
     submit() {
       console.log("submit !!! ");
@@ -207,7 +189,7 @@ export default {
       http
         .post("/trip-routes", {
           params: {
-            // id set by the server
+            user_id: this.userInfo.id,
             name: this.tripTitle,
             // createdAt set by db
             // userId set by the server
@@ -311,17 +293,13 @@ export default {
 
       // check selected spaces
       if (this.allPlaces.places.length > 0) {
-        let selectedNames = this.allPlaces.places[this.selectedDay - 1].map(
-          (place) => place.name
-        );
+        let selectedNames = this.allPlaces.places[this.selectedDay - 1].map((place) => place.name);
         nameToCompare = [...nameToCompare, ...selectedNames];
       }
 
       // check candidate space
       if (this.allPlaces.candidates.length > 0) {
-        let candidateNames = this.allPlaces.candidates.map(
-          (place) => place.name
-        );
+        let candidateNames = this.allPlaces.candidates.map((place) => place.name);
         nameToCompare = [...nameToCompare, ...candidateNames];
       }
 
