@@ -2,8 +2,8 @@
   <div id="map"></div>
 
   <!--Place Dialog START-->
-  <v-dialog v-model="dialog" width="auto">
-    <v-card>
+  <v-dialog v-model="dialog" width="40%">
+    <v-card style="border-radius: 3%">
       <!-- <div v-html="makeCard(dialogData)"></div> -->
 
       <place-detail-info :dialogData="dialogData" />
@@ -19,7 +19,7 @@
 <script>
 import http from "@/api/http";
 import { mapState } from "vuex";
-import PlaceDetailInfo from "./PlaceDetailInfo.vue";
+import PlaceDetailInfo from "../map/PlaceDetailInfo.vue";
 
 export default {
   components: { PlaceDetailInfo },
@@ -64,7 +64,29 @@ export default {
       this.map = new kakao.maps.Map(container, options);
       this.displayMarker([{ latitude: 33.450701, longitude: 126.570667 }]);
     },
-
+    categoryMarkerImgMapper(categoryCode) {
+      let categoryMap = {
+        12: "tm-umbrella-beach", // 관광지
+        14: "tm-building-columns", // 문화시설
+        15: "tm-champagne-glasses", // 축제/공연/행사
+        25: "tm-travel-course", // 여행코스
+        28: "tm-person-hiking", // 레포츠
+        32: "tm-hotel", //숙박
+        38: "tm-basket-shopping", // 쇼핑
+        39: "tm-utensils", // 음식점
+        undefined: "tm-undefined",
+      };
+      return require(`@/assets/img/marker/${categoryMap[categoryCode]}.svg`);
+    },
+    createMarkerImage(src) {
+      // let options = {
+      //   spriteOrigin: new kakao.maps.Point(10, 36),
+      //   spriteSize: new kakao.maps.Size(36, 98),
+      // };
+      let size = new kakao.maps.Size(36, 36);
+      var markerImage = new kakao.maps.MarkerImage(src, size);
+      return markerImage;
+    },
     // show markers based on latlng from markerPositions array
     displayMarker(markerPositions) {
       if (this.markers.length > 0) {
@@ -78,10 +100,11 @@ export default {
           markerInfo.latitude,
           markerInfo.longitude
         );
-
+        let src = this.categoryMarkerImgMapper(markerInfo.category);
         var marker = new kakao.maps.Marker({
           map: this.map,
           position: point,
+          image: this.createMarkerImage(src),
         });
 
         this.markers.push(marker);
@@ -137,44 +160,44 @@ export default {
         });
       }
     },
-    makeCard(data) {
-      let categoryMapper = (categoryCode) => {
-        let categoryMap = {
-          12: "fa-solid fa-umbrella-beach", // 관광지
-          14: "fa-solid fa-building-columns", // 문화시설
-          15: "fa-solid fa-champagne-glasses", // 축제/공연/행사
-          25: "fa-solid fa-map-location-dot", // 여행코스
-          28: "fa-solid fa-person-hiking", // 레포츠
-          32: "fa-solid fa-hotel", //숙박
-          38: "fa-solid fa-basket-shopping", // 쇼핑
-          39: "fa-solid fa-utensils", // 음식점
-        };
-        console.log(categoryMap[categoryCode]);
-        return categoryMap[categoryCode];
-      };
-      var img = data.imgUrl
-        ? data.imgUrl
-        : "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/place_thumb.png";
-      var name = data.name ? data.name : "상호명 정보 없음";
-      var address = data.address ? data.address : "주소 정보 없음";
-      var overview = data.overview;
-      var category = data.category;
+    // makeCard(data) {
+    //   let categoryMapper = (categoryCode) => {
+    //     let categoryMap = {
+    //       12: "fa-solid fa-umbrella-beach", // 관광지
+    //       14: "fa-solid fa-building-columns", // 문화시설
+    //       15: "fa-solid fa-champagne-glasses", // 축제/공연/행사
+    //       25: "fa-solid fa-map-location-dot", // 여행코스
+    //       28: "fa-solid fa-person-hiking", // 레포츠
+    //       32: "fa-solid fa-hotel", //숙박
+    //       38: "fa-solid fa-basket-shopping", // 쇼핑
+    //       39: "fa-solid fa-utensils", // 음식점
+    //     };
+    //     console.log(categoryMap[categoryCode]);
+    //     return categoryMap[categoryCode];
+    //   };
+    //   var img = data.imgUrl
+    //     ? data.imgUrl
+    //     : "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/place_thumb.png";
+    //   var name = data.name ? data.name : "상호명 정보 없음";
+    //   var address = data.address ? data.address : "주소 정보 없음";
+    //   var overview = data.overview;
+    //   var category = data.category;
 
-      let content = `<div class="overlay_info">
-        <a href="https://map.kakao.com/link/map/${data.latitude},${
-        data.longitude
-      }" target="_blank">
-          <i class="${categoryMapper(category)}" ></i>
-          <strong>${name}</strong></a>
-        <div class="desc">
-          <img src=${img} alt="" >
-          <div class="address">${address}</div>
-          <div>${overview}</div>
-        </div>
-        </div>`;
+    //   let content = `<div class="overlay_info">
+    //     <a href="https://map.kakao.com/link/map/${data.latitude},${
+    //     data.longitude
+    //   }" target="_blank">
+    //       <i class="${categoryMapper(category)}" ></i>
+    //       <strong>${name}</strong></a>
+    //     <div class="desc">
+    //       <img src=${img} alt="" >
+    //       <div class="address">${address}</div>
+    //       <div>${overview}</div>
+    //     </div>
+    //     </div>`;
 
-      return content;
-    },
+    //   return content;
+    // },
     // setMarkersMouseClickEvent() {
     //   //[동일한지 확인]console.log(this.map);
     //   for (let i = 0; i < this.markers.length; i++) {
