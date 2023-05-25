@@ -117,8 +117,7 @@ export default {
     this.getUserTripRoutes(this.userInfo.id); // [2]
   },
   methods: {
-    ...mapActions("feedStore", ["getTripRoutes"]), // [1]
-
+    ...mapActions("feedStore", ["getUserTripRoutes"]), // [1]
     chooseImage() {
       this.$refs.fileInput.click();
     },
