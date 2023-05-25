@@ -17,6 +17,7 @@
         >
           {{ page.title }}
         </v-btn>
+        <v-spacer></v-spacer>
         <v-btn v-if="checkUserInfo() !== null" @click="logout">
           <v-icon icon="fa:fas fa-sharp fa-right-from-bracket" />
         </v-btn>

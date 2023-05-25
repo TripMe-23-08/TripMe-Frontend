@@ -36,7 +36,7 @@
           :style="{ 'background-image': `url(${imgPreview})` }"
           @click="chooseImage"
         >
-          <span v-if="!imgPreview" class="placeholder"> 이미지 선택 </span>
+          <span v-if="!imgPreview" class="placeholder content"> 이미지 선택 </span>
           <input class="file-input" ref="userImgInput" type="file" @input="onSelectFile" />
         </v-row>
 

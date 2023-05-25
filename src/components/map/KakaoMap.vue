@@ -9,7 +9,7 @@
       <place-detail-info :dialogData="dialogData" />
 
       <v-card-actions>
-        <v-btn color="primary" block @click="dialog = false">닫기</v-btn>
+        <v-btn class="content" color="primary" block @click="dialog = false">닫기</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -372,6 +372,12 @@ button {
   top: 13px;
   white-space: initial;
 }
+
+.content {
+  font-family: "LeeSeoyun";
+  font-size: 20px;
+}
+
 /* .overlay_info:after {
   content: "";
   position: absolute;
