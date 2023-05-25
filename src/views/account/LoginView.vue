@@ -1,22 +1,22 @@
 <template>
   <v-container class="mt-5 text-center" style="max-width: 600px">
     <div class="text-center">
-    <v-dialog
-      v-model="this.dialog"
-      width="auto"
-    >
+      <v-dialog
+        v-model="this.dialog"
+        width="auto"
+      >
 
-      <v-card>
-        <v-card-text>
-          아이디나 패스워드가 잘못되었습니다!
-        </v-card-text>
-        <v-card-actions>
-          <v-btn color="#a2d2ff" block @click="this.dialog = false">닫기</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </div>
-  
+        <v-card>
+          <v-card-text>
+            아이디나 패스워드가 잘못되었습니다!
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="#a2d2ff" block @click="this.dialog = false">닫기</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+
     <v-card class="borderwidth" variant="outlined" color="#a2d2ff">
       <v-card-title class="login">LOGIN</v-card-title>
       <form width="200" class="mx-auto content">
