@@ -12,6 +12,7 @@
       <v-sheet style="width: 20%; max-width: 100px">
         <v-btn
           size="x-large"
+          variant="outlined"
           block
           color="#A2D2FF"
           type="submit"
@@ -24,7 +25,7 @@
     <v-row>
       <!-- top left map area -->
       <v-col style="mx-auto; max-height: 550px;">
-        <kakao-map markerPositions="pinLocation" />
+        <kakao-map :markerPositions="pinLocation" />
       </v-col>
 
       <!-- top right search area-->
@@ -70,23 +71,23 @@
     <!-- user plan part -->
     <!-- select day-->
     <v-card class="mt-4">
-      <v-tabs v-model="tab" bg-color="brown-lighten-5">
+      <v-tabs v-model="tab" bg-color="#FEF9EF">
         <v-tab v-for="n in length" :key="n" :value="n" @click="selectedDay = n">
           Day {{ n }}
         </v-tab>
         <v-spacer></v-spacer>
-        <v-btn :disabled="length === 1" variant="text" @click="removeDay">
+        <v-btn class="ma-1" :disabled="length === 1" variant="text" @click="removeDay">
           날짜 삭제
         </v-btn>
         <v-divider class="mx-1" vertical></v-divider>
-        <v-btn variant="text" @click="addDay"> 날짜 추가 </v-btn>
+        <v-btn class="ma-1" variant="text" @click="addDay"> 날짜 추가 </v-btn>
       </v-tabs>
 
       <!-- daily places -->
       <v-card-text>
         <v-window v-model="tab">
           <v-window-item
-            class="overflow-x-auto overflow-y-hidden"
+            class="section overflow-x-auto overflow-y-hidden"
             v-for="n in length"
             :key="n"
             :value="n"
@@ -100,14 +101,11 @@
               @end="drag = false"
               item-key="id"
               sortable-list
+              style="height: 180px"
             >
               <template #item="{ element, idx }">
                 <v-col :key="idx">
-                  <text-card
-                    v-bind="element"
-                    @removePlace="removeSelectedPlace"
-                  >
-                  </text-card>
+                  <text-card v-bind="element" @removePlace="removeSelectedPlace"> </text-card>
                 </v-col>
               </template>
             </draggable>
@@ -117,10 +115,7 @@
     </v-card>
 
     <!-- temporary space for candidate places -->
-    <v-card
-      class="d-flex flex-column mt-4 overflow-x-auto"
-      style="height: 180px"
-    >
+    <v-card class="section d-flex flex-column mt-4 overflow-x-auto" style="height: 180px">
       <draggable
         class="d-flex flex-row"
         v-model="allPlaces.candidates"
@@ -129,15 +124,11 @@
         @end="drag = false"
         item-key="id"
         sortable-list
+        style="height: 180px"
       >
         <template #item="{ element, idx }">
           <v-col :key="idx">
-            <text-card
-              v-bind="element"
-              @removePlace="removeCandidatePlace"
-              order="1"
-            >
-            </text-card>
+            <text-card v-bind="element" @removePlace="removeCandidatePlace" order="1"> </text-card>
           </v-col>
         </template>
       </draggable>
@@ -152,6 +143,7 @@ import TextCard from "@/components/cards/TextCard.vue";
 import SimpleImageCard from "@/components/cards/SimpleImageCard.vue";
 import draggable from "vuedraggable";
 import http from "@/api/http";
+import { mapState } from "vuex";
 
 export default {
   name: "PlanView",
@@ -180,6 +172,9 @@ export default {
     // map interaction
     pinLocation: [{ latitude: 36.13790501, longitude: 126.4935202 }],
   }),
+  computed: {
+    ...mapState("authStore", ["isLogin", "isLoginError", "userInfo"]),
+  },
   methods: {
     submit() {
       console.log("submit !!! ");
@@ -207,7 +202,7 @@ export default {
       http
         .post("/trip-routes", {
           params: {
-            // id set by the server
+            user_id: this.userInfo.id,
             name: this.tripTitle,
             // createdAt set by db
             // userId set by the server
@@ -311,17 +306,13 @@ export default {
 
       // check selected spaces
       if (this.allPlaces.places.length > 0) {
-        let selectedNames = this.allPlaces.places[this.selectedDay - 1].map(
-          (place) => place.name
-        );
+        let selectedNames = this.allPlaces.places[this.selectedDay - 1].map((place) => place.name);
         nameToCompare = [...nameToCompare, ...selectedNames];
       }
 
       // check candidate space
       if (this.allPlaces.candidates.length > 0) {
-        let candidateNames = this.allPlaces.candidates.map(
-          (place) => place.name
-        );
+        let candidateNames = this.allPlaces.candidates.map((place) => place.name);
         nameToCompare = [...nameToCompare, ...candidateNames];
       }
 
@@ -338,7 +329,8 @@ export default {
       // add pin and move camera to the place
 
       this.pinLocation = [{ ...placeData }];
-      console.log("pin loc : " + this.pinLocation);
+      // console.log("pin loc : ");
+      // console.log(this.pinLocation)
     },
 
     removeSelectedPlace(placeData) {
@@ -377,5 +369,28 @@ export default {
   font-family: "LeeSeoyun";
   font-weight: bold;
   font-size: 20px;
+}
+
+.section {
+  max-height: 250px;
+  padding: 1rem;
+  overflow-x: auto;
+  direction: ltr;
+  scrollbar-color: #fef9ef;
+}
+
+.section::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.section::-webkit-scrollbar-track {
+  background-color: #fef9ef;
+  border-radius: 80px;
+}
+
+.section::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  background-color: #fee440;
 }
 </style>

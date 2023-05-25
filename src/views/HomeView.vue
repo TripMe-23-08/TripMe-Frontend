@@ -12,7 +12,9 @@
     <v-row justify="center" class="loca mb-10">
       <v-btn-group v-if="checkUserInfo() == null">
         <v-btn class="font-weight-bold btn">
-          <router-link to="/join" style="text-decoration-line: none">회원가입</router-link></v-btn
+          <router-link to="/join" style="color: ; text-decoration-line: none"
+            >회원가입</router-link
+          ></v-btn
         >
         <v-btn class="font-weight-bold btn">
           <router-link to="/login" style="text-decoration-line: none">로그인</router-link></v-btn

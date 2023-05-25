@@ -4,12 +4,13 @@
       <v-select
         hide-no-data="true"
         v-model="feed.tripRoute"
-        label="여행 경로 선택"
+        label="여행 경로"
         return-object
         item-title="name"
         item-value="id"
         variant="outlined"
         density="compact"
+        menu-icon=""
       >
       </v-select>
       <br />
@@ -35,7 +36,7 @@
         </v-row>
 
         <!-- Trip Route에 포함된 장소 관련 장소 이미지--->
-        <v-row id="trip-route-img" style="overflow-y: hidden; max-height: 400px">
+        <v-row class="section" id="trip-route-img" style="overflow-y: hidden; max-height: 400px">
           <v-col v-for="tripPlace in feed.tripRoute.tripPlaces" :key="tripPlace" cols="3">
             <simple-image-card :place-info="tripPlace.place" @click="clickPlaceImg" />
 
@@ -76,12 +77,14 @@
 
         <v-row class="d-flex justify-end">
           <div v-if="editable">
-            <v-btn class="mr-3" @click="modify"> 수정</v-btn>
-            <v-btn @click="deleteFeed"> 삭제</v-btn>
+            <v-btn color="#FEE440" variant="outlined" class="mr-3" @click="modify"> 수정</v-btn>
+            <v-btn color="#FF865E" variant="outlined" @click="deleteFeed"> 삭제</v-btn>
           </div>
           <div v-else>
-            <v-btn class="mr-3" @click="updateFeedDetail"> 등록</v-btn>
-            <v-btn @click="cancle"> 취소</v-btn>
+            <v-btn color="#A2D2FF" variant="outlined" class="mr-3" @click="updateFeedDetail">
+              등록</v-btn
+            >
+            <v-btn color="#FF865E" variant="outlined" @click="cancle"> 취소</v-btn>
           </div>
         </v-row>
       </v-sheet>
@@ -155,5 +158,28 @@ export default {
 .content {
   font-family: "LeeSeoyun";
   font-size: 20px;
+}
+
+.section {
+  max-height: 250px;
+  padding: 1rem;
+  overflow-x: auto;
+  direction: ltr;
+  scrollbar-color: #fef9ef;
+}
+
+.section::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.section::-webkit-scrollbar-track {
+  background-color: #fef9ef;
+  border-radius: 80px;
+}
+
+.section::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  background-color: #fee440;
 }
 </style>
