@@ -17,16 +17,23 @@
         <trip-time-line
           direction="vertical"
           dot-color="purple"
-          :tripPlaces="showFeed.tripRoute ? showFeed.tripRoute.tripPlaces : null"
+          :tripPlaces="
+            showFeed.tripRoute ? showFeed.tripRoute.tripPlaces : null
+          "
         />
       </v-sheet>
     </v-col>
     <v-col>
+      {{ readAndPreview() }}
       <v-sheet class="pa-2 ml-10 mt-1">
-        <!--이미지 업로드 뷰-->
+        <!--이미지 업로드 뷰 `https://picsum.photos/500/200?image=${1 + 10}`-->
         <v-row id="img-upload">
           <v-img
-            :src="`https://picsum.photos/500/200?image=${1 + 10}`"
+            :src="
+              feed.fileInfos.length >= 1
+                ? `C:\\board\\upload\\${feed.fileInfos[0].saveFolder}\\${feed.fileInfos[0].saveFile}`
+                : `https://picsum.photos/500/200?image=${1 + 10}`
+            "
             aspect-ratio="1"
             cover
             class="bg-grey-lighten-2"
@@ -35,9 +42,19 @@
         </v-row>
 
         <!-- Trip Route에 포함된 장소 관련 장소 이미지--->
-        <v-row id="trip-route-img" style="overflow-y: hidden; max-height: 400px">
-          <v-col v-for="tripPlace in feed.tripRoute.tripPlaces" :key="tripPlace" cols="3">
-            <simple-image-card :place-info="tripPlace.place" @click="clickPlaceImg" />
+        <v-row
+          id="trip-route-img"
+          style="overflow-y: hidden; max-height: 400px"
+        >
+          <v-col
+            v-for="tripPlace in feed.tripRoute.tripPlaces"
+            :key="tripPlace"
+            cols="3"
+          >
+            <simple-image-card
+              :place-info="tripPlace.place"
+              @click="clickPlaceImg"
+            />
 
             <!--TODO : Dialog 추가-->
             <!-- <image-text-dialog :clickedPlaceInfo="tripPlace.place" /> -->
@@ -123,7 +140,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions("feedStore", ["getFeedDetail", "updateFeedDetail", "deleteFeed"]), // [1]
+    ...mapActions("feedStore", [
+      "getFeedDetail",
+      "updateFeedDetail",
+      "deleteFeed",
+    ]), // [1]
     modify() {
       this.reverse();
     },
@@ -137,6 +158,13 @@ export default {
     clickPlaceImg(e) {
       this.imgClicked = true;
       console.log("****", e.target.parentElement.id);
+    },
+    readAndPreview(url) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        console.log(e.target.result);
+      };
+      reader.readAsDataURL(url);
     },
   },
 };
