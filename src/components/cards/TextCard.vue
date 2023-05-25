@@ -1,22 +1,19 @@
 <template>
-  <v-card class="mx-auto" width="200" height="130">
-    <v-row class="ma-2">
+  <v-card width="200" height="130">
+    <v-row class="ma-1">
       <v-btn
-        class="btn"
+        class="btn pt-3 pl-1"
         variant="text"
-        max-width="3px"
-        max-height="3px"
-        icon="fa:fas fa-x"
+        icon="fa:fas fa-xs fa-x"
+        height="10px"
+        width="10px"
         @click="removePlace"
       ></v-btn>
-      <br />
     </v-row>
-    <v-row class="ma-2">
+    <v-row justify="center" align="center" class="ma-2">
       <p class="title">
         {{ name }}
       </p>
-    </v-row>
-    <v-row class="ma-2">
       <p class="location">{{ address }}</p>
     </v-row>
   </v-card>
@@ -50,22 +47,14 @@ export default {
 }
 
 .title {
-  margin-left: 8px;
-  padding-top: 8px;
-  font-size: 16px;
+  font-size: 20px;
   color: #000000;
   font-weight: 600;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
 }
 
 .location {
-  font-size: 12px;
+  font-size: 13px;
   color: #878787;
   font-weight: 600;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
 }
 </style>

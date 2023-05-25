@@ -1,7 +1,7 @@
 <template>
-  <v-row class="content">
+  <v-row class="mt-10 content">
     <v-col>
-      <v-sheet class="pa-2 ma-2">
+      <v-sheet>
         <v-select
           hide-no-data="true"
           v-model="selectedRoute"
@@ -23,11 +23,13 @@
       </v-sheet>
     </v-col>
     <v-col>
-      <v-sheet class="pa-2 ma-2">
+      <v-sheet class="pa-2 ml-10 mt-1">
         <!---이미지 업로드 뷰-->
         <v-row
           id="img-upload"
           class="base-image-input"
+          aspect-ratio="1"
+          cover
           :style="{ 'background-image': `url(${imgPreview})` }"
           @click="chooseImage"
         >
@@ -36,7 +38,12 @@
         </v-row>
 
         <!-- Trip Route에 포함된 장소 관련 장소 이미지--->
-        <v-row id="trip-route-img" v-if="selectedRoute != null">
+        <v-row
+          id="trip-route-img"
+          style="overflow-y: hidden; max-height: 400px"
+          v-if="selectedRoute != null"
+          class="section"
+        >
           <v-col v-for="tripPlace in extractPlaces(selectedRoute)" :key="tripPlace" cols="3">
             <simple-image-card
               :place-info="tripPlace.place"
@@ -48,10 +55,15 @@
             />
           </v-col>
         </v-row>
-
         <!--제목 내용 뷰--->
         <v-row class="pt-2">
-          <v-textarea v-model="feed.title" variant="outlined" label="제목" rows="1"></v-textarea>
+          <v-textarea
+            class="mt-3"
+            v-model="feed.title"
+            variant="outlined"
+            label="제목"
+            rows="1"
+          ></v-textarea>
         </v-row>
         <v-row>
           <v-textarea
@@ -63,8 +75,8 @@
           ></v-textarea>
         </v-row>
         <v-row class="d-flex justify-end">
-          <v-btn variant="outlined" @click="addFeed"> 등록 </v-btn>
-          <v-btn variant="outlined" @click="cancle"> 취소 </v-btn>
+          <v-btn color="#A2D2FF" class="mr-3" variant="outlined" @click="addFeed"> 등록 </v-btn>
+          <v-btn color="#FF865E" class="mr-3" variant="outlined" @click="cancle"> 취소 </v-btn>
         </v-row>
       </v-sheet>
     </v-col>
@@ -192,5 +204,28 @@ export default {
 .content {
   font-family: "LeeSeoyun";
   font-size: 20px;
+}
+
+.section {
+  max-height: 250px;
+  padding: 1rem;
+  overflow-x: auto;
+  direction: ltr;
+  scrollbar-color: #fef9ef;
+}
+
+.section::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.section::-webkit-scrollbar-track {
+  background-color: #fef9ef;
+  border-radius: 80px;
+}
+
+.section::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  background-color: #fee440;
 }
 </style>
