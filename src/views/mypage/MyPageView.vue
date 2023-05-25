@@ -1,7 +1,4 @@
 <template>
-  {{ this.isLogin }}
-  {{ this.userInfo }}
-  {{ this.kind }}
   <v-container>
     <v-row class="view">
       <v-col cols="3">
