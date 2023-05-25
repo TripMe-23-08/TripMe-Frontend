@@ -124,6 +124,18 @@ const actions = {
         console.log(error);
       });
   },
+  getUserTripRoutes({ commit }, userID) {
+    //http요청보내기
+    console.log("get routes : " + `/trip-routes/user/${userID}`);
+    http
+      .get(`/trip-routes/user/${userID}`)
+      .then(({ data }) => {
+        commit("SET_TRIPROUTE_LIST", data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
   getFeedDetail({ commit }, feedId) {
     //console.log("getFeedDetail:\t" + "");
     http

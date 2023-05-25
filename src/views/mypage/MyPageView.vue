@@ -56,7 +56,12 @@
                   color="#FEE440"
                   class="mt-16 btn w-screen"
                   width="160px"
-                  @click="currentTabCompo = 'MyTripPlanVue'"
+                  @click="
+                    () => {
+                      currentTabCompo = 'MyTripPlanVue';
+                      this.kind = '';
+                    }
+                  "
                 >
                   나의 여행 계획
                 </v-btn>
@@ -65,16 +70,13 @@
                   color="#FEE440"
                   class="mt-16 btn w-screen"
                   width="160px"
-                  @click="currentTabCompo = 'MyPostVue'"
-                >
-                  내가 쓴 포스트
-                </v-btn>
-                <v-btn
-                  elevation="0"
-                  color="#FEE440"
-                  class="mt-16 btn w-screen"
-                  width="160px"
-                  @click="currentTabCompo = 'MyTripPlanVue'"
+                  @click="
+                    () => {
+                      this.getUserPlaces();
+                      currentTabCompo = 'KakaoMap';
+                      this.kind = 'map';
+                    }
+                  "
                 >
                   조회한 여행지 목록
                 </v-btn>
@@ -83,7 +85,27 @@
                   color="#FEE440"
                   class="mt-16 btn w-screen"
                   width="160px"
-                  @click="currentTabCompo = 'MyTripPlanVue'"
+                  @click="
+                    () => {
+                      currentTabCompo = 'FeedList';
+                      this.kind = 'user';
+                      this.getUserPlaces();
+                    }
+                  "
+                >
+                  내가 쓴 포스트
+                </v-btn>
+                <v-btn
+                  elevation="0"
+                  color="#FEE440"
+                  class="mt-16 btn w-screen"
+                  width="160px"
+                  @click="
+                    () => {
+                      currentTabCompo = 'FeedList';
+                      this.kind = 'history';
+                    }
+                  "
                 >
                   조회한 게시글
                 </v-btn>
@@ -92,8 +114,10 @@
           </v-col>
         </v-row>
       </v-col>
+      <!-- <v-col style="height: 300px"> -->
       <v-col>
-        <component v-bind:is="currentTabCompo"> </component>
+        <component v-bind:is="currentTabCompo" v-bind="currentProperties" :key="this.kind">
+        </component>
       </v-col>
     </v-row>
   </v-container>
@@ -102,6 +126,10 @@
 <script>
 import MyPostVue from "@/components/myplan/MyPost.vue";
 import MyTripPlanVue from "@/components/myplan/MyTripPlan.vue";
+import FeedList from "@/views/feed/FeedList.vue";
+import KakaoMap from "@/components/map/KakaoMap.vue";
+import { mapState } from "vuex";
+import http from "@/api/http";
 
 export default {
   name: "mypageView",
@@ -109,15 +137,45 @@ export default {
   components: {
     MyPostVue,
     MyTripPlanVue,
+    FeedList,
+    KakaoMap,
   },
   data() {
     return {
       currentTabCompo: "MyTripPlanVue",
+      kind: "",
+      placeInfo: [],
     };
   },
   methods: {
     moveEdit() {
       this.$router.push({ name: "mypageEdit" });
+    },
+    getUserPlaces() {
+      let userId = this.userInfo.id;
+      http.get(`/places/user-history/${userId}`).then(({ data }) => {
+        setTimeout(() => (this.placeInfo = data["data"]), 100);
+
+        console.log(this.placeInfo);
+      });
+    },
+  },
+  computed: {
+    ...mapState("authStore", ["isLogin", "isLoginError", "userInfo"]),
+    currentProperties() {
+      if (!this.isLogin) {
+        return {};
+      }
+
+      if (this.kind === "user" || this.kind === "history") {
+        return { kind: this.kind, userId: this.userInfo.id };
+      } else if (this.kind === "map") {
+        console.log("map called with");
+        console.log(this.placeInfo);
+        return { markerPositions: this.placeInfo };
+      }
+
+      return {};
     },
   },
 };

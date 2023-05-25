@@ -52,6 +52,8 @@ export default {
       if (this.isLogin) {
         await this.getUserInfo(token);
         router.push({ name: "home" });
+      } else {
+        alert("아이디와 패스워드를 다시 확인해주세요.");
       }
     },
   },

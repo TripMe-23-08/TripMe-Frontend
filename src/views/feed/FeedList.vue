@@ -73,6 +73,10 @@ import moment from "moment";
 
 export default {
   name: "BoardList",
+  props: {
+    kind: String,
+    userId: Number,
+  },
   data() {
     return {
       articles: [],
@@ -87,10 +91,35 @@ export default {
     };
   },
   created() {
-    http.get(`/articles`).then(({ data }) => {
-      this.articles = data.data;
-      console.log(data.data);
-    });
+
+    if (this.kind === "user" && this.userId >= 0) {
+      console.log("user specific posts request")
+      http
+        .get("/articles/user/" + this.userId)
+        .then(({ data }) => {
+          this.articles = data.data;
+          console.log("kind : " + this.kind)
+          console.log(data.data);
+        })
+    } else if (this.kind == "history" && this.userId >= 0) {
+      http
+        .get("/articles/user-history/" + this.userId)
+        .then(({ data }) => {
+          this.articles = data.data;
+          console.log("kind : " + this.kind)
+          console.log(data.data);
+        })
+    } else {
+      console.log("ALL posts request")
+      http
+        .get("/articles").then(({ data }) => {
+        this.articles = data.data;
+        console.log("kind : " + this.kind)
+        console.log(data.data);
+      })
+    }
+
+    
   },
   methods: {
     moveWrite() {
