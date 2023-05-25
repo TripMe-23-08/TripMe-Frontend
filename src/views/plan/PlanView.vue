@@ -24,7 +24,7 @@
     <v-row>
       <!-- top left map area -->
       <v-col style="mx-auto; max-height: 550px;">
-        <kakao-map markerPositions="pinLocation" />
+        <kakao-map :markerPositions="pinLocation" />
       </v-col>
 
       <!-- top right search area-->
@@ -338,7 +338,8 @@ export default {
       // add pin and move camera to the place
 
       this.pinLocation = [{ ...placeData }];
-      console.log("pin loc : " + this.pinLocation);
+      // console.log("pin loc : ");
+      // console.log(this.pinLocation)
     },
 
     removeSelectedPlace(placeData) {

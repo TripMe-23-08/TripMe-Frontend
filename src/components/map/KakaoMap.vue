@@ -132,8 +132,8 @@ export default {
 
     // mouse over (in & out) event
     setMarkerEvents() {
-      //this.setMarkersMouseInEvent();
-      //this.setMarkersMouseOutEvent();
+      // this.setMarkersMouseInEvent();
+      // this.setMarkersMouseOutEvent();
       //this.setMarkersMouseClickEvent();
       this.setMouseClickEvent();
     },
@@ -311,7 +311,7 @@ export default {
   updated() {
     // cutting map phenonmina fixed
     //this.map.relayout();
-    console.log("update and relayout");
+    // console.log("update and relayout");
   },
 };
 </script>
