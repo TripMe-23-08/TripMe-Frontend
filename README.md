@@ -12,4 +12,4 @@
 8조 : 박은정 양승현 서수정
 | ![박은정](https://avatars.githubusercontent.com/u/50352139) | ![양승현](https://avatars.githubusercontent.com/u/70054592) |![](https://avatars.githubusercontent.com/u/58605215)|
 |:--------:|:-------:|:---------:|
-| [박은정](https://github.com/Eundms) | [양승현](https://github.com/siyeonSon) |[서수정]()|
+| [박은정](https://github.com/Eundms) | [양승현](https://github.com/Devyan0) |[서수정](https://github.com/ssj946)|
